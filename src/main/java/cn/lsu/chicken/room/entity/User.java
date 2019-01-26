@@ -28,4 +28,6 @@ public class User {
 
     private Integer role = UserRoleEnum.ORDINARY_USER.getCode();
 
+    private Integer companyId;
+
 }

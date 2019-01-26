@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     Integer updateUserSQL(int id, String name);
 
     List<User> findByNameAndPhone(String name, String phone);
+
+    User findFirstByPhone(String phone);
 }
