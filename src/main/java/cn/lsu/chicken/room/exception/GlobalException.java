@@ -2,7 +2,7 @@ package cn.lsu.chicken.room.exception;
 
 import cn.lsu.chicken.room.enums.ResultEnum;
 
-public class UserException extends RuntimeException {
+public class GlobalException extends RuntimeException {
     private Integer code;
 
     public Integer getCode() {
@@ -13,12 +13,12 @@ public class UserException extends RuntimeException {
         this.code = code;
     }
 
-    public UserException(Integer code, String msg) {
+    public GlobalException(Integer code, String msg) {
         super(msg);
         this.code = code;
     }
 
-    public UserException(ResultEnum resultEnum) {
+    public GlobalException(ResultEnum resultEnum) {
         super(resultEnum.getMsg());
         this.code = resultEnum.getCode();
     }

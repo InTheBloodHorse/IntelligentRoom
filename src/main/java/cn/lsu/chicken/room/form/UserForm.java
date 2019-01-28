@@ -9,9 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class RegisterForm {
+public class UserForm {
     @NotBlank(message = "用户名不能为空")
-    @Size(min = 3,message = "用户名长度最小为3")
+    @Size(min = 3, message = "用户名长度最小为3")
     private String name;
 
     @NotBlank(message = "手机号不能为空")
@@ -23,7 +23,7 @@ public class RegisterForm {
     private String email;
 
     @NotBlank(message = "密码不能为空")
-    @Size(min = 6,message = "密码长度最小为6")
+    @Size(min = 6, max = 20, message = "密码长度在6到20之间")
     private String password;
 
     private Integer role = UserRoleEnum.ORDINARY_USER.getCode();

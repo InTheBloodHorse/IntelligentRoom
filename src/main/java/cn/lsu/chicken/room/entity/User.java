@@ -1,6 +1,7 @@
 package cn.lsu.chicken.room.entity;
 
 import cn.lsu.chicken.room.enums.UserRoleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     //头像地址

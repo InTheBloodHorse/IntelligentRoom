@@ -25,4 +25,5 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     List<User> findByNameAndPhone(String name, String phone);
 
     User findFirstByPhone(String phone);
+
 }

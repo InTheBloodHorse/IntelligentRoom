@@ -6,15 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 @Data
-public class AttendWorders {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private Integer meetingId;
-
-    private Integer workerId;
+    //公司名称
+    private String name;
+    //公司HR ,可以多个
+    private String hr;
+    //公司唯一邀请码
+    private String code;
+    //花费金额
+    private BigDecimal cost;
 }

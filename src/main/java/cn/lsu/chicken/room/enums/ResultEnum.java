@@ -3,7 +3,12 @@ package cn.lsu.chicken.room.enums;
 public enum ResultEnum {
     PHONE_EXITS(1, "手机号已被注册"),
     PARAMETER_ERROR(2, "参数不正确"),
-    SOMETHING_ERROR(500,"系统错误，请重试");
+    USER_NOT_EXITS(3, "用户不存在"),
+    PASSWORD_ERROR(4, "密码错误"),
+    TAG_IS_EXITS(5, "标签已存在"),
+    TAG_NOT_EXITS(6, "标签不存在"),
+    MEETINGROOM_NOT_EIXT(7, "会议室不存在"),
+    SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;
     private String msg;
