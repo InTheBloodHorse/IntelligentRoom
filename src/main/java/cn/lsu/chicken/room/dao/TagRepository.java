@@ -4,8 +4,12 @@ import cn.lsu.chicken.room.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface TagRepository extends JpaRepository<Tag, Integer>, JpaSpecificationExecutor<Tag> {
+import java.util.List;
+
+public interface TagRepository extends JpaRepository<Tag, String>, JpaSpecificationExecutor<Tag> {
     Tag findByName(String name);
 
-    void deleteById(Integer id);
+    void deleteById(String id);
+
+    List<Tag> findByIdIn(List<String> tags);
 }

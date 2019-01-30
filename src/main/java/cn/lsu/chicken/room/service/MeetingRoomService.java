@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.service;
 
+import cn.lsu.chicken.room.dto.MeetingRoomDTO;
 import cn.lsu.chicken.room.entity.MeetingRoom;
 import cn.lsu.chicken.room.form.MeetingRoomQueryForm;
 
@@ -11,5 +12,7 @@ public interface MeetingRoomService {
 
     void deleteMeetingRoom(Integer id);
 
-    List<MeetingRoom> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm);
+    MeetingRoomDTO findMeetRoomById(Integer id);
+
+    List<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm);
 }

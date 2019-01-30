@@ -17,7 +17,7 @@ public class TagServiceImp implements TagService {
 
     @Override
     public Tag saveTag(Tag tag) {
-        if (tagRepository.findByName(tag.getName()) != null) {
+        if (tagRepository.existsById(tag.getId()) == true) {
             throw new GlobalException(ResultEnum.TAG_IS_EXITS);
         }
         Tag result = tagRepository.save(tag);
@@ -30,7 +30,7 @@ public class TagServiceImp implements TagService {
     }
 
     @Override
-    public void deleteTag(Integer id) {
+    public void deleteTag(String id) {
         try {
             tagRepository.deleteById(id);
         } catch (Exception e) {

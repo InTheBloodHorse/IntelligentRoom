@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.entity;
 
+import cn.lsu.chicken.room.utils.KeyUtil;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,8 +12,7 @@ import javax.persistence.Id;
 @Data
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id = KeyUtil.genUniqueKey();
 
     //标签名
     private String name;

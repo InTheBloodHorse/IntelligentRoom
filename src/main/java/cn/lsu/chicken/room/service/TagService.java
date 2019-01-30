@@ -11,5 +11,6 @@ public interface TagService {
 
     List<Tag> getAllTags();
 
-    void deleteTag(Integer id);
+    void deleteTag(String id);
+
 }

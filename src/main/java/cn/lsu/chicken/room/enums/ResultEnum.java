@@ -7,7 +7,9 @@ public enum ResultEnum {
     PASSWORD_ERROR(4, "密码错误"),
     TAG_IS_EXITS(5, "标签已存在"),
     TAG_NOT_EXITS(6, "标签不存在"),
-    MEETINGROOM_NOT_EIXT(7, "会议室不存在"),
+    MEETING_ROOM_NOT_EXITS(7, "会议室不存在"),
+    BUILDING_IS_EXITS(8, "楼幢已存在"),
+    BUILDING_NOT_EXITS(9, "楼幢不存在"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

@@ -12,8 +12,9 @@ public class CompanyServiceImp implements CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+
     @Override
-    public Company addCompany(Company company) {
+    public Company saveCompany(Company company) {
         return null;
     }
 
@@ -22,10 +23,6 @@ public class CompanyServiceImp implements CompanyService {
 
     }
 
-    @Override
-    public Company updateCompany(Company company) {
-        return null;
-    }
 
     @Override
     public Company findCompanyById(Integer id) {
