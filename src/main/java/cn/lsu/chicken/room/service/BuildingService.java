@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.service;
 
+import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.entity.Building;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,6 @@ public interface BuildingService {
 
     List<Building> getAllBuild();
 
-    Page<Building> getAllBuild(Pageable pageable);
+    PageDTO<Building> getAllBuild(Pageable pageable);
 
 }

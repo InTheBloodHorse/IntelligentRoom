@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO registerUser(User user) {
-        if (userRepository.findFirstByPhone(user.getPhone()) != null) {
+        if (userRepository.existsByPhone(user.getPhone()) == true) {
             log.error("注册——手机号重复:{}", user.getPhone());
             throw new GlobalException(ResultEnum.PHONE_EXITS);
         }
@@ -50,7 +50,10 @@ public class UserServiceImpl implements UserService {
             throw new GlobalException(ResultEnum.PHONE_EXITS);
         }
         User result = userRepository.save(user);
-        return null;
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(result, userDTO);
+        userDTO.setCompany(companyService.findCompanyById(user.getCompanyId()));
+        return userDTO;
     }
 
     @Override
@@ -65,7 +68,11 @@ public class UserServiceImpl implements UserService {
             log.error("密码错误:user={},password={}", user, password);
             throw new GlobalException(ResultEnum.PASSWORD_ERROR);
         }
-        return null;
+        User result = userRepository.findFirstByPhone(phone);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(result, userDTO);
+        userDTO.setCompany(companyService.findCompanyById(user.getCompanyId()));
+        return userDTO;
     }
 
     @Override

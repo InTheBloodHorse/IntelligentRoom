@@ -1,6 +1,7 @@
 package cn.lsu.chicken.room.service.impl;
 
 import cn.lsu.chicken.room.dao.BuildingRepository;
+import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.entity.Building;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
@@ -20,8 +21,20 @@ public class BuildingServiceImp implements BuildingService {
 
     @Override
     public void saveBuilding(Building building) {
-        if (buildingRepository.existsByLocation(building.getLocation()) == true) {
-            throw new GlobalException(ResultEnum.BUILDING_IS_EXITS);
+        if (building.getId() == null) {
+            if (buildingRepository.existsByLocation(building.getLocation()) == true) {
+                throw new GlobalException(ResultEnum.BUILDING_IS_EXITS);
+            }
+        } else {
+            Building result = buildingRepository.findById(building.getId()).orElse(null);
+            if (result == null) {
+                throw new GlobalException(ResultEnum.BUILDING_NOT_EXITS);
+            }
+            if (!building.getLocation().equals(result.getLocation())) {
+                if (buildingRepository.existsByLocation(building.getLocation()) == true) {
+                    throw new GlobalException(ResultEnum.BUILDING_IS_EXITS);
+                }
+            }
         }
         buildingRepository.save(building);
     }
@@ -41,7 +54,14 @@ public class BuildingServiceImp implements BuildingService {
     }
 
     @Override
-    public Page<Building> getAllBuild(Pageable pageable) {
-        return buildingRepository.findAll(pageable);
+    public PageDTO<Building> getAllBuild(Pageable pageable) {
+        Page<Building> page = buildingRepository.findAll(pageable);
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPage(pageable.getPageNumber());
+        pageDTO.setSize(pageable.getPageSize());
+        pageDTO.setTotal(page.getTotalElements());
+        pageDTO.setTotalPage(page.getTotalPages());
+        pageDTO.setData(page.getContent());
+        return pageDTO;
     }
 }

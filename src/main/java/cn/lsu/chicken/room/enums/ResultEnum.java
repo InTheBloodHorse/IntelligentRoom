@@ -10,6 +10,8 @@ public enum ResultEnum {
     MEETING_ROOM_NOT_EXITS(7, "会议室不存在"),
     BUILDING_IS_EXITS(8, "楼幢已存在"),
     BUILDING_NOT_EXITS(9, "楼幢不存在"),
+    COMPANY_NOT_EXITS(10, "公司不存在"),
+    COMPANY_IS_EXITS(11, "公司已存在"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

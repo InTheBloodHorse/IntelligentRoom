@@ -12,4 +12,6 @@ public interface TagRepository extends JpaRepository<Tag, String>, JpaSpecificat
     void deleteById(String id);
 
     List<Tag> findByIdIn(List<String> tags);
+
+    boolean existsByName(String name);
 }

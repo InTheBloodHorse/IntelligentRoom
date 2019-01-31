@@ -6,6 +6,8 @@ import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +18,33 @@ public class TagServiceImp implements TagService {
     private TagRepository tagRepository;
 
     @Override
-    public Tag saveTag(Tag tag) {
-        if (tagRepository.existsById(tag.getId()) == true) {
-            throw new GlobalException(ResultEnum.TAG_IS_EXITS);
+    public void saveTag(Tag tag) {
+        if (tag.getId() == null) {
+            if (tagRepository.existsByName(tag.getName()) == true) {
+                throw new GlobalException(ResultEnum.TAG_IS_EXITS);
+            }
+        } else {
+            Tag result = tagRepository.findById(tag.getId()).orElse(null);
+            if (result == null) {
+                throw new GlobalException(ResultEnum.TAG_NOT_EXITS);
+            }
+            if (!tag.getName().equals(result.getName())) {
+                if (tagRepository.existsByName(tag.getName()) == true) {
+                    throw new GlobalException(ResultEnum.TAG_IS_EXITS);
+                }
+            }
         }
-        Tag result = tagRepository.save(tag);
-        return result;
+        tagRepository.save(tag);
     }
 
     @Override
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
+    }
+
+    @Override
+    public Page<Tag> getAllTags(Pageable pageable) {
+        return tagRepository.findAll(pageable);
     }
 
     @Override
