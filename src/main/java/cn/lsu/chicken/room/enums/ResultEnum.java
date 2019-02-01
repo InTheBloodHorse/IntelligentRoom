@@ -12,6 +12,7 @@ public enum ResultEnum {
     BUILDING_NOT_EXITS(9, "楼幢不存在"),
     COMPANY_NOT_EXITS(10, "公司不存在"),
     COMPANY_IS_EXITS(11, "公司已存在"),
+    USER_NOT_EXITS_OR_PASSWORD_ERROR(12, "用户名或密码不正确"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

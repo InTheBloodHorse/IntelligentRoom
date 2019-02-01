@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class CompanyServiceImp implements CompanyService {
+public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private CompanyRepository companyRepository;

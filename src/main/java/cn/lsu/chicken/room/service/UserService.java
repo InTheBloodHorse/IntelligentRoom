@@ -34,7 +34,7 @@ public interface UserService {
     List<UserDTO> getUsersByCompany(Integer companyId);
 
     //删除员工
-    Boolean deleteUser(Integer id);
+    void deleteUser(Integer id);
 
     //查询会议订单的所有用户
     List<User> findByApplyId(String applyId);

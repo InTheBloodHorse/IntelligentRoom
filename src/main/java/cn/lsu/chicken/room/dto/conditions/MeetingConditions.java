@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,30 +22,37 @@ public class MeetingConditions {
                 //and 条件
                 List<Predicate> predicateListAnd = new ArrayList<>();
                 //楼层
-                if (meetingRoomQueryForm.getBuildingId() != null) {
-                    predicateListAnd.add(criteriaBuilder.equal(root.get("buildingId"), meetingRoomQueryForm.getBuildingId()));
+                Integer buildingId = meetingRoomQueryForm.getBuildingId();
+                if (buildingId != null) {
+                    predicateListAnd.add(criteriaBuilder.equal(root.get("buildingId"), buildingId));
                 }
                 //容量
-                if (meetingRoomQueryForm.getMinVolume() != null) {
-                    predicateListAnd.add(criteriaBuilder.greaterThanOrEqualTo(root.get("volume"), meetingRoomQueryForm.getMinVolume()));
+                Integer minVolume = meetingRoomQueryForm.getMinVolume();
+                if (minVolume != null) {
+                    predicateListAnd.add(criteriaBuilder.greaterThanOrEqualTo(root.get("volume"), minVolume));
                 }
-                if (meetingRoomQueryForm.getMaxVolume() != null) {
-                    predicateListAnd.add(criteriaBuilder.lessThanOrEqualTo(root.get("volume"), meetingRoomQueryForm.getMaxVolume()));
+                Integer maxVolume = meetingRoomQueryForm.getMaxVolume();
+                if (maxVolume != null) {
+                    predicateListAnd.add(criteriaBuilder.lessThanOrEqualTo(root.get("volume"), maxVolume));
                 }
                 //价格
-                if (meetingRoomQueryForm.getMinPrice() != null) {
-                    predicateListAnd.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), meetingRoomQueryForm.getMinPrice()));
+                Integer minPrice = meetingRoomQueryForm.getMinPrice();
+                if (minPrice != null) {
+                    predicateListAnd.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
                 }
-                if (meetingRoomQueryForm.getMaxPrice() != null) {
-                    predicateListAnd.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), meetingRoomQueryForm.getMaxPrice()));
+                Integer maxPrice = meetingRoomQueryForm.getMaxPrice();
+                if (maxPrice != null) {
+                    predicateListAnd.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
                 }
                 //是否使用
-                if (meetingRoomQueryForm.getIsUsing() != null) {
-                    predicateListAnd.add(criteriaBuilder.equal(root.get("isUsing"), meetingRoomQueryForm.getIsUsing()));
+                Integer isUsing = meetingRoomQueryForm.getIsUsing();
+                if (isUsing != null) {
+                    predicateListAnd.add(criteriaBuilder.equal(root.get("isUsing"), isUsing));
                 }
                 //标签
-                if (meetingRoomQueryForm.getTags() != null) {
-                    List<String> tags = Arrays.asList(meetingRoomQueryForm.getTags().split(","));
+                String tagStr = meetingRoomQueryForm.getTags();
+                if (tagStr != null) {
+                    List<String> tags = Arrays.asList(tagStr.split(","));
                     for (String tag : tags) {
                         if (tag.length() != KeyUtil.preLen + KeyUtil.sufLen) continue;
                         predicateListAnd.add(criteriaBuilder.like(root.get("tags").as(String.class), "%" + tag + "%"));

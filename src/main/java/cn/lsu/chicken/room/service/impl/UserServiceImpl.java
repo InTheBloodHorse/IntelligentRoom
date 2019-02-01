@@ -1,8 +1,11 @@
 package cn.lsu.chicken.room.service.impl;
 
 
+import cn.lsu.chicken.room.convert.User2UserDTO;
+import cn.lsu.chicken.room.dao.AttendWorkerRepository;
 import cn.lsu.chicken.room.dao.UserRepository;
 import cn.lsu.chicken.room.dto.UserDTO;
+import cn.lsu.chicken.room.entity.AttendWorker;
 import cn.lsu.chicken.room.entity.User;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
@@ -22,8 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
-    private CompanyService companyService;
+    private AttendWorkerRepository attendWorkerRepository;
 
     @Override
     public UserDTO registerUser(User user) {
@@ -32,10 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new GlobalException(ResultEnum.PHONE_EXITS);
         }
         User result = userRepository.save(user);
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(result, userDTO);
-        userDTO.setCompany(companyService.findCompanyById(user.getCompanyId()));
-        return userDTO;
+        return User2UserDTO.convert(result);
     }
 
     @Override
@@ -45,54 +46,55 @@ public class UserServiceImpl implements UserService {
             log.error("更新帐号信息——用户不存在:{}", user);
             throw new GlobalException(ResultEnum.USER_NOT_EXITS);
         }
-        if (!user.getPhone().equals(oldUser.getPhone()) && userRepository.findFirstByPhone(user.getPhone()) != null) {
+        if (!user.getPhone().equals(oldUser.getPhone()) && userRepository.existsByPhone(user.getPhone()) != null) {
             log.error("注册——手机号重复:{}", user);
             throw new GlobalException(ResultEnum.PHONE_EXITS);
         }
         User result = userRepository.save(user);
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(result, userDTO);
-        userDTO.setCompany(companyService.findCompanyById(user.getCompanyId()));
-        return userDTO;
+        return User2UserDTO.convert(result);
     }
 
     @Override
     public UserDTO login(String phone, String password) {
-        User user = userRepository.findFirstByPhone(phone);
-        if (user == null) {
-            log.error("用户不存在:{}", phone);
-            throw new GlobalException(ResultEnum.USER_NOT_EXITS);
-        }
-
+        UserDTO user = getUserByPhone(phone);
         if (DecryptMD5.judge(user.getPassword(), password) == false) {
             log.error("密码错误:user={},password={}", user, password);
             throw new GlobalException(ResultEnum.PASSWORD_ERROR);
         }
-        User result = userRepository.findFirstByPhone(phone);
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(result, userDTO);
-        userDTO.setCompany(companyService.findCompanyById(user.getCompanyId()));
-        return userDTO;
+        return user;
     }
 
     @Override
     public UserDTO getUserById(Integer id) {
-        return null;
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new GlobalException(ResultEnum.USER_NOT_EXITS);
+        }
+        return User2UserDTO.convert(user);
     }
 
     @Override
     public UserDTO getUserByPhone(String phone) {
-        return null;
+        User user = userRepository.findFirstByPhone(phone);
+        if (user == null) {
+            throw new GlobalException(ResultEnum.USER_NOT_EXITS);
+        }
+        return User2UserDTO.convert(user);
     }
 
     @Override
     public List<UserDTO> getUsersByCompany(Integer companyId) {
-        return null;
+        List<User> users = userRepository.findByCompanyId(companyId);
+        return User2UserDTO.convert(users);
     }
 
     @Override
-    public Boolean deleteUser(Integer id) {
-        return null;
+    public void deleteUser(Integer id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new GlobalException(ResultEnum.USER_NOT_EXITS);
+        }
     }
 
     @Override

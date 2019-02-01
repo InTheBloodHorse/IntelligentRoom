@@ -3,7 +3,6 @@ package cn.lsu.chicken.room.service.impl;
 import cn.lsu.chicken.room.convert.MeetingRoom2MeetingRoomDTO;
 import cn.lsu.chicken.room.dao.MeetingRoomRepository;
 
-import cn.lsu.chicken.room.dao.TagRepository;
 import cn.lsu.chicken.room.dto.MeetingRoomDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.conditions.MeetingConditions;
@@ -17,13 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-public class MeetingRoomServiceImp implements MeetingRoomService {
+public class MeetingRoomServiceImpl implements MeetingRoomService {
     @Autowired
     private MeetingRoomRepository meetingRoomRepository;
 
@@ -54,7 +54,8 @@ public class MeetingRoomServiceImp implements MeetingRoomService {
 
     @Override
     public PageDTO<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm, Pageable pageable) {
-        Page<MeetingRoom> meetingRoomList = meetingRoomRepository.findAll(MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm), pageable);
+        Page<MeetingRoom> meetingRoomList = meetingRoomRepository.findAll(
+                MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm), pageable);
         PageDTO pageDTO = new PageDTO();
         pageDTO.setData(MeetingRoom2MeetingRoomDTO.convert(meetingRoomList.getContent()));
         pageDTO.setPage(pageable.getPageNumber());
@@ -66,7 +67,9 @@ public class MeetingRoomServiceImp implements MeetingRoomService {
 
     @Override
     public List<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm) {
-        return meetingRoomRepository.findAll(MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm));
+        Specification specification = MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm);
+        List<MeetingRoom> meetingRoomList = meetingRoomRepository.findAll(specification);
+        return MeetingRoom2MeetingRoomDTO.convert(meetingRoomList);
     }
 
 }

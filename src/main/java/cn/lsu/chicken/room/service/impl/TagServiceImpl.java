@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TagServiceImp implements TagService {
+public class TagServiceImpl implements TagService {
     @Autowired
     private TagRepository tagRepository;
 

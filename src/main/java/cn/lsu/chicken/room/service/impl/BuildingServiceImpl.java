@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BuildingServiceImp implements BuildingService {
+public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private BuildingRepository buildingRepository;

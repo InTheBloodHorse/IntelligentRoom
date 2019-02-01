@@ -28,4 +28,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     Boolean existsByPhone(String phone);
 
+    List<User> findByCompanyId(Integer companyId);
+
+
 }
