@@ -49,12 +49,18 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public List<Building> getAllBuild() {
+    public Building getBuildById(String id) {
+        Building building = buildingRepository.findById(id).orElse(null);
+        return building;
+    }
+
+    @Override
+    public List<Building> listBuild() {
         return buildingRepository.findAll();
     }
 
     @Override
-    public PageDTO<Building> getAllBuild(Pageable pageable) {
+    public PageDTO<Building> pageBuild(Pageable pageable) {
         Page<Building> page = buildingRepository.findAll(pageable);
         PageDTO pageDTO = new PageDTO();
         pageDTO.setPage(pageable.getPageNumber());

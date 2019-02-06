@@ -28,7 +28,7 @@ public class User2UserDTO {
     public static UserDTO convert(User user) {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
-        userDTO.setCompany(service.findCompanyById(user.getCompanyId()));
+        userDTO.setCompany(service.getCompanyById(user.getCompanyId()));
         return userDTO;
     }
 
@@ -36,5 +36,10 @@ public class User2UserDTO {
         return users.stream().map(e ->
                 convert(e)
         ).collect(Collectors.toList());
+    }
+
+    public static UserDTO convert(Object[][] o) {
+        UserDTO userDTO = new UserDTO(o);
+        return userDTO;
     }
 }

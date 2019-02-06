@@ -14,9 +14,9 @@ public interface MeetingRoomService {
 
     void deleteMeetingRoom(Integer id);
 
-    MeetingRoomDTO findMeetRoomById(Integer id);
+    MeetingRoomDTO getMeetRoomById(Integer id);
 
-    PageDTO<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm, Pageable pageable);
+    PageDTO<MeetingRoomDTO> pageMeetingRoomByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm, Pageable pageable);
 
-    List<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm);
+    List<MeetingRoomDTO> listMeetingRoomByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm);
 }

@@ -24,4 +24,14 @@ public class UserDTO {
     private Integer role;
 
     private Company company;
+
+    public UserDTO() {
+    }
+
+    public UserDTO(Object[][] o) {
+        for(int i=0;i<o[0].length;i++){
+            System.out.println(o[0][i]);
+        }
+        this.id = (int)o[0][0];
+    }
 }

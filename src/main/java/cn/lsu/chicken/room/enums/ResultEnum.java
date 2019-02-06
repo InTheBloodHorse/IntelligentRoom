@@ -13,6 +13,8 @@ public enum ResultEnum {
     COMPANY_NOT_EXITS(10, "公司不存在"),
     COMPANY_IS_EXITS(11, "公司已存在"),
     USER_NOT_EXITS_OR_PASSWORD_ERROR(12, "用户名或密码不正确"),
+    APPLY_NOT_EXITS(13, "预约单不存在"),
+    WRONG_DATE_STR(14, "日期错误"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

@@ -26,9 +26,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AttendWorkerRepository attendWorkerRepository;
-
     @Override
     public UserDTO registerUser(User user) {
         if (userRepository.existsByPhone(user.getPhone()) == true) {
@@ -75,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByPhone(String phone) {
-        User user = userRepository.findFirstByPhone(phone);
+        Object[][] user = userRepository.getUserByPhoneSql(phone);
         if (user == null) {
             throw new GlobalException(ResultEnum.USER_NOT_EXITS);
         }
@@ -83,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUsersByCompany(Integer companyId) {
+    public List<UserDTO> listUsersByCompany(Integer companyId) {
         List<User> users = userRepository.findByCompanyId(companyId);
         return User2UserDTO.convert(users);
     }

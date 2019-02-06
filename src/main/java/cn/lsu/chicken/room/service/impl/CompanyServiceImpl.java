@@ -67,7 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company findCompanyById(Integer id) {
+    public Company getCompanyById(Integer id) {
         if(id==null){
             return null;
         }
@@ -75,12 +75,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<Company> getAllCompany() {
+    public List<Company> listCompany() {
         return companyRepository.findAll();
     }
 
     @Override
-    public PageDTO<Company> getAllCompany(Pageable pageable) {
+    public PageDTO<Company> pageCompany(Pageable pageable) {
         Page<Company> page = companyRepository.findAll(pageable);
         PageDTO pageDTO = new PageDTO();
         pageDTO.setPage(pageable.getPageNumber());

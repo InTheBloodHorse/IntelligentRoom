@@ -1,4 +1,4 @@
-package cn.lsu.chicken.room.dto.conditions;
+package cn.lsu.chicken.room.dao.conditions;
 
 import cn.lsu.chicken.room.form.MeetingRoomQueryForm;
 import cn.lsu.chicken.room.utils.KeyUtil;
@@ -8,7 +8,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,8 +53,10 @@ public class MeetingConditions {
                 if (tagStr != null) {
                     List<String> tags = Arrays.asList(tagStr.split(","));
                     for (String tag : tags) {
-                        if (tag.length() != KeyUtil.preLen + KeyUtil.sufLen) continue;
-                        predicateListAnd.add(criteriaBuilder.like(root.get("tags").as(String.class), "%" + tag + "%"));
+                        //满足规则的标签编号
+                        if (tag.length() == KeyUtil.preLen + KeyUtil.sufLen) {
+                            predicateListAnd.add(criteriaBuilder.like(root.get("tags").as(String.class), "%" + tag + "%"));
+                        }
                     }
                 }
                 Predicate queryAnd = criteriaBuilder.and(predicateListAnd.toArray(new Predicate[predicateListAnd.size()]));

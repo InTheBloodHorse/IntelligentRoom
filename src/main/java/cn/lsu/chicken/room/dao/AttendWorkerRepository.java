@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AttendWorkerRepository extends JpaRepository<AttendWorker, Integer>, JpaSpecificationExecutor<AttendWorker> {
     List<AttendWorker> findByApplyId(String applyId);
+
+
 }

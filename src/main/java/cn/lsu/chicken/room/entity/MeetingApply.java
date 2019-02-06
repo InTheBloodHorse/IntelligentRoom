@@ -1,13 +1,10 @@
 package cn.lsu.chicken.room.entity;
 
-import cn.lsu.chicken.room.enums.MeetingEnum;
 import cn.lsu.chicken.room.utils.KeyUtil;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -54,4 +51,7 @@ public class MeetingApply {
 
     //实际价格
     private BigDecimal price = new BigDecimal(0);
+
+    //可否调剂 0不可调剂 1可调剂
+    private Integer flexible = 0;
 }

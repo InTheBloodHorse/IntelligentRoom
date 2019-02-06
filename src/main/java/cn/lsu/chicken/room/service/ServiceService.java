@@ -7,5 +7,5 @@ import java.util.List;
 public interface ServiceService {
     Service addService(Service service);
 
-    List<Service> getAllSeverLog();
+    List<Service> listSeverLog();
 }

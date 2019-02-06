@@ -31,7 +31,7 @@ public interface UserService {
     UserDTO getUserByPhone(String phone);
 
     //根据公司编号查找员工信息
-    List<UserDTO> getUsersByCompany(Integer companyId);
+    List<UserDTO> listUsersByCompany(Integer companyId);
 
     //删除员工
     void deleteUser(Integer id);

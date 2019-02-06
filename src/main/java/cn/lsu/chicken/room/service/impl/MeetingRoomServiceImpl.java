@@ -5,7 +5,7 @@ import cn.lsu.chicken.room.dao.MeetingRoomRepository;
 
 import cn.lsu.chicken.room.dto.MeetingRoomDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
-import cn.lsu.chicken.room.dto.conditions.MeetingConditions;
+import cn.lsu.chicken.room.dao.conditions.MeetingConditions;
 import cn.lsu.chicken.room.entity.MeetingRoom;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
@@ -44,7 +44,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public MeetingRoomDTO findMeetRoomById(Integer id) {
+    public MeetingRoomDTO getMeetRoomById(Integer id) {
         MeetingRoom meetingRoom = meetingRoomRepository.findById(id).orElse(null);
         if (meetingRoom == null) {
             throw new GlobalException(ResultEnum.MEETING_ROOM_NOT_EXITS);
@@ -53,7 +53,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public PageDTO<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm, Pageable pageable) {
+    public PageDTO<MeetingRoomDTO> pageMeetingRoomByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm, Pageable pageable) {
         Page<MeetingRoom> meetingRoomList = meetingRoomRepository.findAll(
                 MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm), pageable);
         PageDTO pageDTO = new PageDTO();
@@ -66,7 +66,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public List<MeetingRoomDTO> findByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm) {
+    public List<MeetingRoomDTO> listMeetingRoomByManyConditions(MeetingRoomQueryForm meetingRoomQueryForm) {
         Specification specification = MeetingConditions.getMeetingSpecitication(meetingRoomQueryForm);
         List<MeetingRoom> meetingRoomList = meetingRoomRepository.findAll(specification);
         return MeetingRoom2MeetingRoomDTO.convert(meetingRoomList);

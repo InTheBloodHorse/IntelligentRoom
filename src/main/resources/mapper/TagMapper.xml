@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.lsu.chicken.room.entity.mapper.TagMapper">
+    <resultMap id="tag" type="cn.lsu.chicken.room.entity.Tag">
+        <!--<result column="id" property="id"/>-->
+        <!--<result column="name" property="name"/>-->
+    </resultMap>
+
+    <insert id="addTag" parameterType="cn.lsu.chicken.room.entity.Tag">
+          INSERT INTO tag VALUES(#{id},#{name})
+    </insert>
+
+    <update id="updateTag" parameterType="cn.lsu.chicken.room.entity.Tag">
+        UPDATE tag
+        <set>
+            name = #{name}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteTagById" parameterType="String">
+        DELETE from tag where id = #{tagId}
+    </delete>
+
+    <select id="getTag" parameterType="String" resultMap="tag">
+        SELECT * FROM tag WHERE id = #{tagId}
+    </select>
+
+    <select id="listTag" resultMap="tag">
+        SELECT * FROM tag
+    </select>
+
+    <select id="listTagByPage" resultMap="tag">
+        SELECT * FROM tag LIMIT #{offset},#{size}
+    </select>
+
+    <select id="count" resultType="Long">
+      SELECT COUNT(id) FROM tag;
+    </select>
+
+    <select id="judgeExistsByName" parameterType="String" resultType="Integer">
+        SELECT EXISTS (SELECT id FROM tag WHERE name = #{name})
+    </select>
+</mapper>

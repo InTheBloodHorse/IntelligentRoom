@@ -19,10 +19,10 @@ public interface CompanyService {
     Company increaseCost(Integer id, BigDecimal cost);
 
     //根据公司编号查找
-    Company findCompanyById(Integer id);
+    Company getCompanyById(Integer id);
 
     //查看所有公司
-    List<Company> getAllCompany();
+    List<Company> listCompany();
 
-    PageDTO<Company> getAllCompany(Pageable pageable);
+    PageDTO<Company> pageCompany(Pageable pageable);
 }

@@ -1,9 +1,12 @@
 package cn.lsu.chicken.room.service.impl;
 
 import cn.lsu.chicken.room.dao.TagRepository;
+import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.entity.Tag;
+import cn.lsu.chicken.room.entity.mapper.TagMapper;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,11 +14,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TagServiceImpl implements TagService {
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private TagMapper tagMapper;
 
     @Override
     public void saveTag(Tag tag) {
@@ -38,13 +45,16 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> getAllTags() {
+    public List<Tag> listTag() {
         return tagRepository.findAll();
     }
 
     @Override
-    public Page<Tag> getAllTags(Pageable pageable) {
-        return tagRepository.findAll(pageable);
+    public PageDTO<Tag> listTagByPage(PageHelper pageHelper) {
+        List<Tag> data = tagMapper.listTagByPage(pageHelper);
+        Long total = tagMapper.count();
+        PageDTO<Tag> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
 
     @Override

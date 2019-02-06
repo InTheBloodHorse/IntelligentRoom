@@ -13,8 +13,10 @@ public interface BuildingService {
 
     void deleteBuilding(String id);
 
-    List<Building> getAllBuild();
+    Building getBuildById(String id);
 
-    PageDTO<Building> getAllBuild(Pageable pageable);
+    List<Building> listBuild();
+
+    PageDTO<Building> pageBuild(Pageable pageable);
 
 }
