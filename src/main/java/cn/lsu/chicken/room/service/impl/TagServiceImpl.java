@@ -1,6 +1,5 @@
 package cn.lsu.chicken.room.service.impl;
 
-import cn.lsu.chicken.room.dao.TagRepository;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.entity.Tag;
 import cn.lsu.chicken.room.entity.mapper.TagMapper;
@@ -9,60 +8,67 @@ import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TagServiceImpl implements TagService {
     @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
     private TagMapper tagMapper;
 
     @Override
-    public void saveTag(Tag tag) {
-        if (tag.getId() == null) {
-            if (tagRepository.existsByName(tag.getName()) == true) {
-                throw new GlobalException(ResultEnum.TAG_IS_EXITS);
-            }
-        } else {
-            Tag result = tagRepository.findById(tag.getId()).orElse(null);
-            if (result == null) {
-                throw new GlobalException(ResultEnum.TAG_NOT_EXITS);
-            }
-            if (!tag.getName().equals(result.getName())) {
-                if (tagRepository.existsByName(tag.getName()) == true) {
-                    throw new GlobalException(ResultEnum.TAG_IS_EXITS);
-                }
-            }
+    public void saveEntity(Tag tag) {
+        String name = tag.getName();
+        judgeExistsByName(name);
+        tagMapper.addEntity(tag);
+    }
+
+    @Override
+    public void updateEntity(Tag tag) {
+        String id = tag.getId();
+        String name = tag.getName();
+        if (id == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
         }
-        tagRepository.save(tag);
+        //假如当前标签修改了名称
+        if (!tagMapper.judgeExistsByIdAndName(id, name)) {
+            //校验名称是否合法
+            judgeExistsByName(name);
+        }
+
+        tagMapper.updateEntity(tag);
     }
 
     @Override
-    public List<Tag> listTag() {
-        return tagRepository.findAll();
+    public List<Tag> listEntity() {
+        return tagMapper.listEntity();
     }
 
     @Override
-    public PageDTO<Tag> listTagByPage(PageHelper pageHelper) {
-        List<Tag> data = tagMapper.listTagByPage(pageHelper);
+    public PageDTO<Tag> listEntityByPage(PageHelper pageHelper) {
+        List<Tag> data = tagMapper.listEntityByPage(pageHelper);
         Long total = tagMapper.count();
         PageDTO<Tag> pageDTO = new PageDTO<>(pageHelper, total, data);
         return pageDTO;
     }
 
     @Override
-    public void deleteTag(String id) {
-        try {
-            tagRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new GlobalException(ResultEnum.TAG_NOT_EXITS);
+    public void deleteEntity(String id) {
+        tagMapper.deleteEntityById(id);
+    }
+
+
+    @Override
+    public Tag getEntity(String s) {
+        return tagMapper.getEntity(s);
+    }
+
+
+    private void judgeExistsByName(String name) {
+        Boolean result = tagMapper.judgeExistsByName(name);
+        if (result) {
+            throw new GlobalException(ResultEnum.TAG_IS_EXITS);
         }
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.lsu.chicken.room.entity.mapper.BuildingMapper">
+    <resultMap id="building" type="cn.lsu.chicken.room.entity.Building">
+    </resultMap>
+
+    <insert id="addEntity" parameterType="cn.lsu.chicken.room.entity.Building">
+          INSERT INTO building VALUES(#{id},#{location})
+    </insert>
+
+    <update id="updateEntity" parameterType="cn.lsu.chicken.room.entity.Building">
+        UPDATE building
+        <set>
+            location = #{location}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteEntityById" parameterType="String">
+        DELETE from building where id = #{id}
+    </delete>
+
+    <select id="getEntity" parameterType="String" resultMap="building">
+        SELECT * FROM building WHERE id = #{id}
+    </select>
+
+    <select id="listEntity" resultMap="building">
+        SELECT * FROM building
+    </select>
+
+    <select id="listEntityByPage" resultMap="building">
+        SELECT * FROM building LIMIT #{offset},#{size}
+    </select>
+
+    <select id="count" resultType="Long">
+      SELECT COUNT(id) FROM building;
+    </select>
+
+    <select id="judgeExistsByLocation" parameterType="String" resultType="Boolean">
+        SELECT EXISTS (SELECT id FROM building WHERE location = #{location})
+    </select>
+
+    <select id="judgeExistsByIdAndLocation" parameterType="String" resultType="Boolean">
+        SELECT EXISTS (SELECT id FROM building WHERE id = #{id} AND location = #{location})
+    </select>
+</mapper>

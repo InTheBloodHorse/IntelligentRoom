@@ -7,11 +7,11 @@
         <!--<result column="name" property="name"/>-->
     </resultMap>
 
-    <insert id="addTag" parameterType="cn.lsu.chicken.room.entity.Tag">
+    <insert id="addEntity" parameterType="cn.lsu.chicken.room.entity.Tag">
           INSERT INTO tag VALUES(#{id},#{name})
     </insert>
 
-    <update id="updateTag" parameterType="cn.lsu.chicken.room.entity.Tag">
+    <update id="updateEntity" parameterType="cn.lsu.chicken.room.entity.Tag">
         UPDATE tag
         <set>
             name = #{name}
@@ -19,19 +19,19 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteTagById" parameterType="String">
-        DELETE from tag where id = #{tagId}
+    <delete id="deleteEntityById" parameterType="String">
+        DELETE from tag where id = #{id}
     </delete>
 
-    <select id="getTag" parameterType="String" resultMap="tag">
-        SELECT * FROM tag WHERE id = #{tagId}
+    <select id="getEntity" parameterType="String" resultMap="tag">
+        SELECT * FROM tag WHERE id = #{id}
     </select>
 
-    <select id="listTag" resultMap="tag">
+    <select id="listEntity" resultMap="tag">
         SELECT * FROM tag
     </select>
 
-    <select id="listTagByPage" resultMap="tag">
+    <select id="listEntityByPage" resultMap="tag">
         SELECT * FROM tag LIMIT #{offset},#{size}
     </select>
 
@@ -39,7 +39,11 @@
       SELECT COUNT(id) FROM tag;
     </select>
 
-    <select id="judgeExistsByName" parameterType="String" resultType="Integer">
+    <select id="judgeExistsByIdAndName" resultType="Boolean">
+        SELECT EXISTS (SELECT id FROM tag WHERE id = #{id} and name = #{name})
+    </select>
+
+    <select id="judgeExistsByName" parameterType="String" resultType="Boolean">
         SELECT EXISTS (SELECT id FROM tag WHERE name = #{name})
     </select>
 </mapper>

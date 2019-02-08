@@ -1,27 +1,16 @@
 package cn.lsu.chicken.room.entity.mapper;
 
+
 import cn.lsu.chicken.room.entity.Tag;
-import cn.lsu.chicken.room.helper.PageHelper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 
-import java.util.List;
-import java.util.Map;
+@Component
+public interface TagMapper extends BaseMapper<Tag, String> {
 
-public interface TagMapper {
 
-    void addTag(Tag tag);
-
-    void updateTag(Tag tag);
-
-    void deleteTagById(String tagId);
-
-    Tag getTag(String tagId);
-
-    List<Tag> listTag();
-
-    List<Tag> listTagByPage(PageHelper pageHelper);
-
-    Long count();
+    Boolean judgeExistsByIdAndName(@Param("id") String id, @Param("name") String name);
 
     Boolean judgeExistsByName(String name);
 }
