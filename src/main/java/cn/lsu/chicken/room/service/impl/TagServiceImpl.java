@@ -60,7 +60,7 @@ public class TagServiceImpl implements TagService {
 
 
     @Override
-    public Tag getEntity(String s) {
+    public Tag getEntityById(String s) {
         return tagMapper.getEntity(s);
     }
 

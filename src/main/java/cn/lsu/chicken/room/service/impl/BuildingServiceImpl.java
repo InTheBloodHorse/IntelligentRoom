@@ -44,7 +44,7 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public Building getEntity(String s) {
+    public Building getEntityById(String s) {
         return buildingMapper.getEntity(s);
     }
 

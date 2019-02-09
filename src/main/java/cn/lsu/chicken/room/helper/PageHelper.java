@@ -10,6 +10,9 @@ public class PageHelper {
     Integer size;
     Integer offset;
 
+    public PageHelper() {
+    }
+
     public PageHelper(Integer page, Integer size) {
         this.page = page - 1;
         this.size = size;

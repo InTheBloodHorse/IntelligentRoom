@@ -12,7 +12,7 @@ public interface BaseService<T, ID> {
 
     void deleteEntity(ID id);
 
-    T getEntity(ID id);
+    T getEntityById(ID id);
 
     List<T> listEntity();
 
