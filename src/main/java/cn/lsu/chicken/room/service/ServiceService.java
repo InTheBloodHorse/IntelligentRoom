@@ -1,11 +1,9 @@
 package cn.lsu.chicken.room.service;
 
-import cn.lsu.chicken.room.entity.Service;
+import cn.lsu.chicken.room.domain.Service;
 
 import java.util.List;
 
-public interface ServiceService {
-    Service addService(Service service);
+public interface ServiceService extends BaseService<Service, Integer> {
 
-    List<Service> listSeverLog();
 }

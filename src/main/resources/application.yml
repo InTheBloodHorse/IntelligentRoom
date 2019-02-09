@@ -15,3 +15,4 @@ show_error: true
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.lsu.chicken.room.domain

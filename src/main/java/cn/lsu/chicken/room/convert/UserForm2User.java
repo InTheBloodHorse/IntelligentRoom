@@ -1,7 +1,6 @@
 package cn.lsu.chicken.room.convert;
 
-import cn.lsu.chicken.room.dao.CompanyRepository;
-import cn.lsu.chicken.room.entity.User;
+import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.form.UpdateForm;
 import cn.lsu.chicken.room.form.UserForm;
 import org.springframework.beans.BeanUtils;

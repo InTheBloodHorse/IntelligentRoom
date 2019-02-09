@@ -1,47 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="cn.lsu.chicken.room.entity.mapper.BuildingMapper">
-    <resultMap id="building" type="cn.lsu.chicken.room.entity.Building">
-    </resultMap>
-
-    <insert id="addEntity" parameterType="cn.lsu.chicken.room.entity.Building">
-          INSERT INTO building VALUES(#{id},#{location})
-    </insert>
-
-    <update id="updateEntity" parameterType="cn.lsu.chicken.room.entity.Building">
-        UPDATE building
-        <set>
-            location = #{location}
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <delete id="deleteEntityById" parameterType="String">
-        DELETE from building where id = #{id}
-    </delete>
-
-    <select id="getEntity" parameterType="String" resultMap="building">
-        SELECT * FROM building WHERE id = #{id}
-    </select>
-
-    <select id="listEntity" resultMap="building">
-        SELECT * FROM building
-    </select>
-
-    <select id="listEntityByPage" resultMap="building">
-        SELECT * FROM building LIMIT #{offset},#{size}
-    </select>
-
-    <select id="count" resultType="Long">
-      SELECT COUNT(id) FROM building;
-    </select>
-
-    <select id="judgeExistsByLocation" parameterType="String" resultType="Boolean">
-        SELECT EXISTS (SELECT id FROM building WHERE location = #{location})
-    </select>
-
-    <select id="judgeExistsByIdAndLocation" parameterType="String" resultType="Boolean">
-        SELECT EXISTS (SELECT id FROM building WHERE id = #{id} AND location = #{location})
-    </select>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lsu.chicken.room.dao.BuildingMapper" >
+  <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.Building" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, location
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.lsu.chicken.room.domain.BuildingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from building
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from building
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.lsu.chicken.room.domain.BuildingExample" >
+    delete from building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.lsu.chicken.room.domain.Building" useGeneratedKeys="true" keyProperty="id" >
+    insert into building (location)
+    values (#{location,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.Building" useGeneratedKeys="true" keyProperty="id" >
+    insert into building
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        location,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.lsu.chicken.room.domain.BuildingExample" resultType="java.lang.Integer" >
+    select count(*) from building
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update building
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null" >
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update building
+    set id = #{record.id,jdbcType=VARCHAR},
+      location = #{record.location,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lsu.chicken.room.domain.Building" >
+    update building
+    <set >
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.Building" >
+    update building
+    set location = #{location,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

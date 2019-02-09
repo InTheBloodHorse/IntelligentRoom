@@ -1,7 +1,6 @@
 package cn.lsu.chicken.room.face;
 
-import cn.lsu.chicken.room.entity.ImageInfo;
-
+import cn.lsu.chicken.room.dto.ImageInfo;
 import javax.imageio.ImageIO;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;

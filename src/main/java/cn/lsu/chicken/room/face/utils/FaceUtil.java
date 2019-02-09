@@ -1,13 +1,12 @@
 package cn.lsu.chicken.room.face.utils;
 
-import cn.lsu.chicken.room.entity.ImageInfo;
+import cn.lsu.chicken.room.dto.ImageInfo;
 import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.FaceFeature;
 import com.arcsoft.face.FaceInfo;
 import com.arcsoft.face.FaceSimilar;
 import com.arcsoft.face.enums.ImageFormat;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
