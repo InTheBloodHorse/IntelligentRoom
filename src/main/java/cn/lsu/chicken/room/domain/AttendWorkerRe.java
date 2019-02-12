@@ -6,7 +6,7 @@ import lombok.Data;
 public class AttendWorkerRe {
     private Integer id;
 
-    private String applyId;
+    private Integer applyId;
 
     private Integer workerId;
 
@@ -18,12 +18,12 @@ public class AttendWorkerRe {
         this.id = id;
     }
 
-    public String getApplyId() {
+    public Integer getApplyId() {
         return applyId;
     }
 
-    public void setApplyId(String applyId) {
-        this.applyId = applyId == null ? null : applyId.trim();
+    public void setApplyId(Integer applyId) {
+        this.applyId = applyId;
     }
 
     public Integer getWorkerId() {

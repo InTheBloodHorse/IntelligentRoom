@@ -5,12 +5,15 @@ import cn.lsu.chicken.room.domain.BuildingExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface BuildingMapper {
     int countByExample(BuildingExample example);
 
     int deleteByExample(BuildingExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Building record);
 
@@ -18,7 +21,7 @@ public interface BuildingMapper {
 
     List<Building> selectByExample(BuildingExample example);
 
-    Building selectByPrimaryKey(String id);
+    Building selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Building record, @Param("example") BuildingExample example);
 

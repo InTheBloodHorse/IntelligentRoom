@@ -1,6 +1,8 @@
 package cn.lsu.chicken.room.service;
 
-public interface MeetingRoomService {
+import cn.lsu.chicken.room.domain.MeetingRoom;
+
+public interface MeetingRoomService extends BaseService<MeetingRoom, Integer> {
 
 //    void saveMeetingRoom(MeetingRoom meetingRoom);
 //

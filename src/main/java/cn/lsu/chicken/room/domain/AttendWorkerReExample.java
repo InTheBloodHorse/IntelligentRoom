@@ -3,7 +3,9 @@ package cn.lsu.chicken.room.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendWorkerReExample {
+import cn.lsu.chicken.room.helper.PageHelper;
+
+public class AttendWorkerReExample extends PageHelper {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -11,6 +13,11 @@ public class AttendWorkerReExample {
     protected List<Criteria> oredCriteria;
 
     public AttendWorkerReExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public AttendWorkerReExample(Integer page, Integer size) {
+        super(page, size);
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -174,62 +181,52 @@ public class AttendWorkerReExample {
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdEqualTo(String value) {
+        public Criteria andApplyIdEqualTo(Integer value) {
             addCriterion("apply_id =", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotEqualTo(String value) {
+        public Criteria andApplyIdNotEqualTo(Integer value) {
             addCriterion("apply_id <>", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdGreaterThan(String value) {
+        public Criteria andApplyIdGreaterThan(Integer value) {
             addCriterion("apply_id >", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdGreaterThanOrEqualTo(String value) {
+        public Criteria andApplyIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("apply_id >=", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLessThan(String value) {
+        public Criteria andApplyIdLessThan(Integer value) {
             addCriterion("apply_id <", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLessThanOrEqualTo(String value) {
+        public Criteria andApplyIdLessThanOrEqualTo(Integer value) {
             addCriterion("apply_id <=", value, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLike(String value) {
-            addCriterion("apply_id like", value, "applyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyIdNotLike(String value) {
-            addCriterion("apply_id not like", value, "applyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andApplyIdIn(List<String> values) {
+        public Criteria andApplyIdIn(List<Integer> values) {
             addCriterion("apply_id in", values, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotIn(List<String> values) {
+        public Criteria andApplyIdNotIn(List<Integer> values) {
             addCriterion("apply_id not in", values, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdBetween(String value1, String value2) {
+        public Criteria andApplyIdBetween(Integer value1, Integer value2) {
             addCriterion("apply_id between", value1, value2, "applyId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotBetween(String value1, String value2) {
+        public Criteria andApplyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("apply_id not between", value1, value2, "applyId");
             return (Criteria) this;
         }

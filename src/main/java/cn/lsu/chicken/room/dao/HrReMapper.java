@@ -5,6 +5,9 @@ import cn.lsu.chicken.room.domain.HrReExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface HrReMapper {
     int countByExample(HrReExample example);
 

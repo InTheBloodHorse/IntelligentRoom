@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ServiceExample {
+import cn.lsu.chicken.room.helper.PageHelper;
+
+public class ServiceExample extends PageHelper {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -12,6 +14,11 @@ public class ServiceExample {
     protected List<Criteria> oredCriteria;
 
     public ServiceExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public ServiceExample(Integer page, Integer size) {
+        super(page, size);
         oredCriteria = new ArrayList<Criteria>();
     }
 

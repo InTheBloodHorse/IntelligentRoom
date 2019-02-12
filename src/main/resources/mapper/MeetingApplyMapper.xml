@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.lsu.chicken.room.dao.MeetingApplyMapper" >
   <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.MeetingApply" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="worker_id" property="workerId" jdbcType="INTEGER" />
     <result column="topic" property="topic" jdbcType="VARCHAR" />
     <result column="room_id" property="roomId" jdbcType="INTEGER" />
@@ -99,6 +99,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" >
     select
@@ -113,18 +116,21 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from meeting_apply
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from meeting_apply
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" >
     delete from meeting_apply
@@ -239,7 +245,7 @@
     update meeting_apply
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.workerId != null" >
         worker_id = #{record.workerId,jdbcType=INTEGER},
@@ -287,7 +293,7 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
     update meeting_apply
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=INTEGER},
       worker_id = #{record.workerId,jdbcType=INTEGER},
       topic = #{record.topic,jdbcType=VARCHAR},
       room_id = #{record.roomId,jdbcType=INTEGER},
@@ -307,7 +313,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update meeting_apply
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=INTEGER},
       worker_id = #{record.workerId,jdbcType=INTEGER},
       topic = #{record.topic,jdbcType=VARCHAR},
       room_id = #{record.roomId,jdbcType=INTEGER},
@@ -366,7 +372,7 @@
         document_list = #{documentList,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" >
     update meeting_apply
@@ -383,7 +389,7 @@
       flexible = #{flexible,jdbcType=TINYINT},
       intro = #{intro,jdbcType=LONGVARCHAR},
       document_list = #{documentList,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.MeetingApply" >
     update meeting_apply
@@ -398,6 +404,6 @@
       apply_update_time = #{applyUpdateTime,jdbcType=TIMESTAMP},
       price = #{price,jdbcType=DECIMAL},
       flexible = #{flexible,jdbcType=TINYINT}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

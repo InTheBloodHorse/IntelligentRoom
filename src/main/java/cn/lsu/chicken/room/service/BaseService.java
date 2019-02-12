@@ -6,11 +6,11 @@ import cn.lsu.chicken.room.helper.PageHelper;
 import java.util.List;
 
 public interface BaseService<T, ID> {
-    void saveEntity(T entity);
+    ID saveEntity(T entity);
 
-    void updateEntity(T entity);
+    Integer updateEntity(T entity);
 
-    void deleteEntity(ID id);
+    Integer deleteEntity(ID id);
 
     T getEntityById(ID id);
 

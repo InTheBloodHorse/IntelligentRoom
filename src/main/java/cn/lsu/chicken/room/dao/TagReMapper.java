@@ -5,6 +5,9 @@ import cn.lsu.chicken.room.domain.TagReExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface TagReMapper {
     int countByExample(TagReExample example);
 

@@ -3,7 +3,7 @@
 <mapper namespace="cn.lsu.chicken.room.dao.TagReMapper" >
   <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.TagRe" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tag_id" property="tagId" jdbcType="VARCHAR" />
+    <result column="tag_id" property="tagId" jdbcType="INTEGER" />
     <result column="meeting_room_id" property="meetingRoomId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,6 +80,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -99,7 +102,7 @@
   </delete>
   <insert id="insert" parameterType="cn.lsu.chicken.room.domain.TagRe" useGeneratedKeys="true" keyProperty="id" >
     insert into tag_re (tag_id, meeting_room_id)
-    values (#{tagId,jdbcType=VARCHAR}, #{meetingRoomId,jdbcType=INTEGER})
+    values (#{tagId,jdbcType=INTEGER}, #{meetingRoomId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.TagRe" useGeneratedKeys="true" keyProperty="id" >
     insert into tag_re
@@ -113,7 +116,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="tagId != null" >
-        #{tagId,jdbcType=VARCHAR},
+        #{tagId,jdbcType=INTEGER},
       </if>
       <if test="meetingRoomId != null" >
         #{meetingRoomId,jdbcType=INTEGER},
@@ -133,7 +136,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.tagId != null" >
-        tag_id = #{record.tagId,jdbcType=VARCHAR},
+        tag_id = #{record.tagId,jdbcType=INTEGER},
       </if>
       <if test="record.meetingRoomId != null" >
         meeting_room_id = #{record.meetingRoomId,jdbcType=INTEGER},
@@ -146,7 +149,7 @@
   <update id="updateByExample" parameterType="map" >
     update tag_re
     set id = #{record.id,jdbcType=INTEGER},
-      tag_id = #{record.tagId,jdbcType=VARCHAR},
+      tag_id = #{record.tagId,jdbcType=INTEGER},
       meeting_room_id = #{record.meetingRoomId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -156,7 +159,7 @@
     update tag_re
     <set >
       <if test="tagId != null" >
-        tag_id = #{tagId,jdbcType=VARCHAR},
+        tag_id = #{tagId,jdbcType=INTEGER},
       </if>
       <if test="meetingRoomId != null" >
         meeting_room_id = #{meetingRoomId,jdbcType=INTEGER},
@@ -166,7 +169,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.TagRe" >
     update tag_re
-    set tag_id = #{tagId,jdbcType=VARCHAR},
+    set tag_id = #{tagId,jdbcType=INTEGER},
       meeting_room_id = #{meetingRoomId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

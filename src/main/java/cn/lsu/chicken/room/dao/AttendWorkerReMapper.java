@@ -5,6 +5,9 @@ import cn.lsu.chicken.room.domain.AttendWorkerReExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface AttendWorkerReMapper {
     int countByExample(AttendWorkerReExample example);
 

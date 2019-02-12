@@ -13,15 +13,15 @@ import java.util.Map;
 public class PageDTO<T> {
     private Integer page;
     private Integer size;
-    private Long total;
+    private Integer total;
     private Integer totalPage;
     List<T> data;
 
     public PageDTO() {
     }
 
-    public PageDTO(PageHelper pageHelper, Long total, List<T> data) {
-        this.page = pageHelper.getPage() + 1;
+    public PageDTO(PageHelper pageHelper, Integer total, List<T> data) {
+        this.page = pageHelper.getPage();
         this.size = pageHelper.getSize();
         this.total = total;
         this.totalPage = (int) Math.ceil(((double)getTotal() / (double)getSize()));

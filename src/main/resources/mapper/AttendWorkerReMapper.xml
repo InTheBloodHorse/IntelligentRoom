@@ -3,7 +3,7 @@
 <mapper namespace="cn.lsu.chicken.room.dao.AttendWorkerReMapper" >
   <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.AttendWorkerRe" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="apply_id" property="applyId" jdbcType="VARCHAR" />
+    <result column="apply_id" property="applyId" jdbcType="INTEGER" />
     <result column="worker_id" property="workerId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,6 +80,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -99,7 +102,7 @@
   </delete>
   <insert id="insert" parameterType="cn.lsu.chicken.room.domain.AttendWorkerRe" useGeneratedKeys="true" keyProperty="id" >
     insert into attend_worker_re (apply_id, worker_id)
-    values (#{applyId,jdbcType=VARCHAR}, #{workerId,jdbcType=INTEGER})
+    values (#{applyId,jdbcType=INTEGER}, #{workerId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.AttendWorkerRe" useGeneratedKeys="true" keyProperty="id" >
     insert into attend_worker_re
@@ -113,7 +116,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="applyId != null" >
-        #{applyId,jdbcType=VARCHAR},
+        #{applyId,jdbcType=INTEGER},
       </if>
       <if test="workerId != null" >
         #{workerId,jdbcType=INTEGER},
@@ -133,7 +136,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.applyId != null" >
-        apply_id = #{record.applyId,jdbcType=VARCHAR},
+        apply_id = #{record.applyId,jdbcType=INTEGER},
       </if>
       <if test="record.workerId != null" >
         worker_id = #{record.workerId,jdbcType=INTEGER},
@@ -146,7 +149,7 @@
   <update id="updateByExample" parameterType="map" >
     update attend_worker_re
     set id = #{record.id,jdbcType=INTEGER},
-      apply_id = #{record.applyId,jdbcType=VARCHAR},
+      apply_id = #{record.applyId,jdbcType=INTEGER},
       worker_id = #{record.workerId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -156,7 +159,7 @@
     update attend_worker_re
     <set >
       <if test="applyId != null" >
-        apply_id = #{applyId,jdbcType=VARCHAR},
+        apply_id = #{applyId,jdbcType=INTEGER},
       </if>
       <if test="workerId != null" >
         worker_id = #{workerId,jdbcType=INTEGER},
@@ -166,7 +169,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.AttendWorkerRe" >
     update attend_worker_re
-    set apply_id = #{applyId,jdbcType=VARCHAR},
+    set apply_id = #{applyId,jdbcType=INTEGER},
       worker_id = #{workerId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

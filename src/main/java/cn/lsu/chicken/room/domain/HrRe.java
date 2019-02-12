@@ -1,5 +1,8 @@
 package cn.lsu.chicken.room.domain;
 
+import lombok.Data;
+
+@Data
 public class HrRe {
     private Integer id;
 

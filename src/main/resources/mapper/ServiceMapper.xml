@@ -90,6 +90,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.lsu.chicken.room.domain.ServiceExample" >
     select
@@ -104,6 +107,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 

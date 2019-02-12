@@ -80,6 +80,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

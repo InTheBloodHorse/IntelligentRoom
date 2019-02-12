@@ -3,7 +3,9 @@ package cn.lsu.chicken.room.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserExample {
+import cn.lsu.chicken.room.helper.PageHelper;
+
+public class UserExample extends PageHelper {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -11,6 +13,11 @@ public class UserExample {
     protected List<Criteria> oredCriteria;
 
     public UserExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public UserExample(Integer page, Integer size) {
+        super(page, size);
         oredCriteria = new ArrayList<Criteria>();
     }
 

@@ -6,12 +6,15 @@ import cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface MeetingApplyMapper {
     int countByExample(MeetingApplyExample example);
 
     int deleteByExample(MeetingApplyExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(MeetingApplyWithBLOBs record);
 
@@ -21,7 +24,7 @@ public interface MeetingApplyMapper {
 
     List<MeetingApply> selectByExample(MeetingApplyExample example);
 
-    MeetingApplyWithBLOBs selectByPrimaryKey(String id);
+    MeetingApplyWithBLOBs selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") MeetingApplyWithBLOBs record, @Param("example") MeetingApplyExample example);
 

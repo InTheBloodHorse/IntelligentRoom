@@ -27,7 +27,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>
-                log/sell/info.%d.log
+                log/meeting/info.%d.log
             </fileNamePattern>
         </rollingPolicy>
     </appender>
@@ -46,7 +46,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>
-                log/sell/error.%d.log
+                log/meeting/error.%d.log
             </fileNamePattern>
         </rollingPolicy>
     </appender>

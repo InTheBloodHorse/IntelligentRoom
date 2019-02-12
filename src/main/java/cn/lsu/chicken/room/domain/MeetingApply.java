@@ -2,8 +2,11 @@ package cn.lsu.chicken.room.domain;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class MeetingApply {
-    private String id;
+    private Integer id;
 
     private Integer workerId;
 
@@ -27,12 +30,12 @@ public class MeetingApply {
 
     private Byte flexible;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getWorkerId() {

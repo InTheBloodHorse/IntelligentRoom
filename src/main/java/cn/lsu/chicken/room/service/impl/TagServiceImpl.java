@@ -4,6 +4,8 @@ import cn.lsu.chicken.room.dao.TagMapper;
 import cn.lsu.chicken.room.domain.Tag;
 import cn.lsu.chicken.room.domain.TagExample;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.enums.ResultEnum;
+import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,27 +21,39 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
-    public void saveEntity(Tag tag) {
+    public Integer saveEntity(Tag tag) {
         String name = tag.getName();
-        judgeExistsByName(name);
+        judgeExistByName(name);
         tagMapper.insert(tag);
+        return tag.getId();
     }
 
     @Override
-    public void updateEntity(Tag tag) {
-//        String id = tag.getId();
-//        String name = tag.getName();
-//        if (id == null) {
-//            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-//        }
-//        //假如当前标签修改了名称
-//
-//        if (!tagMapper.judgeExistsByIdAndName(id, name)) {
-//            //校验名称是否合法
-//            judgeExistsByName(name);
-//        }
-//
-//        tagMapper.updateByPrimaryKey(tag);
+    public Integer updateEntity(Tag tag) {
+
+        Integer id = tag.getId();
+        String name = tag.getName();
+        if (id == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        //假如当前标签修改了名称
+
+        if (judgeExistByIdAndName(id, name) == false) {
+            //校验名称是否合法
+            judgeExistByName(name);
+        }
+
+        return tagMapper.updateByPrimaryKey(tag);
+    }
+
+    @Override
+    public Integer deleteEntity(Integer integer) {
+        return tagMapper.deleteByPrimaryKey(integer);
+    }
+
+    @Override
+    public Tag getEntityById(Integer integer) {
+        return tagMapper.selectByPrimaryKey(integer);
     }
 
     @Override
@@ -49,30 +63,33 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public PageDTO<Tag> listEntityByPage(PageHelper pageHelper) {
-//        List<Tag> data = tagMapper.listEntityByPage(pageHelper);
-//        Long total = tagMapper.count();
-//        PageDTO<Tag> pageDTO = new PageDTO<>(pageHelper, total, data);
-//        return pageDTO;
-        return null;
-    }
-
-    @Override
-    public void deleteEntity(String id) {
-
-
+        TagExample tagExample = new TagExample(pageHelper.getPage(), pageHelper.getSize());
+        List<Tag> data = tagMapper.selectByExample(tagExample);
+        Integer total = tagMapper.countByExample(new TagExample());
+        PageDTO<Tag> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
 
 
-    @Override
-    public Tag getEntityById(String s) {
-        return tagMapper.selectByPrimaryKey(s);
+    private void judgeExistByName(String name) {
+        TagExample tagExample = new TagExample();
+        TagExample.Criteria criteria = tagExample.createCriteria();
+        criteria.andNameEqualTo(name);
+        List<Tag> result = tagMapper.selectByExample(tagExample);
+        if (result.size() != 0) {
+            throw new GlobalException(ResultEnum.TAG_IS_EXIST);
+        }
     }
 
-
-    private void judgeExistsByName(String name) {
-//        Boolean result = tagMapper.judgeExistsByName(name);
-//        if (result) {
-//            throw new GlobalException(ResultEnum.TAG_IS_EXITS);
-//        }
+    private Boolean judgeExistByIdAndName(Integer id, String name) {
+        TagExample tagExample = new TagExample();
+        TagExample.Criteria criteria = tagExample.createCriteria();
+        criteria.andIdEqualTo(id);
+        criteria.andNameEqualTo(name);
+        List<Tag> result = tagMapper.selectByExample(tagExample);
+        if (result.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }

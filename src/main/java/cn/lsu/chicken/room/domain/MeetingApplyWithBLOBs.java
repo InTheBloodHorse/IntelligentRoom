@@ -1,5 +1,8 @@
 package cn.lsu.chicken.room.domain;
 
+import lombok.Data;
+
+@Data
 public class MeetingApplyWithBLOBs extends MeetingApply {
     private String intro;
 

@@ -1,9 +1,12 @@
 package cn.lsu.chicken.room.domain;
 
+import lombok.Data;
+
+@Data
 public class TagRe {
     private Integer id;
 
-    private String tagId;
+    private Integer tagId;
 
     private Integer meetingRoomId;
 
@@ -15,12 +18,12 @@ public class TagRe {
         this.id = id;
     }
 
-    public String getTagId() {
+    public Integer getTagId() {
         return tagId;
     }
 
-    public void setTagId(String tagId) {
-        this.tagId = tagId == null ? null : tagId.trim();
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
     }
 
     public Integer getMeetingRoomId() {
