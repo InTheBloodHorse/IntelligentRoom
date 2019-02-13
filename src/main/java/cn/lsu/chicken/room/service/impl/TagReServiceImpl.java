@@ -22,34 +22,45 @@ public class TagReServiceImpl implements TagReService {
     @Override
     public Integer saveEntity(TagRe entity) {
         judgeExistByTagIdAndMeetingRoomId(entity.getTagId(), entity.getMeetingRoomId());
-        tagReMapper.insert(entity);
+        tagReMapper.insertSelective(entity);
         return entity.getId();
     }
 
+    @Deprecated
     @Override
     public Integer updateEntity(TagRe entity) {
         return null;
     }
 
     @Override
+    public Integer updateEntity(Integer roomId, List<Integer> tagList) {
+        return tagReMapper.updateTagReByListExample(roomId, tagList);
+    }
+
+    @Override
     public Integer deleteEntity(Integer integer) {
-        return null;
+        return tagReMapper.deleteByPrimaryKey(integer);
     }
 
     @Override
     public TagRe getEntityById(Integer integer) {
-        return null;
+        return tagReMapper.selectByPrimaryKey(integer);
     }
 
     @Override
     public List<TagRe> listEntity() {
-        return null;
+        return tagReMapper.selectByExample(new TagReExample());
     }
 
     @Override
     public PageDTO<TagRe> listEntityByPage(PageHelper pageHelper) {
-        return null;
+        TagReExample tagReExample = new TagReExample(pageHelper.getPage(), pageHelper.getSize());
+        List<TagRe> data = tagReMapper.selectByExample(tagReExample);
+        Integer total = tagReMapper.countByExample(new TagReExample());
+        PageDTO<TagRe> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
+
 
     private void judgeExistByTagIdAndMeetingRoomId(Integer tagId, Integer meetingRoomId) {
         TagReExample tagReExample = new TagReExample();
@@ -61,4 +72,14 @@ public class TagReServiceImpl implements TagReService {
             throw new GlobalException(ResultEnum.TAG_HAS_ADDED);
         }
     }
+
+    @Override
+    public Integer deleteByTagIdAndRoomId(Integer tagId, Integer roomId) {
+        TagReExample tagReExample = new TagReExample();
+        TagReExample.Criteria criteria = tagReExample.createCriteria();
+        criteria.andTagIdEqualTo(tagId);
+        criteria.andMeetingRoomIdEqualTo(roomId);
+        return tagReMapper.deleteByExample(tagReExample);
+    }
+
 }

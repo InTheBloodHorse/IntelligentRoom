@@ -82,7 +82,9 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, name, building_id, address, volume, is_using, price
+    r.id as room_id,r.name as room_name ,b.id as building_id,b.location as building_location,r.address as
+        room_address,r.volume as room_volume ,r.is_using as room_using,r.price as room_price,r.detail as
+        room_detail,g.id as tag_id,g.name as tag_name
   </sql>
     <sql id="Blob_Column_List">
     detail
@@ -94,9 +96,9 @@
             distinct
         </if>
         <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from meeting_room
+        from
+        (
+        select * from meeting_room
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
@@ -106,41 +108,65 @@
         <if test="page != null and size!= null">
             limit #{offset},#{size}
         </if>
-    </select>
-    <select id="selectByExample" resultMap="BaseResultMap"
-            parameterType="cn.lsu.chicken.room.domain.MeetingRoomExample">
-        select
-        <if test="distinct">
-            distinct
-        </if>
-        <include refid="Base_Column_List"/>
-        from meeting_room
-        <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-        <if test="page != null and size!= null">
-            limit #{offset},#{size}
-        </if>
-    </select>
-    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
-        <!--<include refid="Base_Column_List"/>-->
-        <!--,-->
-        <!--<include refid="Blob_Column_List"/>-->
-        select
-        r.id as room_id,r.name as room_name ,b.id as building_id,b.location as building_location,r.address as
-        room_address,r.volume as room_volume ,r.is_using as room_using,r.price as room_price,r.detail as
-        room_detail,g.id as tag_id,g.name as tag_name
-        from meeting_room as r
+        )
+        as r
         left join building as b
         on b.id = r.building_id
         left join tag_re as t
         on t.meeting_room_id = r.id
         left join tag as g
         on g.id = t.tag_id
-        where r.id = #{id,jdbcType=INTEGER}
+        <if test="orderByClause != null">
+            order by r.${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="ResultMapWithBLOBs"
+            parameterType="cn.lsu.chicken.room.domain.MeetingRoomExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from
+        (
+        select * from meeting_room
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
+        )
+        as r
+        left join building as b
+        on b.id = r.building_id
+        left join tag_re as t
+        on t.meeting_room_id = r.id
+        left join tag as g
+        on g.id = t.tag_id
+        <if test="orderByClause != null">
+            order by r.${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+
+        select
+        <include refid="Base_Column_List"/>
+        from
+        (
+        select * from meeting_room
+        where id = #{id,jdbcType=INTEGER}
+        )
+        as r
+        left join building as b
+        on b.id = r.building_id
+        left join tag_re as t
+        on t.meeting_room_id = r.id
+        left join tag as g
+        on g.id = t.tag_id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from meeting_room

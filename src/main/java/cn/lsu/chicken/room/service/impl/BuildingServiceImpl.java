@@ -22,7 +22,7 @@ public class BuildingServiceImpl implements BuildingService {
     public Integer saveEntity(Building entity) {
         String location = entity.getLocation();
         judgeExistByLocation(location);
-        buildingMapper.insert(entity);
+        buildingMapper.insertSelective(entity);
         return entity.getId();
 
     }

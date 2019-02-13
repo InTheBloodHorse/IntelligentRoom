@@ -23,13 +23,23 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     @Override
     public Integer saveEntity(MeetingRoom entity) {
         judgeExistByBuildingIdAndName(entity.getBuildingId(), entity.getName());
-        meetingRoomMapper.insert(entity);
+        meetingRoomMapper.insertSelective(entity);
         return entity.getId();
     }
 
     @Override
     public Integer updateEntity(MeetingRoom entity) {
-        return null;
+        Integer id = entity.getId();
+        Integer buildingId = entity.getBuildingId();
+        String name = entity.getName();
+        //假如当前标签修改了名称
+
+        if (judgeExistByIdAndBuildingIdAndName(id, buildingId, name) == false) {
+            //校验名称是否合法
+            judgeExistByBuildingIdAndName(buildingId, name);
+        }
+
+        return meetingRoomMapper.updateByPrimaryKey(entity);
     }
 
     @Override
@@ -38,21 +48,24 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public MeetingRoom getEntityById(Integer integer) {
-        List<MeetingRoomDTO> result = meetingRoomMapper.selectByPrimaryKey(integer);
-        System.out.println(result);
-        return null;
+    public MeetingRoomDTO getEntityById(Integer integer) {
+        MeetingRoomDTO result = meetingRoomMapper.selectByPrimaryKey(integer);
+        return result;
 
     }
 
     @Override
-    public List<MeetingRoom> listEntity() {
-        return null;
+    public List<MeetingRoomDTO> listEntity() {
+        return meetingRoomMapper.selectByExample(new MeetingRoomExample());
     }
 
     @Override
-    public PageDTO<MeetingRoom> listEntityByPage(PageHelper pageHelper) {
-        return null;
+    public PageDTO<MeetingRoomDTO> listEntityByPage(PageHelper pageHelper) {
+        MeetingRoomExample meetingRoomExample = new MeetingRoomExample(pageHelper.getPage(), pageHelper.getSize());
+        List<MeetingRoomDTO> data = meetingRoomMapper.selectByExample(meetingRoomExample);
+        Integer total = meetingRoomMapper.countByExample(new MeetingRoomExample());
+        PageDTO<MeetingRoomDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
 
     private void judgeExistByBuildingIdAndName(Integer buildingId, String name) {
@@ -60,9 +73,25 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
         MeetingRoomExample.Criteria criteria = meetingRoomExample.createCriteria();
         criteria.andBuildingIdEqualTo(buildingId);
         criteria.andNameEqualTo(name);
-        List<MeetingRoom> result = meetingRoomMapper.selectByExample(meetingRoomExample);
+        List<MeetingRoomDTO> result = meetingRoomMapper.selectByExample(meetingRoomExample);
         if (result.size() != 0) {
             throw new GlobalException(ResultEnum.MEETING_ROOM_IS_EXIST);
         }
+    }
+
+    private Boolean judgeExistByIdAndBuildingIdAndName(Integer id, Integer buildingId, String name) {
+        if (id == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        MeetingRoomExample meetingRoomExample = new MeetingRoomExample();
+        MeetingRoomExample.Criteria criteria = meetingRoomExample.createCriteria();
+        criteria.andIdEqualTo(id);
+        criteria.andBuildingIdEqualTo(buildingId);
+        criteria.andNameEqualTo(name);
+        List<MeetingRoomDTO> result = meetingRoomMapper.selectByExample(meetingRoomExample);
+        if (result.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }

@@ -16,7 +16,7 @@ public class User {
 
     private String avatar;
 
-    private Byte role;
+    private Integer role;
 
     private Integer companyId;
 
@@ -68,11 +68,11 @@ public class User {
         this.avatar = avatar == null ? null : avatar.trim();
     }
 
-    public Byte getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Byte role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 

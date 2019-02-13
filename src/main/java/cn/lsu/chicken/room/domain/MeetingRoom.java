@@ -12,11 +12,11 @@ public class MeetingRoom {
 
     private String address;
 
-    private Byte volume;
+    private Integer volume;
 
-    private Byte isUsing;
+    private Integer isUsing;
 
-    private Short price;
+    private Integer price;
 
     private String detail;
 
@@ -52,27 +52,27 @@ public class MeetingRoom {
         this.address = address == null ? null : address.trim();
     }
 
-    public Byte getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
-    public void setVolume(Byte volume) {
+    public void setVolume(Integer volume) {
         this.volume = volume;
     }
 
-    public Byte getIsUsing() {
+    public Integer getIsUsing() {
         return isUsing;
     }
 
-    public void setIsUsing(Byte isUsing) {
+    public void setIsUsing(Integer isUsing) {
         this.isUsing = isUsing;
     }
 
-    public Short getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Short price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

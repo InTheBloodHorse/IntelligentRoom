@@ -20,7 +20,7 @@ public class MeetingApply {
 
     private Date endTime;
 
-    private Byte status;
+    private Integer status;
 
     private Date applyTime;
 
@@ -28,7 +28,7 @@ public class MeetingApply {
 
     private Long price;
 
-    private Byte flexible;
+    private Integer flexible;
 
     public Integer getId() {
         return id;
@@ -86,11 +86,11 @@ public class MeetingApply {
         this.endTime = endTime;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -118,11 +118,11 @@ public class MeetingApply {
         this.price = price;
     }
 
-    public Byte getFlexible() {
+    public Integer getFlexible() {
         return flexible;
     }
 
-    public void setFlexible(Byte flexible) {
+    public void setFlexible(Integer flexible) {
         this.flexible = flexible;
     }
 }

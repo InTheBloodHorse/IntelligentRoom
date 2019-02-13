@@ -2,7 +2,9 @@ package cn.lsu.chicken.room.dao;
 
 import cn.lsu.chicken.room.domain.TagRe;
 import cn.lsu.chicken.room.domain.TagReExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import org.springframework.stereotype.Component;
@@ -30,4 +32,7 @@ public interface TagReMapper {
     int updateByPrimaryKeySelective(TagRe record);
 
     int updateByPrimaryKey(TagRe record);
+
+    //返回删除的行数
+    int updateTagReByListExample(@Param("meetingRoomId") Integer meetingRoomId, @Param("list") List<Integer> list);
 }

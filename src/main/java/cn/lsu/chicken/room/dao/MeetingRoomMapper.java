@@ -24,9 +24,9 @@ public interface MeetingRoomMapper {
 
     List<MeetingRoom> selectByExampleWithBLOBs(MeetingRoomExample example);
 
-    List<MeetingRoom> selectByExample(MeetingRoomExample example);
+    List<MeetingRoomDTO> selectByExample(MeetingRoomExample example);
 
-    List<MeetingRoomDTO> selectByPrimaryKey(Integer id);
+    MeetingRoomDTO selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") MeetingRoom record, @Param("example") MeetingRoomExample example);
 

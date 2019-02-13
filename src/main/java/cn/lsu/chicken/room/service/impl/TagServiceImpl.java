@@ -24,7 +24,7 @@ public class TagServiceImpl implements TagService {
     public Integer saveEntity(Tag tag) {
         String name = tag.getName();
         judgeExistByName(name);
-        tagMapper.insert(tag);
+        tagMapper.insertSelective(tag);
         return tag.getId();
     }
 
