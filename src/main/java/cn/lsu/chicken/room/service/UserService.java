@@ -1,6 +1,9 @@
 package cn.lsu.chicken.room.service;
 
-public interface UserService {
+import cn.lsu.chicken.room.domain.User;
+import cn.lsu.chicken.room.dto.UserDTO;
+
+public interface UserService extends BaseService<UserDTO, User, Integer> {
 
     /*
     注册用户，手机号码唯一

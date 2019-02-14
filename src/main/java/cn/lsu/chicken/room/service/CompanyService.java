@@ -1,11 +1,13 @@
 package cn.lsu.chicken.room.service;
 
+import cn.lsu.chicken.room.domain.Company;
+import cn.lsu.chicken.room.dto.CompanyDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface CompanyService {
+public interface CompanyService extends BaseService<CompanyDTO, Company, Integer> {
 //    //保存公司信息
 //    void saveCompany(Company company);
 //

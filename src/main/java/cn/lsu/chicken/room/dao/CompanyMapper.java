@@ -2,7 +2,10 @@ package cn.lsu.chicken.room.dao;
 
 import cn.lsu.chicken.room.domain.Company;
 import cn.lsu.chicken.room.domain.CompanyExample;
+
 import java.util.List;
+
+import cn.lsu.chicken.room.dto.CompanyDTO;
 import org.apache.ibatis.annotations.Param;
 
 import org.springframework.stereotype.Component;

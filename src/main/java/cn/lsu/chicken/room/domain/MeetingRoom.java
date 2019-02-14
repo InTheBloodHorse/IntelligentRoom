@@ -1,6 +1,9 @@
 package cn.lsu.chicken.room.domain;
 
+
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Data
 public class MeetingRoom {
@@ -16,7 +19,7 @@ public class MeetingRoom {
 
     private Integer isUsing;
 
-    private Integer price;
+    private BigDecimal price;
 
     private String detail;
 
@@ -68,11 +71,11 @@ public class MeetingRoom {
         this.isUsing = isUsing;
     }
 
-    public Integer getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

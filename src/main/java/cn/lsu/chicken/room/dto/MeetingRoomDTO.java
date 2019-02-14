@@ -4,6 +4,7 @@ import cn.lsu.chicken.room.domain.Building;
 import cn.lsu.chicken.room.domain.Tag;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,11 +17,11 @@ public class MeetingRoomDTO {
 
     private String address;
 
-    private Byte volume;
+    private Integer volume;
 
-    private Byte isUsing;
+    private Integer isUsing;
 
-    private Short price;
+    private BigDecimal price;
 
     private String detail;
 
