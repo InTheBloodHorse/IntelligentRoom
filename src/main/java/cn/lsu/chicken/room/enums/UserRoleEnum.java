@@ -2,10 +2,10 @@ package cn.lsu.chicken.room.enums;
 
 
 public enum UserRoleEnum {
-    ADMIN(1, "管理员"),
+    ORDINARY_USER(1, "普通用户"),
     HR(2, "公司HR"),
     SERVICE(3, "后勤人员"),
-    ORDINARY_USER(4, "普通用户");
+    ADMIN(4, "管理员");
     private Integer code;
     private String name;
 

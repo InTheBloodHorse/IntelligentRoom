@@ -70,8 +70,8 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingExample buildingExample = new BuildingExample();
         BuildingExample.Criteria criteria = buildingExample.createCriteria();
         criteria.andLocationEqualTo(name);
-        List<Building> result = buildingMapper.selectByExample(buildingExample);
-        if (result.size() != 0) {
+        Integer result = buildingMapper.countByExample(buildingExample);
+        if (result != 0) {
             throw new GlobalException(ResultEnum.BUILDING_IS_EXIST);
         }
     }
@@ -81,10 +81,8 @@ public class BuildingServiceImpl implements BuildingService {
         BuildingExample.Criteria criteria = buildingExample.createCriteria();
         criteria.andIdEqualTo(id);
         criteria.andLocationEqualTo(location);
-        List<Building> result = buildingMapper.selectByExample(buildingExample);
-        if (result.size() == 0) {
-            return false;
-        }
-        return true;
+        Integer result = buildingMapper.countByExample(buildingExample);
+        return result > 0 ? true : false;
     }
+
 }

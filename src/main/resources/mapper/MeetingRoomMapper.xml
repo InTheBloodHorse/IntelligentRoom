@@ -4,7 +4,6 @@
     <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.dto.MeetingRoomDTO">
         <id column="room_id" property="id" jdbcType="INTEGER"/>
         <result column="room_name" property="name" jdbcType="VARCHAR"/>
-        <!--<result column="building_id" property="buildingId" jdbcType="INTEGER"/>-->
         <result column="room_address" property="address" jdbcType="VARCHAR"/>
         <result column="room_volume" property="volume" jdbcType="TINYINT"/>
         <result column="room_using" property="isUsing" jdbcType="TINYINT"/>
@@ -351,4 +350,23 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+    <update id="updateTagByMeetingRoomId">
+        <choose>
+            <when test="list.size() != 0">
+                delete from tag_re where meeting_room_id = #{meetingRoomId} and tag_id not in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+                );
+
+                replace into tag_re(tag_id,meeting_room_id) values
+                <foreach collection="list" item="item" index="index" separator=",">
+                    (#{item,jdbcType=INTEGER},#{meetingRoomId,jdbcType=INTEGER})
+                </foreach>
+            </when>
+            <when test="list.size() == 0">
+                delete from tag_re where meeting_room_id = #{meetingRoomId}
+            </when>
+        </choose>
+    </update>
 </mapper>

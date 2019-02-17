@@ -3,6 +3,8 @@ package cn.lsu.chicken.room.dao;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
 import java.util.List;
+
+import cn.lsu.chicken.room.dto.UserDTO;
 import org.apache.ibatis.annotations.Param;
 
 import org.springframework.stereotype.Component;
@@ -19,9 +21,9 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    List<User> selectByExample(UserExample example);
+    List<UserDTO> selectByExample(UserExample example);
 
-    User selectByPrimaryKey(Integer id);
+    UserDTO selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 

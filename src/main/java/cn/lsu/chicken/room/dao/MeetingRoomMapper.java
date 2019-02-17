@@ -39,4 +39,6 @@ public interface MeetingRoomMapper {
     int updateByPrimaryKeyWithBLOBs(MeetingRoom record);
 
     int updateByPrimaryKey(MeetingRoom record);
+
+    int updateTagByMeetingRoomId(@Param("meetingRoomId") Integer meetingRoomId, @Param("list") List<Integer> tagList);
 }

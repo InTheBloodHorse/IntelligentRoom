@@ -1,5 +1,8 @@
 package cn.lsu.chicken.room.utils;
 
+import cn.lsu.chicken.room.enums.ResultEnum;
+import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.helper.ExampleHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -8,9 +11,15 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
+@Deprecated
 public class EntityExampleUtil {
+
+
     @Autowired
     private Environment environment;
 
@@ -22,54 +31,56 @@ public class EntityExampleUtil {
         staticEnvironment = environment;
     }
 
-    public static Object getEntityExample(String className, String name) {
+    static Map operatorMap;
+
+    static {
+        operatorMap = new HashMap<String, String>();
+        operatorMap.put("eq", "EqualTo");
+    }
+
+    public static Object getEntityExample(String className, List<ExampleHelper> filter) {
+        // Example类
         String classPath = staticEnvironment.getProperty("entity_path") + "." + className;
-        Class example = null;
-        Class criteria = null;
-        try {
-            example = Class.forName(classPath);
-            criteria = Class.forName(classPath + "$Criteria");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        Class example = ReflectUtil.getClassByName(classPath);
+        // ExampleCriteria类
+        String criteriaName = classPath + "$Criteria";
+        Class criteria = ReflectUtil.getClassByName(criteriaName);
+
+        String methodCreate = "createCriteria";
+        Method create = ReflectUtil.getMethodByClassAndMethodName(example, methodCreate);
+        Object entityExample = ReflectUtil.getObjectByClass(example);
+        // Example.Criteria对象
+        Object entityCriteria = ReflectUtil.invokeByMethodAndObject(create, entityExample);
+
+        for (ExampleHelper f : filter) {
+            String methodName = getMethodNameByExample(f);
+            Object[] args = f.getArgs();
+            Method method = ReflectUtil.getMethodByClassAndMethodNameAndArgs(criteria, methodName, getArgsClass(args));
+            ReflectUtil.invokeByMethodAndObjectAndArgs(method, entityCriteria, args);
         }
-        Object entityExample = null;
-        try {
-            entityExample = example.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        Method create = null;
-        try {
-            create = example.getMethod("createCriteria");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        Object entitycriteria = null;
-        try {
-            entitycriteria = create.invoke(entityExample);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        System.out.println(Arrays.asList(criteria.getMethods()));
-        Method add = null;
-        try {
-            add = criteria.getMethod("andNameEqualTo", new Class[]{String.class});
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-//        cn.lsu.chicken.room.domain.CompanyExample$Criteria.andNameEqualTo
-        try {
-            add.invoke(entitycriteria, name);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+
+
         return entityExample;
     }
 
+    private static String getMethodNameByExample(ExampleHelper e) {
+        String logic = e.getLogic();
+        if (!"or".equals(logic) && !"and".equals(logic)) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        String operator = e.getOperator();
+        if (operatorMap.containsKey(operator) == false) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        return logic + e.getField() + operatorMap.get(operator);
+    }
+
+    private static Class[] getArgsClass(Object[] objects) {
+//        System.out.println(objects[0].getClass());
+        Class[] classes = new Class[objects.length];
+        for (int i = 0; i < objects.length; i++) {
+            classes[i] = objects[i].getClass();
+        }
+        return classes;
+    }
 }

@@ -8,20 +8,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface CompanyService extends BaseService<CompanyDTO, Company, Integer> {
-//    //保存公司信息
-//    void saveCompany(Company company);
-//
-//    //删除公司
-//    void deleteCompanyById(Integer id);
-//
-//    //收费
-//    Company increaseCost(Integer id, BigDecimal cost);
-//
-//    //根据公司编号查找
-//    Company getCompanyById(Integer id);
-//
-//    //查看所有公司
-//    List<Company> listCompany();
-//
-//    PageDTO<Company> pageCompany(Pageable pageable);
+
+    // 收费
+    Integer increaseCost(Integer id, BigDecimal cost);
+
+    // 费用清零
+    Integer clearCost(Integer id);
+
+    Integer updateHr(Integer companyId, List<Integer> userList);
+
 }

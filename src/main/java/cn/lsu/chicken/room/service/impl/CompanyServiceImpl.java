@@ -9,11 +9,11 @@ import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.CompanyService;
-import cn.lsu.chicken.room.utils.EntityExampleUtil;
 import cn.lsu.chicken.room.utils.KeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -33,38 +33,65 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Integer updateEntity(Company entity) {
-        return null;
+        Integer id = entity.getId();
+        String name = entity.getName();
+        //假如当前标签修改了名称
+
+        if (judgeExistByIdAndName(id, name) == false) {
+            //校验名称是否合法
+            judgeExistByName(name);
+        }
+
+        return companyMapper.updateByPrimaryKey(entity);
     }
 
     @Override
     public Integer deleteEntity(Integer integer) {
-        return null;
+        return companyMapper.deleteByPrimaryKey(integer);
     }
 
     @Override
     public CompanyDTO getEntityById(Integer integer) {
-        return null;
+        return companyMapper.selectByPrimaryKey(integer);
     }
 
     @Override
     public List<CompanyDTO> listEntity() {
-        return null;
+        return companyMapper.selectByExample(new CompanyExample());
     }
 
     @Override
     public PageDTO<CompanyDTO> listEntityByPage(PageHelper pageHelper) {
-        return null;
+        CompanyExample companyExample = new CompanyExample(pageHelper.getPage(), pageHelper.getSize());
+        List<CompanyDTO> data = companyMapper.selectByExample(companyExample);
+        Integer total = companyMapper.countByExample(new CompanyExample());
+        PageDTO<CompanyDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
 
+
+    @Override
+    public Integer increaseCost(Integer id, BigDecimal cost) {
+        return companyMapper.increaseCostByPrimaryKey(id, cost);
+    }
+
+    @Override
+    public Integer clearCost(Integer id) {
+        return companyMapper.clearCostByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer updateHr(Integer companyId, List<Integer> userList) {
+        return companyMapper.updateCompanyHr(companyId, userList);
+    }
+
+
     private void judgeExistByName(String name) {
-//        CompanyExample companyExample = new CompanyExample();
-//        CompanyExample.Criteria criteria = companyExample.createCriteria();
-//        criteria.andNameEqualTo(name);
-//        List<CompanyDTO> result = companyMapper.selectByExample(companyExample);
-//        EntityExampleUtil.getEntityExample("CompanyExample");
-        List<Company> result = companyMapper.selectByExample((CompanyExample) EntityExampleUtil.getEntityExample("CompanyExample", name));
-        System.out.println(result);
-        if (result.size() != 0) {
+        CompanyExample companyExample = new CompanyExample();
+        CompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andNameEqualTo(name);
+        Integer result = companyMapper.countByExample(companyExample);
+        if (result != 0) {
             throw new GlobalException(ResultEnum.COMPANY_IS_EXIST);
         }
     }
@@ -73,8 +100,7 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyExample companyExample = new CompanyExample();
         CompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andCodeEqualTo(code);
-//        List<CompanyDTO> result = companyMapper.selectByExample(companyExample);
-        List<Company> result = companyMapper.selectByExample(companyExample);
+        List<CompanyDTO> result = companyMapper.selectByExample(companyExample);
         if (result.size() == 0) {
             return false;
         }
@@ -87,5 +113,17 @@ public class CompanyServiceImpl implements CompanyService {
             code = KeyUtil.companyCode();
         } while (judgeExistByCode(code));
         company.setCode(code);
+    }
+
+    private Boolean judgeExistByIdAndName(Integer id, String name) {
+        if (id == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        CompanyExample companyExample = new CompanyExample();
+        CompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andIdEqualTo(id);
+        criteria.andNameEqualTo(name);
+        Integer result = companyMapper.countByExample(companyExample);
+        return result > 0 ? true : false;
     }
 }

@@ -3,6 +3,7 @@ package cn.lsu.chicken.room.dto;
 import cn.lsu.chicken.room.domain.User;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class CompanyDTO {
 
     private String code;
 
-    private Long cost;
+    private BigDecimal cost;
 
     List<User> hr;
 }

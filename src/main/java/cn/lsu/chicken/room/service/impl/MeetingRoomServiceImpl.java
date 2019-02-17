@@ -73,8 +73,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
         MeetingRoomExample.Criteria criteria = meetingRoomExample.createCriteria();
         criteria.andBuildingIdEqualTo(buildingId);
         criteria.andNameEqualTo(name);
-        List<MeetingRoomDTO> result = meetingRoomMapper.selectByExample(meetingRoomExample);
-        if (result.size() != 0) {
+        Integer result = meetingRoomMapper.countByExample(meetingRoomExample);
+        if (result != 0) {
             throw new GlobalException(ResultEnum.MEETING_ROOM_IS_EXIST);
         }
     }
@@ -88,10 +88,12 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
         criteria.andIdEqualTo(id);
         criteria.andBuildingIdEqualTo(buildingId);
         criteria.andNameEqualTo(name);
-        List<MeetingRoomDTO> result = meetingRoomMapper.selectByExample(meetingRoomExample);
-        if (result.size() == 0) {
-            return false;
-        }
-        return true;
+        Integer result = meetingRoomMapper.countByExample(meetingRoomExample);
+        return result > 0 ? true : false;
+    }
+
+    @Override
+    public Integer updateTag(Integer meetingRoomId, List<Integer> tagList) {
+        return meetingRoomMapper.updateTagByMeetingRoomId(meetingRoomId, tagList);
     }
 }

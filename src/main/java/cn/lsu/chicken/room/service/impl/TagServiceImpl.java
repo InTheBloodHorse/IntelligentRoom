@@ -75,8 +75,8 @@ public class TagServiceImpl implements TagService {
         TagExample tagExample = new TagExample();
         TagExample.Criteria criteria = tagExample.createCriteria();
         criteria.andNameEqualTo(name);
-        List<Tag> result = tagMapper.selectByExample(tagExample);
-        if (result.size() != 0) {
+        Integer result = tagMapper.countByExample(tagExample);
+        if (result != 0) {
             throw new GlobalException(ResultEnum.TAG_IS_EXIST);
         }
     }
@@ -86,10 +86,7 @@ public class TagServiceImpl implements TagService {
         TagExample.Criteria criteria = tagExample.createCriteria();
         criteria.andIdEqualTo(id);
         criteria.andNameEqualTo(name);
-        List<Tag> result = tagMapper.selectByExample(tagExample);
-        if (result.size() == 0) {
-            return false;
-        }
-        return true;
+        Integer result = tagMapper.countByExample(tagExample);
+        return result > 0 ? true:false;
     }
 }
