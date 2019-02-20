@@ -1,6 +1,5 @@
 package cn.lsu.chicken.room.service.impl;
 
-import cn.lsu.chicken.room.convert.User2UserDTO;
 import cn.lsu.chicken.room.dao.UserMapper;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
@@ -27,57 +26,81 @@ public class UserServiceImpl implements UserService {
         String phone = entity.getPhone();
         entity.setPassword(DecryptMD5.MD5(entity.getPassword()));
         judgeExistByPhone(phone);
-        return userMapper.insertSelective(entity);
+        userMapper.insertSelective(entity);
+        return entity.getId();
     }
 
     @Override
     public Integer updateEntity(User entity) {
-        return null;
+        Integer id = entity.getId();
+        String phone = entity.getPhone();
+        if (judgeExistByIdAndPhone(id, phone) == false) {
+            judgeExistByPhone(phone);
+        }
+        if (entity.getPassword() != null) {
+            entity.setPassword(DecryptMD5.MD5(entity.getPassword()));
+        }
+        return userMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
     public Integer deleteEntity(Integer integer) {
-        return null;
+        return userMapper.deleteByPrimaryKey(integer);
     }
 
     @Override
     public UserDTO getEntityById(Integer integer) {
-        return null;
+        return userMapper.selectByPrimaryKey(integer);
     }
 
     @Override
     public List<UserDTO> listEntity() {
-        return null;
+        return userMapper.selectByExample(new UserExample());
     }
 
     @Override
     public PageDTO<UserDTO> listEntityByPage(PageHelper pageHelper) {
-        return null;
+        UserExample userExample = new UserExample(pageHelper.getPage(), pageHelper.getSize());
+        List<UserDTO> data = userMapper.selectByExample(userExample);
+        Integer total = userMapper.countByExample(new UserExample());
+        PageDTO<UserDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
+        return pageDTO;
     }
 
     @Override
     public UserDTO login(String phone, String password) {
-        List<UserDTO> userlist = userMapper.selectByExample(getExampleByPhone(phone));
-        if (userlist.size() == 0) {
+        List<UserDTO> userList = userMapper.selectByExample(getExampleByPhone(phone));
+        if (userList.size() == 0) {
             throw new GlobalException(ResultEnum.USER_NOT_EXITS_OR_PASSWORD_ERROR);
         }
-        UserDTO user = userlist.get(0);
+        UserDTO user = userList.get(0);
         Boolean result = DecryptMD5.judge(user.getPassword(), password);
         if (result == false) {
             throw new GlobalException(ResultEnum.USER_NOT_EXITS_OR_PASSWORD_ERROR);
         }
-//        System.out.println(user);
         return user;
     }
 
     @Override
     public UserDTO getUserByPhone(String phone) {
-        return null;
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andPhoneEqualTo(phone);
+        List<UserDTO> userList = userMapper.selectByExample(userExample);
+        UserDTO result = null;
+        if (userList.size() == 1) {
+            result = userList.get(0);
+        }
+        return result;
     }
 
     @Override
     public List<UserDTO> listUserByCompany(Integer companyId) {
-        return null;
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andCompanyIdEqualTo(companyId);
+        List<UserDTO> userList = userMapper.selectByExample(userExample);
+        return userList;
     }
 
     @Override
@@ -100,5 +123,14 @@ public class UserServiceImpl implements UserService {
         if (result > 0) {
             throw new GlobalException(ResultEnum.PHONE_EXIST);
         }
+    }
+
+    private Boolean judgeExistByIdAndPhone(Integer id, String phone) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andIdEqualTo(id);
+        criteria.andPhoneEqualTo(phone);
+        Integer result = userMapper.countByExample(userExample);
+        return result > 0 ? true : false;
     }
 }

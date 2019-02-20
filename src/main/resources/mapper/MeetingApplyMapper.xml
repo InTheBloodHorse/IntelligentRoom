@@ -1,144 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.lsu.chicken.room.dao.MeetingApplyMapper" >
-  <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.MeetingApply" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="worker_id" property="workerId" jdbcType="INTEGER" />
-    <result column="topic" property="topic" jdbcType="VARCHAR" />
-    <result column="room_id" property="roomId" jdbcType="INTEGER" />
-    <result column="attendance" property="attendance" jdbcType="INTEGER" />
-    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
-    <result column="apply_update_time" property="applyUpdateTime" jdbcType="TIMESTAMP" />
-    <result column="price" property="price" jdbcType="DECIMAL" />
-    <result column="flexible" property="flexible" jdbcType="TINYINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" extends="BaseResultMap" >
-    <result column="intro" property="intro" jdbcType="LONGVARCHAR" />
-    <result column="document_list" property="documentList" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+<mapper namespace="cn.lsu.chicken.room.dao.MeetingApplyMapper">
+    <resultMap id="BaseResultMap" type="cn.lsu.chicken.room.domain.MeetingApply">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="worker_id" property="workerId" jdbcType="INTEGER"/>
+        <result column="topic" property="topic" jdbcType="VARCHAR"/>
+        <result column="room_id" property="roomId" jdbcType="INTEGER"/>
+        <result column="attendance" property="attendance" jdbcType="INTEGER"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP"/>
+        <result column="apply_update_time" property="applyUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="flexible" property="flexible" jdbcType="TINYINT"/>
+        <result column="intro" property="intro" jdbcType="LONGVARCHAR"/>
+        <result column="document_list" property="documentList" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, worker_id, topic, room_id, attendance, begin_time, end_time, status, apply_time, 
-    apply_update_time, price, flexible
+    apply_update_time, price, flexible,intro, document_list
   </sql>
-  <sql id="Blob_Column_List" >
-    intro, document_list
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from meeting_apply
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from meeting_apply
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
         <if test="page != null and size!= null">
             limit #{offset},#{size}
         </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from meeting_apply
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-        <if test="page != null and size!= null">
-            limit #{offset},#{size}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from meeting_apply
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from meeting_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample">
+        delete from meeting_apply
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
         </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from meeting_apply
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from meeting_apply
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" >
-    delete from meeting_apply
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+    </delete>
+    <insert id="insert" parameterType="cn.lsu.chicken.room.domain.MeetingApply" useGeneratedKeys="true"
+            keyProperty="id">
     insert into meeting_apply (worker_id, topic, room_id, 
       attendance, begin_time, end_time, 
       status, apply_time, apply_update_time, 
@@ -150,248 +128,213 @@
       #{price,jdbcType=DECIMAL}, #{flexible,jdbcType=TINYINT}, #{intro,jdbcType=LONGVARCHAR}, 
       #{documentList,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
-    insert into meeting_apply
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="workerId != null" >
-        worker_id,
-      </if>
-      <if test="topic != null" >
-        topic,
-      </if>
-      <if test="roomId != null" >
-        room_id,
-      </if>
-      <if test="attendance != null" >
-        attendance,
-      </if>
-      <if test="beginTime != null" >
-        begin_time,
-      </if>
-      <if test="endTime != null" >
-        end_time,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="applyTime != null" >
-        apply_time,
-      </if>
-      <if test="applyUpdateTime != null" >
-        apply_update_time,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="flexible != null" >
-        flexible,
-      </if>
-      <if test="intro != null" >
-        intro,
-      </if>
-      <if test="documentList != null" >
-        document_list,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="workerId != null" >
-        #{workerId,jdbcType=INTEGER},
-      </if>
-      <if test="topic != null" >
-        #{topic,jdbcType=VARCHAR},
-      </if>
-      <if test="roomId != null" >
-        #{roomId,jdbcType=INTEGER},
-      </if>
-      <if test="attendance != null" >
-        #{attendance,jdbcType=INTEGER},
-      </if>
-      <if test="beginTime != null" >
-        #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="applyTime != null" >
-        #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="applyUpdateTime != null" >
-        #{applyUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="flexible != null" >
-        #{flexible,jdbcType=TINYINT},
-      </if>
-      <if test="intro != null" >
-        #{intro,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="documentList != null" >
-        #{documentList,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample" resultType="java.lang.Integer" >
-    select count(*) from meeting_apply
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update meeting_apply
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.workerId != null" >
+    <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.MeetingApply"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into meeting_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workerId != null">
+                worker_id,
+            </if>
+            <if test="topic != null">
+                topic,
+            </if>
+            <if test="roomId != null">
+                room_id,
+            </if>
+            <if test="attendance != null">
+                attendance,
+            </if>
+            <if test="beginTime != null">
+                begin_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="applyTime != null">
+                apply_time,
+            </if>
+            <if test="applyUpdateTime != null">
+                apply_update_time,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="flexible != null">
+                flexible,
+            </if>
+            <if test="intro != null">
+                intro,
+            </if>
+            <if test="documentList != null">
+                document_list,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workerId != null">
+                #{workerId,jdbcType=INTEGER},
+            </if>
+            <if test="topic != null">
+                #{topic,jdbcType=VARCHAR},
+            </if>
+            <if test="roomId != null">
+                #{roomId,jdbcType=INTEGER},
+            </if>
+            <if test="attendance != null">
+                #{attendance,jdbcType=INTEGER},
+            </if>
+            <if test="beginTime != null">
+                #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="applyTime != null">
+                #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyUpdateTime != null">
+                #{applyUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="flexible != null">
+                #{flexible,jdbcType=TINYINT},
+            </if>
+            <if test="intro != null">
+                #{intro,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="documentList != null">
+                #{documentList,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample"
+            resultType="java.lang.Integer">
+        select count(id) from meeting_apply
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update meeting_apply
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.workerId != null">
+                worker_id = #{record.workerId,jdbcType=INTEGER},
+            </if>
+            <if test="record.topic != null">
+                topic = #{record.topic,jdbcType=VARCHAR},
+            </if>
+            <if test="record.roomId != null">
+                room_id = #{record.roomId,jdbcType=INTEGER},
+            </if>
+            <if test="record.attendance != null">
+                attendance = #{record.attendance,jdbcType=INTEGER},
+            </if>
+            <if test="record.beginTime != null">
+                begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.endTime != null">
+                end_time = #{record.endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=TINYINT},
+            </if>
+            <if test="record.applyTime != null">
+                apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.applyUpdateTime != null">
+                apply_update_time = #{record.applyUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.price != null">
+                price = #{record.price,jdbcType=DECIMAL},
+            </if>
+            <if test="record.flexible != null">
+                flexible = #{record.flexible,jdbcType=TINYINT},
+            </if>
+            <if test="record.intro != null">
+                intro = #{record.intro,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.documentList != null">
+                document_list = #{record.documentList,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update meeting_apply
+        set id = #{record.id,jdbcType=INTEGER},
         worker_id = #{record.workerId,jdbcType=INTEGER},
-      </if>
-      <if test="record.topic != null" >
         topic = #{record.topic,jdbcType=VARCHAR},
-      </if>
-      <if test="record.roomId != null" >
         room_id = #{record.roomId,jdbcType=INTEGER},
-      </if>
-      <if test="record.attendance != null" >
         attendance = #{record.attendance,jdbcType=INTEGER},
-      </if>
-      <if test="record.beginTime != null" >
         begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null" >
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.status != null" >
         status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.applyTime != null" >
         apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.applyUpdateTime != null" >
         apply_update_time = #{record.applyUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.price != null" >
         price = #{record.price,jdbcType=DECIMAL},
-      </if>
-      <if test="record.flexible != null" >
-        flexible = #{record.flexible,jdbcType=TINYINT},
-      </if>
-      <if test="record.intro != null" >
-        intro = #{record.intro,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.documentList != null" >
-        document_list = #{record.documentList,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update meeting_apply
-    set id = #{record.id,jdbcType=INTEGER},
-      worker_id = #{record.workerId,jdbcType=INTEGER},
-      topic = #{record.topic,jdbcType=VARCHAR},
-      room_id = #{record.roomId,jdbcType=INTEGER},
-      attendance = #{record.attendance,jdbcType=INTEGER},
-      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=TINYINT},
-      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
-      apply_update_time = #{record.applyUpdateTime,jdbcType=TIMESTAMP},
-      price = #{record.price,jdbcType=DECIMAL},
-      flexible = #{record.flexible,jdbcType=TINYINT},
-      intro = #{record.intro,jdbcType=LONGVARCHAR},
-      document_list = #{record.documentList,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update meeting_apply
-    set id = #{record.id,jdbcType=INTEGER},
-      worker_id = #{record.workerId,jdbcType=INTEGER},
-      topic = #{record.topic,jdbcType=VARCHAR},
-      room_id = #{record.roomId,jdbcType=INTEGER},
-      attendance = #{record.attendance,jdbcType=INTEGER},
-      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=TINYINT},
-      apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
-      apply_update_time = #{record.applyUpdateTime,jdbcType=TIMESTAMP},
-      price = #{record.price,jdbcType=DECIMAL},
-      flexible = #{record.flexible,jdbcType=TINYINT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" >
-    update meeting_apply
-    <set >
-      <if test="workerId != null" >
-        worker_id = #{workerId,jdbcType=INTEGER},
-      </if>
-      <if test="topic != null" >
-        topic = #{topic,jdbcType=VARCHAR},
-      </if>
-      <if test="roomId != null" >
-        room_id = #{roomId,jdbcType=INTEGER},
-      </if>
-      <if test="attendance != null" >
-        attendance = #{attendance,jdbcType=INTEGER},
-      </if>
-      <if test="beginTime != null" >
-        begin_time = #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="applyTime != null" >
-        apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="applyUpdateTime != null" >
-        apply_update_time = #{applyUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="flexible != null" >
-        flexible = #{flexible,jdbcType=TINYINT},
-      </if>
-      <if test="intro != null" >
-        intro = #{intro,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="documentList != null" >
-        document_list = #{documentList,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.lsu.chicken.room.domain.MeetingApplyWithBLOBs" >
-    update meeting_apply
-    set worker_id = #{workerId,jdbcType=INTEGER},
-      topic = #{topic,jdbcType=VARCHAR},
-      room_id = #{roomId,jdbcType=INTEGER},
-      attendance = #{attendance,jdbcType=INTEGER},
-      begin_time = #{beginTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT},
-      apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      apply_update_time = #{applyUpdateTime,jdbcType=TIMESTAMP},
-      price = #{price,jdbcType=DECIMAL},
-      flexible = #{flexible,jdbcType=TINYINT},
-      intro = #{intro,jdbcType=LONGVARCHAR},
-      document_list = #{documentList,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.MeetingApply" >
+        flexible = #{record.flexible,jdbcType=TINYINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.lsu.chicken.room.domain.MeetingApply">
+        update meeting_apply
+        <set>
+            <if test="workerId != null">
+                worker_id = #{workerId,jdbcType=INTEGER},
+            </if>
+            <if test="topic != null">
+                topic = #{topic,jdbcType=VARCHAR},
+            </if>
+            <if test="roomId != null">
+                room_id = #{roomId,jdbcType=INTEGER},
+            </if>
+            <if test="attendance != null">
+                attendance = #{attendance,jdbcType=INTEGER},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="applyTime != null">
+                apply_time = #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyUpdateTime != null">
+                apply_update_time = #{applyUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="flexible != null">
+                flexible = #{flexible,jdbcType=TINYINT},
+            </if>
+            <if test="intro != null">
+                intro = #{intro,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="documentList != null">
+                document_list = #{documentList,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.MeetingApply">
     update meeting_apply
     set worker_id = #{workerId,jdbcType=INTEGER},
       topic = #{topic,jdbcType=VARCHAR},
@@ -406,4 +349,30 @@
       flexible = #{flexible,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <insert id="addAttenderWorker">
+        replace into attend_worker_re(apply_id,worker_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{applyId,jdbcType=INTEGER},#{item,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAttenderWorker">
+        delete from attend_worker_re where apply_id = #{applyId,jdbcType=INTEGER}
+        and worker_id in(
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item,jdbcType=INTEGER})
+        </foreach>
+        )
+    </delete>
+
+    <select id="selectByAttendUserId" resultMap="BaseResultMap">
+        select m.id as id,m.worker_id as worker_id,m.topic as topic,m.intro as intro,
+        m.document_list as document_list,m.room_id as room_id,m.attendance as attendance,
+        m.begin_time as begin_time ,m.end_time as end_time,m.status as status,
+        m.apply_time as apply_time,m.apply_update_time as apply_update_time,
+        m.price as price,m.flexible as flexible
+        from meeting_apply as m left join attend_worker_re as a on m.id = a.apply_id
+        where a.worker_id = #{userId,jdbcType=INTEGER}
+    </select>
 </mapper>

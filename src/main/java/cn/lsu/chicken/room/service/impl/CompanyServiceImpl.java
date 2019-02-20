@@ -85,6 +85,19 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.updateCompanyHr(companyId, userList);
     }
 
+    @Override
+    public Integer getCompanyIdByCode(String code) {
+        CompanyExample companyExample = new CompanyExample();
+        CompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andCodeEqualTo(code);
+        List<CompanyDTO> companyDTOS = companyMapper.selectByExample(companyExample);
+        Integer companyId = null;
+        if (companyDTOS.size() > 0) {
+            companyId = companyDTOS.get(0).getId();
+        }
+        return companyId;
+    }
+
 
     private void judgeExistByName(String name) {
         CompanyExample companyExample = new CompanyExample();

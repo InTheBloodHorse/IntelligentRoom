@@ -1,6 +1,7 @@
 package cn.lsu.chicken.room.utils;
 
 import cn.lsu.chicken.room.VO.ResultVO;
+import cn.lsu.chicken.room.enums.ResultEnum;
 
 public class ResultVOUtil {
 
@@ -11,7 +12,8 @@ public class ResultVOUtil {
         resultVO.setCode(0);
         return resultVO;
     }
-    public static ResultVO success(){
+
+    public static ResultVO success() {
         return ResultVOUtil.success(null);
     }
 
@@ -20,6 +22,10 @@ public class ResultVOUtil {
         resultVO.setMsg(msg);
         resultVO.setCode(code);
         return resultVO;
+    }
+
+    public static ResultVO error(ResultEnum resultEnum) {
+        return error(resultEnum.getCode(), resultEnum.getMsg());
     }
 
 }

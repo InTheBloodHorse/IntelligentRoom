@@ -1,14 +1,22 @@
 package cn.lsu.chicken.room.service;
 
-public interface MeetingApplyService {
-//    //预约
-//    MeetingApplyDTO addApply(MeetingApply meetingApply);
-//
-//    //修改信息
-//    MeetingApplyDTO updateApply(MeetingApply meetingApply);
-//
-//    //根据编号删除
-//    void deleteApply(String id);
-//
-//    List<MeetingApply> listMeetingApplyByUserId(Integer id);
+import cn.lsu.chicken.room.domain.MeetingApply;
+import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.helper.PageHelper;
+
+import java.util.List;
+
+public interface MeetingApplyService extends BaseService<MeetingApply, MeetingApply, Integer> {
+
+    Integer addAttenderWorker(Integer meetingApplyId, List<Integer> userId);
+
+    Integer deleteAttenderWorker(Integer meetingApplyId, List<Integer> userId);
+
+    // 参与会议
+    List<MeetingApply> listMeetingApplyByUserId(Integer id);
+
+    // 多条件
+    List<MeetingApply> listMeetingApplyByConditions(MeetingApply meetingApply);
+
+    PageDTO<MeetingApply> listMeetingApplyByConditionsByPage(PageHelper pageHelper, MeetingApply meetingApply);
 }

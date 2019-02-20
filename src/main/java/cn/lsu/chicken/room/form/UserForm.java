@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 public class UserForm {
     @NotBlank(message = "用户名不能为空")
-    @Size(min = 3, message = "用户名长度最小为3")
+    @Size(min = 2, message = "用户名长度最小为2")
     private String name;
 
     @NotBlank(message = "手机号不能为空")
@@ -28,5 +28,5 @@ public class UserForm {
 
     private Integer role = UserRoleEnum.ORDINARY_USER.getCode();
 
-    private Integer companyId;
+    private String companyCode;
 }

@@ -17,4 +17,6 @@ public interface CompanyService extends BaseService<CompanyDTO, Company, Integer
 
     Integer updateHr(Integer companyId, List<Integer> userList);
 
+    Integer getCompanyIdByCode(String code);
+
 }
