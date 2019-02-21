@@ -17,6 +17,8 @@ public enum ResultEnum {
     WRONG_DATE_STR(14, "日期错误"),
     MEETING_ROOM_IS_EXIST(15, "会议室已存在"),
     TAG_HAS_ADDED(16, "请勿重复添加标签"),
+    FILE_IS_EMPTY(17, "文件不能为空"),
+    FILE_UPLOAD_ERROR(18, "文件上传失败，请重试"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

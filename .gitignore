@@ -26,3 +26,5 @@
 /log
 /src/test
 /target
+/out
+/META-INF

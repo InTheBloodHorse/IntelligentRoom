@@ -4,22 +4,28 @@ package cn.lsu.chicken.room.controller;
 import cn.lsu.chicken.room.VO.ResultVO;
 import cn.lsu.chicken.room.convert.UserForm2User;
 import cn.lsu.chicken.room.domain.User;
+import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
 import cn.lsu.chicken.room.enums.LoginEnum;
+import cn.lsu.chicken.room.enums.OSSTypeEnum;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.LoginForm;
-import cn.lsu.chicken.room.form.UserForm;
+import cn.lsu.chicken.room.form.RegisterForm;
+import cn.lsu.chicken.room.form.UpdateForm;
+import cn.lsu.chicken.room.form.UserQueryForm;
 import cn.lsu.chicken.room.service.CompanyService;
 import cn.lsu.chicken.room.service.UserService;
+import cn.lsu.chicken.room.utils.HttpUtil;
 import cn.lsu.chicken.room.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
+
 
 @RestController
 @RequestMapping("/user")
@@ -32,14 +38,14 @@ public class UserController {
 
     // 统一注册
     @PostMapping("/register")
-    public ResultVO<Integer> register(@Valid UserForm userForm,
+    public ResultVO<Integer> register(@Valid @RequestBody RegisterForm registerForm,
                                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.error("注册帐号,参数不正确,userForm={}", userForm);
+            log.error("注册帐号,参数不正确,registerForm={}", registerForm);
             throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
-        User entity = UserForm2User.change(userForm);
-        String code = userForm.getCompanyCode();
+        User entity = UserForm2User.change(registerForm);
+        String code = registerForm.getCompanyCode();
         if (code != null) {
             Integer companyId = companyService.getCompanyIdByCode(code);
             entity.setCompanyId(companyId);
@@ -50,7 +56,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResultVO<UserDTO> login(@RequestParam("type") String type,
-                                   @Valid LoginForm loginForm,
+                                   @Valid @RequestBody LoginForm loginForm,
                                    BindingResult bindingResult) {
         // phone 手机登录
         UserDTO user = new UserDTO();
@@ -62,7 +68,6 @@ public class UserController {
 
             String phone = loginForm.getPhone();
             String password = loginForm.getPassword();
-            System.out.println(loginForm);
             if (phone == null || password == null) {
                 throw new GlobalException(ResultEnum.PARAMETER_ERROR);
             }
@@ -79,10 +84,47 @@ public class UserController {
         return ResultVOUtil.success(user);
     }
 
-    @GetMapping("/getUser")
+    @PostMapping("/getUser")
     public ResultVO<UserDTO> getUser(@RequestParam("phone") String phone) {
         UserDTO userDTO = userService.getUserByPhone(phone);
         return ResultVOUtil.success(userDTO);
+    }
+
+    @PostMapping("/uploadHeadImage")
+    public ResultVO<String> uploadHeadImage(@RequestParam("id") Integer id,
+                                            @RequestParam("file") MultipartFile file) {
+
+        Long time1 = System.currentTimeMillis();
+        String url = HttpUtil.uploadFile(file, OSSTypeEnum.HEAD.getCode());
+        System.out.println(System.currentTimeMillis() - time1);
+        User user = new User();
+        user.setId(id);
+        user.setAvatar(url);
+        userService.uploadBySelective(user);
+        return ResultVOUtil.success(url);
+    }
+
+    @PostMapping("/updateInfo")
+    public ResultVO<UserDTO> updateInfo(@Valid @RequestBody UpdateForm updateForm,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("修改信息,参数不正确,updateForm={}", updateForm);
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
+        }
+        User user = UserForm2User.change(updateForm);
+        userService.updateEntity(user);
+        return ResultVOUtil.success();
+    }
+
+    @PostMapping("/listUser")
+            public ResultVO<PageDTO<UserDTO>> listUser(@Valid @RequestBody UserQueryForm userQueryForm,
+                                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("修改信息,参数不正确,userQueryForm={}", userQueryForm);
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
+        }
+        userService.listUserByQueryForm(userQueryForm);
+        return ResultVOUtil.success();
     }
 
 }

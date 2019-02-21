@@ -1,7 +1,9 @@
 package cn.lsu.chicken.room.service;
 
 import cn.lsu.chicken.room.domain.User;
+import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
+import cn.lsu.chicken.room.form.UserQueryForm;
 
 import java.util.List;
 
@@ -22,4 +24,8 @@ public interface UserService extends BaseService<UserDTO, User, Integer> {
 
     // 查询会议订单的所有用户
     List<UserDTO> findByApplyId(String applyId);
+
+    Integer uploadBySelective(User user);
+
+    PageDTO<UserDTO> listUserByQueryForm(UserQueryForm userQueryForm);
 }

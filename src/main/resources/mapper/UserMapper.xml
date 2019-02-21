@@ -102,8 +102,11 @@
             <if test="_parameter != null">
                 <include refid="Example_Where_Clause"/>
             </if>
-            <if test="orderByClause != null">
-                order by ${orderByClause}
+            <if test="orderList != null">
+                order by
+                <foreach collection="orderList" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
             </if>
             <if test="page != null and size!= null">
                 limit #{offset},#{size}
@@ -112,8 +115,11 @@
         left join company as c on c.id = u.company_id
         left join hr_re as h on h.company_id = c.id
         left join user as uh on uh.id = h.user_id
-        <if test="orderByClause != null">
-            order by u.${orderByClause}
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                u.${item}
+        </foreach>
         </if>
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

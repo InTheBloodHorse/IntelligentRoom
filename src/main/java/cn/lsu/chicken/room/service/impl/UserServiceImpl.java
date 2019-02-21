@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.service.impl;
 
+import cn.lsu.chicken.room.constant.QueryFormConstant;
 import cn.lsu.chicken.room.dao.UserMapper;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
@@ -7,11 +8,14 @@ import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.UserQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.security.DecryptMD5;
 import cn.lsu.chicken.room.service.UserService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -34,11 +38,13 @@ public class UserServiceImpl implements UserService {
     public Integer updateEntity(User entity) {
         Integer id = entity.getId();
         String phone = entity.getPhone();
-        if (judgeExistByIdAndPhone(id, phone) == false) {
+        Boolean judgePhone = phone != null && judgeExistByIdAndPhone(id, phone) == false;
+        if (judgePhone) {
             judgeExistByPhone(phone);
         }
-        if (entity.getPassword() != null) {
-            entity.setPassword(DecryptMD5.MD5(entity.getPassword()));
+        String password = entity.getPassword();
+        if (password != null) {
+            entity.setPassword(DecryptMD5.MD5(password));
         }
         return userMapper.updateByPrimaryKeySelective(entity);
     }
@@ -105,6 +111,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> findByApplyId(String applyId) {
+        return null;
+    }
+
+    @Override
+    public Integer uploadBySelective(User user) {
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public PageDTO<UserDTO> listUserByQueryForm(UserQueryForm userQueryForm) {
+        Integer page = userQueryForm.getPage();
+        Integer size = userQueryForm.getSize();
+        UserExample userExample = (UserExample) QueryFormUtil.getExample(UserExample.class, page, size);
+        String order = userQueryForm.getOrder();
+        userExample.setOrderList(order);
+        UserExample.Criteria criteria = userExample.createCriteria();
+        QueryFormUtil.addFilter(criteria, userQueryForm, QueryFormConstant.USERQUERTFORMLIST);
+        System.out.println(userMapper.selectByExample(userExample));
         return null;
     }
 

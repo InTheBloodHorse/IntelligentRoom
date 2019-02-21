@@ -1,4 +1,7 @@
 spring:
+  http:
+    max-file-size: -1
+    max-request-size: -1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
@@ -18,3 +21,5 @@ mybatis:
   type-aliases-package: cn.lsu.chicken.room.domain
 
 entity_path: cn.lsu.chicken.room.domain
+server:
+  port: 8080
