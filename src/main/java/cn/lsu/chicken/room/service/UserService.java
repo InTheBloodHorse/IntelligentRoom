@@ -3,11 +3,11 @@ package cn.lsu.chicken.room.service;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
-import cn.lsu.chicken.room.form.UserQueryForm;
+import cn.lsu.chicken.room.form.user.UserQueryForm;
 
 import java.util.List;
 
-public interface UserService extends BaseService<UserDTO, User, Integer> {
+public interface UserService extends BaseService<UserDTO, User, Integer,UserQueryForm> {
 
     /*
     登录
@@ -27,5 +27,4 @@ public interface UserService extends BaseService<UserDTO, User, Integer> {
 
     Integer uploadBySelective(User user);
 
-    PageDTO<UserDTO> listUserByQueryForm(UserQueryForm userQueryForm);
 }

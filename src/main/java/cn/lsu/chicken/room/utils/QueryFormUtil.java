@@ -3,7 +3,6 @@ package cn.lsu.chicken.room.utils;
 import cn.lsu.chicken.room.enums.QueryFormEnum;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,17 +12,16 @@ import java.util.List;
 
 public class QueryFormUtil {
 
-    public static Object getExample(Class objectClass, Integer page, Integer size) {
+    public static Object getExample(Class objectClass, Integer page, Integer size, String order) {
         Constructor constructor = null;
+        if (page <= 0 || size <= 0) {
+            page = null;
+            size = null;
+        }
         Object o = null;
         try {
-            if (page <= 0 || size <= 0) {
-                constructor = objectClass.getConstructor();
-                o = constructor.newInstance();
-            } else {
-                constructor = objectClass.getConstructor(Integer.class, Integer.class);
-                o = constructor.newInstance(page, size);
-            }
+            constructor = objectClass.getConstructor(Integer.class, Integer.class, String.class);
+            o = constructor.newInstance(page, size, order);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -40,7 +38,8 @@ public class QueryFormUtil {
     public static void addFilter(Object criteria, Object queryForm, List<QueryFormEnum> queryFormEnumList) {
         Class criteriaClass = criteria.getClass();
         Field[] fields = queryForm.getClass().getDeclaredFields();
-        Integer filedLength = fields.length;
+        // 除去配置项 QueryFormEnum
+        Integer filedLength = fields.length - 1;
         Integer queryLength = queryFormEnumList.size();
         if (filedLength != queryLength) {
             throw new GlobalException(ResultEnum.PARAMETER_ERROR);

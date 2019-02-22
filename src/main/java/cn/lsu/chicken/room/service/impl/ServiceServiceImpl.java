@@ -39,17 +39,8 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public List<cn.lsu.chicken.room.domain.Service> listEntity() {
-        return serviceMapper.selectByExample(new ServiceExample());
-    }
-
-    @Override
-    public PageDTO<cn.lsu.chicken.room.domain.Service> listEntityByPage(PageHelper pageHelper) {
-        ServiceExample serviceExample = new ServiceExample(pageHelper.getPage(), pageHelper.getSize());
-        List<cn.lsu.chicken.room.domain.Service> data = serviceMapper.selectByExample(serviceExample);
-        Integer total = serviceMapper.countByExample(new ServiceExample());
-        PageDTO<cn.lsu.chicken.room.domain.Service> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
+    public PageDTO<cn.lsu.chicken.room.domain.Service> listEntityByQueryForm(Object entityQueryForm) {
+        return null;
     }
 
     @Override

@@ -41,18 +41,10 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
     }
 
     @Override
-    public List<MeetingApply> listEntity() {
-        return meetingApplyMapper.selectByExample(new MeetingApplyExample());
+    public PageDTO<MeetingApply> listEntityByQueryForm(Object entityQueryForm) {
+        return null;
     }
 
-    @Override
-    public PageDTO<MeetingApply> listEntityByPage(PageHelper pageHelper) {
-        MeetingApplyExample meetingApplyExample = new MeetingApplyExample(pageHelper.getPage(), pageHelper.getSize());
-        List<MeetingApply> data = meetingApplyMapper.selectByExample(meetingApplyExample);
-        Integer total = meetingApplyMapper.countByExample(new MeetingApplyExample());
-        PageDTO<MeetingApply> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
 
     @Override
     public Integer addAttenderWorker(Integer meetingApplyId, List<Integer> userId) {

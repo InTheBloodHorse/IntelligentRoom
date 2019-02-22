@@ -53,18 +53,23 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public List<Building> listEntity() {
-        return buildingMapper.selectByExample(new BuildingExample());
+    public PageDTO<Building> listEntityByQueryForm(Object entityQueryForm) {
+        return null;
     }
 
-    @Override
-    public PageDTO<Building> listEntityByPage(PageHelper pageHelper) {
-        BuildingExample buildingExample = new BuildingExample(pageHelper.getPage(), pageHelper.getSize());
-        List<Building> data = buildingMapper.selectByExample(buildingExample);
-        Integer total = buildingMapper.countByExample(new BuildingExample());
-        PageDTO<Building> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
+//    @Override
+//    public List<Building> listEntity() {
+//        return buildingMapper.selectByExample(new BuildingExample());
+//    }
+//
+//    @Override
+//    public PageDTO<Building> listEntityByPage(PageHelper pageHelper) {
+//        BuildingExample buildingExample = new BuildingExample(pageHelper.getPage(), pageHelper.getSize());
+//        List<Building> data = buildingMapper.selectByExample(buildingExample);
+//        Integer total = buildingMapper.countByExample(new BuildingExample());
+//        PageDTO<Building> pageDTO = new PageDTO<>(pageHelper, total, data);
+//        return pageDTO;
+//    }
 
     private void judgeExistByLocation(String name) {
         BuildingExample buildingExample = new BuildingExample();

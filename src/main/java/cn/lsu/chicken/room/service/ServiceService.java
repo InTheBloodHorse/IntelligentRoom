@@ -6,7 +6,7 @@ import cn.lsu.chicken.room.helper.PageHelper;
 
 import java.util.List;
 
-public interface ServiceService extends BaseService<Service, Service, Integer> {
+public interface ServiceService extends BaseService<Service, Service, Integer,Object> {
 
     Integer serviceDone(Integer serviceId);
 

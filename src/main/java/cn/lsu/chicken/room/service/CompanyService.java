@@ -7,7 +7,7 @@ import cn.lsu.chicken.room.dto.PageDTO;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface CompanyService extends BaseService<CompanyDTO, Company, Integer> {
+public interface CompanyService extends BaseService<CompanyDTO, Company, Integer,Object> {
 
     // 收费
     Integer increaseCost(Integer id, BigDecimal cost);

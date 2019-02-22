@@ -125,11 +125,13 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from user as u
+        from (
+          select * from user
+          where id = #{id,jdbcType=INTEGER}
+        ) as u
         left join company as c on c.id = u.company_id
         left join hr_re as h on h.company_id = c.id
         left join user as uh on uh.id = h.user_id
-        where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user

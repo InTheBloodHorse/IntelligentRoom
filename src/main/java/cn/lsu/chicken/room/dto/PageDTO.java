@@ -15,6 +15,7 @@ public class PageDTO<T> {
     private Integer size;
     private Integer total;
     private Integer totalPage;
+    private String order;
     List<T> data;
 
     public PageDTO() {
@@ -24,7 +25,16 @@ public class PageDTO<T> {
         this.page = pageHelper.getPage();
         this.size = pageHelper.getSize();
         this.total = total;
-        this.totalPage = (int) Math.ceil(((double)getTotal() / (double)getSize()));
+        if (page != null && size != null) {
+            this.totalPage = (int) Math.ceil(((double) getTotal() / (double) getSize()));
+        }
+
         this.data = data;
+
+        List<String> orderList = pageHelper.getOrderList();
+        if (orderList != null && orderList.size() > 0) {
+            this.order = String.join(",", pageHelper.getOrderList());
+        }
     }
+
 }

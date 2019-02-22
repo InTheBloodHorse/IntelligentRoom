@@ -1,6 +1,9 @@
 package cn.lsu.chicken.room.domain;
 
+import cn.lsu.chicken.room.enums.ResultEnum;
+import cn.lsu.chicken.room.exception.GlobalException;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 @Data
 public class Tag {
@@ -22,5 +25,8 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+        if (StringUtils.isEmpty(this.name)) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
     }
 }

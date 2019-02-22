@@ -1,6 +1,5 @@
 package cn.lsu.chicken.room.service.impl;
 
-import cn.lsu.chicken.room.constant.QueryFormConstant;
 import cn.lsu.chicken.room.dao.UserMapper;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
@@ -8,14 +7,13 @@ import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
-import cn.lsu.chicken.room.form.UserQueryForm;
+import cn.lsu.chicken.room.form.user.UserQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.security.DecryptMD5;
 import cn.lsu.chicken.room.service.UserService;
 import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -60,18 +58,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> listEntity() {
-        return userMapper.selectByExample(new UserExample());
+    public PageDTO<UserDTO> listEntityByQueryForm(UserQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        UserExample userExample = (UserExample) QueryFormUtil.getExample(UserExample.class, page, size, order);
+        UserExample.Criteria criteria = userExample.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, UserQueryForm.QUERTFORMLIST);
+        List<UserDTO> data = userMapper.selectByExample(userExample);
+        Integer total = userMapper.countByExample(userExample);
+        PageHelper pageHelper = userExample;
+        PageDTO<UserDTO> userDTOPageDTO = new PageDTO<>(pageHelper, total, data);
+        return userDTOPageDTO;
     }
 
-    @Override
-    public PageDTO<UserDTO> listEntityByPage(PageHelper pageHelper) {
-        UserExample userExample = new UserExample(pageHelper.getPage(), pageHelper.getSize());
-        List<UserDTO> data = userMapper.selectByExample(userExample);
-        Integer total = userMapper.countByExample(new UserExample());
-        PageDTO<UserDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
 
     @Override
     public UserDTO login(String phone, String password) {
@@ -119,18 +119,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
-    @Override
-    public PageDTO<UserDTO> listUserByQueryForm(UserQueryForm userQueryForm) {
-        Integer page = userQueryForm.getPage();
-        Integer size = userQueryForm.getSize();
-        UserExample userExample = (UserExample) QueryFormUtil.getExample(UserExample.class, page, size);
-        String order = userQueryForm.getOrder();
-        userExample.setOrderList(order);
-        UserExample.Criteria criteria = userExample.createCriteria();
-        QueryFormUtil.addFilter(criteria, userQueryForm, QueryFormConstant.USERQUERTFORMLIST);
-        System.out.println(userMapper.selectByExample(userExample));
-        return null;
-    }
 
     private UserExample getExampleByPhone(String phone) {
         UserExample userExample = new UserExample();

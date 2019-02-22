@@ -16,8 +16,8 @@ public class TagExample extends PageHelper {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public TagExample(Integer page, Integer size) {
-        super(page, size);
+    public TagExample(Integer page, Integer size, String order) {
+        super(page, size,order);
         oredCriteria = new ArrayList<Criteria>();
     }
 

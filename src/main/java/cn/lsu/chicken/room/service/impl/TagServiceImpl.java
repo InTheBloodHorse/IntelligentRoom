@@ -6,8 +6,10 @@ import cn.lsu.chicken.room.domain.TagExample;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.tag.TagQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.TagService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,17 +59,18 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> listEntity() {
-        return tagMapper.selectByExample(new TagExample());
-    }
-
-    @Override
-    public PageDTO<Tag> listEntityByPage(PageHelper pageHelper) {
-        TagExample tagExample = new TagExample(pageHelper.getPage(), pageHelper.getSize());
+    public PageDTO<Tag> listEntityByQueryForm(TagQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        TagExample tagExample = (TagExample) QueryFormUtil.getExample(TagExample.class, page, size, order);
+        TagExample.Criteria criteria = tagExample.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, TagQueryForm.QUERTFORMLIST);
         List<Tag> data = tagMapper.selectByExample(tagExample);
-        Integer total = tagMapper.countByExample(new TagExample());
-        PageDTO<Tag> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
+        Integer total = tagMapper.countByExample(tagExample);
+        PageHelper pageHelper = tagExample;
+        PageDTO<Tag> tagPageDTO = new PageDTO<>(pageHelper, total, data);
+        return tagPageDTO;
     }
 
 
@@ -87,6 +90,6 @@ public class TagServiceImpl implements TagService {
         criteria.andIdEqualTo(id);
         criteria.andNameEqualTo(name);
         Integer result = tagMapper.countByExample(tagExample);
-        return result > 0 ? true:false;
+        return result > 0 ? true : false;
     }
 }

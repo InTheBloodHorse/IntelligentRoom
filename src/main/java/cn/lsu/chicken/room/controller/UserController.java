@@ -3,6 +3,7 @@ package cn.lsu.chicken.room.controller;
 
 import cn.lsu.chicken.room.VO.ResultVO;
 import cn.lsu.chicken.room.convert.UserForm2User;
+import cn.lsu.chicken.room.domain.Tag;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
@@ -13,17 +14,20 @@ import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.LoginForm;
 import cn.lsu.chicken.room.form.RegisterForm;
 import cn.lsu.chicken.room.form.UpdateForm;
-import cn.lsu.chicken.room.form.UserQueryForm;
+import cn.lsu.chicken.room.form.user.UserQueryForm;
 import cn.lsu.chicken.room.service.CompanyService;
 import cn.lsu.chicken.room.service.UserService;
+import cn.lsu.chicken.room.utils.HttpRequestUtil;
 import cn.lsu.chicken.room.utils.HttpUtil;
 import cn.lsu.chicken.room.utils.ResultVOUtil;
+import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 
@@ -55,11 +59,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResultVO<UserDTO> login(@RequestParam("type") String type,
-                                   @Valid @RequestBody LoginForm loginForm,
+    public ResultVO<UserDTO> login(@Valid @RequestBody LoginForm loginForm,
                                    BindingResult bindingResult) {
         // phone 手机登录
         UserDTO user = new UserDTO();
+        String type = loginForm.getType();
         if (LoginEnum.PHONE.getType().equals(type)) {
             if (bindingResult.hasErrors()) {
                 log.error("手机登录,参数不正确,loginForm={}", loginForm);
@@ -82,12 +86,6 @@ public class UserController {
             return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
         }
         return ResultVOUtil.success(user);
-    }
-
-    @PostMapping("/getUser")
-    public ResultVO<UserDTO> getUser(@RequestParam("phone") String phone) {
-        UserDTO userDTO = userService.getUserByPhone(phone);
-        return ResultVOUtil.success(userDTO);
     }
 
     @PostMapping("/uploadHeadImage")
@@ -116,15 +114,37 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
+    @PostMapping("/getUser")
+    public ResultVO<UserDTO> getUser(HttpServletRequest httpServletRequest) {
+        JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
+        Integer id = params.get("id").getAsInt();
+        if (id == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        UserDTO userDTO = userService.getEntityById(id);
+        return ResultVOUtil.success(userDTO);
+    }
+
+    @PostMapping("/getUserByPhone")
+    public ResultVO<UserDTO> getUserByPhone(HttpServletRequest httpServletRequest) {
+        JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
+        String phone = params.get("phone").getAsString();
+        if (phone == null) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        UserDTO userDTO = userService.getUserByPhone(phone);
+        return ResultVOUtil.success(userDTO);
+    }
+
     @PostMapping("/listUser")
-            public ResultVO<PageDTO<UserDTO>> listUser(@Valid @RequestBody UserQueryForm userQueryForm,
+    public ResultVO<PageDTO<UserDTO>> listUser(@Valid @RequestBody UserQueryForm userQueryForm,
                                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("修改信息,参数不正确,userQueryForm={}", userQueryForm);
             throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
-        userService.listUserByQueryForm(userQueryForm);
-        return ResultVOUtil.success();
+        PageDTO<UserDTO> data = userService.listEntityByQueryForm(userQueryForm);
+        return ResultVOUtil.success(data);
     }
 
 }

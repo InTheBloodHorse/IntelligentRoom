@@ -56,18 +56,23 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<CompanyDTO> listEntity() {
-        return companyMapper.selectByExample(new CompanyExample());
+    public PageDTO<CompanyDTO> listEntityByQueryForm(Object entityQueryForm) {
+        return null;
     }
 
-    @Override
-    public PageDTO<CompanyDTO> listEntityByPage(PageHelper pageHelper) {
-        CompanyExample companyExample = new CompanyExample(pageHelper.getPage(), pageHelper.getSize());
-        List<CompanyDTO> data = companyMapper.selectByExample(companyExample);
-        Integer total = companyMapper.countByExample(new CompanyExample());
-        PageDTO<CompanyDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
+//    @Override
+//    public List<CompanyDTO> listEntity() {
+//        return companyMapper.selectByExample(new CompanyExample());
+//    }
+//
+//    @Override
+//    public PageDTO<CompanyDTO> listEntityByPage(PageHelper pageHelper) {
+//        CompanyExample companyExample = new CompanyExample(pageHelper.getPage(), pageHelper.getSize());
+//        List<CompanyDTO> data = companyMapper.selectByExample(companyExample);
+//        Integer total = companyMapper.countByExample(new CompanyExample());
+//        PageDTO<CompanyDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
+//        return pageDTO;
+//    }
 
 
     @Override

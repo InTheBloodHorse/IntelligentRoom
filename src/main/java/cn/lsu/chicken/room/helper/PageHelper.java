@@ -19,24 +19,40 @@ public class PageHelper {
     public PageHelper() {
     }
 
+    // todo 开发完删掉
     public PageHelper(Integer page, Integer size) {
         this.page = page;
         this.size = size;
-        Boolean condition = this.page < 0 || this.size <= 0;
+        Boolean condition = this.page <= 0 || this.size <= 0;
         if (condition) {
             throw new GlobalException(ResultEnum.PARAMETER_ERROR);
         }
         this.offset = (this.page - 1) * this.size;
     }
 
-    public void setOrderList(String orderList) {
-        if (StringUtils.isEmpty(orderList)) {
+    public PageHelper(Integer page, Integer size, String order) {
+        this.page = page;
+        this.size = size;
+        Boolean condition = (page != null && size != null) && (this.page <= 0 || this.size <= 0);
+        if (condition) {
+            this.page = null;
+            this.size = null;
+        }
+        if (page != null && size != null) {
+            this.offset = (this.page - 1) * this.size;
+        }
+        setOrderList(order);
+    }
+
+    protected void setOrderList(String order) {
+        if (StringUtils.isEmpty(order)) {
             this.orderList = null;
         } else {
-            this.orderList = Arrays.asList(orderList.split(","));
+            this.orderList = Arrays.asList(order.split(","));
             preventSqlInjection();
         }
     }
+
 
     private void preventSqlInjection() {
         List<String> list = orderList;
@@ -47,7 +63,7 @@ public class PageHelper {
             }
             String prefix = strings[0];
             String subfix = strings[1];
-            if (!subfix.toUpperCase().equals("ASC") || !subfix.toUpperCase().equals("DESC")) {
+            if (!subfix.toUpperCase().equals("ASC") && !subfix.toUpperCase().equals("DESC")) {
                 throw new GlobalException(ResultEnum.PARAMETER_ERROR);
             }
             for (char c : prefix.toCharArray()) {

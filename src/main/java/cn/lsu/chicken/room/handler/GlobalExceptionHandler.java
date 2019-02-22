@@ -16,15 +16,24 @@ public class GlobalExceptionHandler {
     @Autowired
     private Environment environment;
 
+
+    // 加上 @ResponseStatus(HttpStatus.BAD_REQUEST) 就返回400码
     @ResponseBody
     @ExceptionHandler(value = GlobalException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultVO handlerSellerException(GlobalException e) {
         return ResultVOUtil.error(e.getCode(), e.getMessage());
     }
 
+    // Gson转化 NumberFormatException
+    @ResponseBody
+    @ExceptionHandler(value = NumberFormatException.class)
+    public ResultVO handlerNumberFormatException() {
+        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
+    }
+
+    @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public ResultVO exceptionHandler(HttpServletRequest request, Exception exception) {
+    public ResultVO exceptionHandler(Exception exception) {
         if (environment.getProperty("show_error") == "true") {
             exception.printStackTrace();
         }

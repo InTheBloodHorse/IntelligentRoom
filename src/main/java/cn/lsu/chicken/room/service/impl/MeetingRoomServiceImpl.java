@@ -55,17 +55,8 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public List<MeetingRoomDTO> listEntity() {
-        return meetingRoomMapper.selectByExample(new MeetingRoomExample());
-    }
-
-    @Override
-    public PageDTO<MeetingRoomDTO> listEntityByPage(PageHelper pageHelper) {
-        MeetingRoomExample meetingRoomExample = new MeetingRoomExample(pageHelper.getPage(), pageHelper.getSize());
-        List<MeetingRoomDTO> data = meetingRoomMapper.selectByExample(meetingRoomExample);
-        Integer total = meetingRoomMapper.countByExample(new MeetingRoomExample());
-        PageDTO<MeetingRoomDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
+    public PageDTO<MeetingRoomDTO> listEntityByQueryForm(Object entityQueryForm) {
+        return null;
     }
 
     private void judgeExistByBuildingIdAndName(Integer buildingId, String name) {

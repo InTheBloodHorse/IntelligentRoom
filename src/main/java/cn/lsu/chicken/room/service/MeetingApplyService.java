@@ -6,7 +6,7 @@ import cn.lsu.chicken.room.helper.PageHelper;
 
 import java.util.List;
 
-public interface MeetingApplyService extends BaseService<MeetingApply, MeetingApply, Integer> {
+public interface MeetingApplyService extends BaseService<MeetingApply, MeetingApply, Integer,Object> {
 
     Integer addAttenderWorker(Integer meetingApplyId, List<Integer> userId);
 
