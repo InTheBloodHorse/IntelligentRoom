@@ -1,9 +1,14 @@
 package cn.lsu.chicken.room.utils;
 
+import cn.lsu.chicken.room.enums.ResultEnum;
+import cn.lsu.chicken.room.exception.GlobalException;
+import org.springframework.stereotype.Component;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Component
 public class DateUtil {
     public static final String MINDATE = "1900-1-1 00:00";
     public static final String MAXDATE = "2100-1-1 00:00";
@@ -41,8 +46,8 @@ public class DateUtil {
         Date date = null;
         try {
             date = simpleDateFormat.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new GlobalException(ResultEnum.DATE_IS_WRONG);
         }
         return date;
     }

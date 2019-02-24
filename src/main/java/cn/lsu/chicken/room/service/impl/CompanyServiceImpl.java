@@ -7,9 +7,11 @@ import cn.lsu.chicken.room.dto.CompanyDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.company.CompanyQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.CompanyService;
 import cn.lsu.chicken.room.utils.KeyUtil;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
             judgeExistByName(name);
         }
 
-        return companyMapper.updateByPrimaryKey(entity);
+        return companyMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
@@ -56,23 +58,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public PageDTO<CompanyDTO> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<CompanyDTO> listEntityByQueryForm(CompanyQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        CompanyExample example = (CompanyExample) QueryFormUtil.getExample(CompanyExample.class, page, size, order);
+        CompanyExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, CompanyQueryForm.QUERTFORMLIST);
+        List<CompanyDTO> data = companyMapper.selectByExample(example);
+        Integer total = companyMapper.countByExample(example);
+        PageHelper pageHelper = example;
+        PageDTO<CompanyDTO> tagPageDTO = new PageDTO<>(pageHelper, total, data);
+        return tagPageDTO;
     }
-
-//    @Override
-//    public List<CompanyDTO> listEntity() {
-//        return companyMapper.selectByExample(new CompanyExample());
-//    }
-//
-//    @Override
-//    public PageDTO<CompanyDTO> listEntityByPage(PageHelper pageHelper) {
-//        CompanyExample companyExample = new CompanyExample(pageHelper.getPage(), pageHelper.getSize());
-//        List<CompanyDTO> data = companyMapper.selectByExample(companyExample);
-//        Integer total = companyMapper.countByExample(new CompanyExample());
-//        PageDTO<CompanyDTO> pageDTO = new PageDTO<>(pageHelper, total, data);
-//        return pageDTO;
-//    }
 
 
     @Override

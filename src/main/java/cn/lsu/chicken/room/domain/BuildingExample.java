@@ -16,8 +16,8 @@ public class BuildingExample extends PageHelper {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public BuildingExample(Integer page, Integer size) {
-        super(page, size);
+    public BuildingExample(Integer page, Integer size,String order) {
+        super(page, size,order);
         oredCriteria = new ArrayList<Criteria>();
     }
 

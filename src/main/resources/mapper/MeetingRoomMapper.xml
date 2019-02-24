@@ -101,8 +101,11 @@
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                ${item}
+            </foreach>
         </if>
         <if test="page != null and size!= null">
             limit #{offset},#{size}
@@ -115,8 +118,11 @@
         on t.meeting_room_id = r.id
         left join tag as g
         on g.id = t.tag_id
-        <if test="orderByClause != null">
-            order by r.${orderByClause}
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                r.${item}
+            </foreach>
         </if>
     </select>
     <select id="selectByExample" resultMap="ResultMapWithBLOBs"
@@ -132,8 +138,11 @@
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                ${item}
+            </foreach>
         </if>
         <if test="page != null and size!= null">
             limit #{offset},#{size}
@@ -146,8 +155,11 @@
         on t.meeting_room_id = r.id
         left join tag as g
         on g.id = t.tag_id
-        <if test="orderByClause != null">
-            order by r.${orderByClause}
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                r.${item}
+            </foreach>
         </if>
     </select>
     <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">

@@ -7,8 +7,10 @@ import cn.lsu.chicken.room.dto.MeetingRoomDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.meetingroom.MeetingRoomQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.MeetingRoomService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
             judgeExistByBuildingIdAndName(buildingId, name);
         }
 
-        return meetingRoomMapper.updateByPrimaryKey(entity);
+        return meetingRoomMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
@@ -55,8 +57,18 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
-    public PageDTO<MeetingRoomDTO> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<MeetingRoomDTO> listEntityByQueryForm(MeetingRoomQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        MeetingRoomExample example = (MeetingRoomExample) QueryFormUtil.getExample(MeetingRoomExample.class, page, size, order);
+        MeetingRoomExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, MeetingRoomQueryForm.QUERTFORMLIST);
+        List<MeetingRoomDTO> data = meetingRoomMapper.selectByExample(example);
+        Integer total = meetingRoomMapper.countByExample(example);
+        PageHelper pageHelper = example;
+        PageDTO<MeetingRoomDTO> tagPageDTO = new PageDTO<>(pageHelper, total, data);
+        return tagPageDTO;
     }
 
     private void judgeExistByBuildingIdAndName(Integer buildingId, String name) {

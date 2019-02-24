@@ -1,4 +1,4 @@
-package cn.lsu.chicken.room.myAnnotations;
+package cn.lsu.chicken.room.myannotations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

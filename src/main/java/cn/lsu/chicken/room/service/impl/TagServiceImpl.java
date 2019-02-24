@@ -45,7 +45,7 @@ public class TagServiceImpl implements TagService {
             judgeExistByName(name);
         }
 
-        return tagMapper.updateByPrimaryKey(tag);
+        return tagMapper.updateByPrimaryKeySelective(tag);
     }
 
     @Override

@@ -51,8 +51,8 @@ class MybatisGen:
             class_name = path.split("/")[-1].split('.')[0]
             init_index = content.find(class_name)
             add_index = content.find("}", init_index) + 1
-            total = '\n\n    public ' + class_name + '(Integer page, Integer size) {\n' \
-                                                     '        super(page, size);\n' \
+            total = '\n\n    public ' + class_name + '(Integer page, Integer size, String order) {\n' \
+                                                     '        super(page, size,String order);\n' \
                                                      '        oredCriteria = new ArrayList<Criteria>();\n' \
                                                      '    }'
             content = content[:add_index] + total + content[add_index:]

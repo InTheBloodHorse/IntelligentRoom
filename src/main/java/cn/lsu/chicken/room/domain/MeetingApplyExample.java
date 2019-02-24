@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +18,8 @@ public class MeetingApplyExample extends PageHelper {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public MeetingApplyExample(Integer page, Integer size) {
-        super(page, size);
+    public MeetingApplyExample(Integer page, Integer size, String order) {
+        super(page, size, order);
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -732,52 +733,52 @@ public class MeetingApplyExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andPriceEqualTo(Long value) {
+        public Criteria andPriceEqualTo(BigDecimal value) {
             addCriterion("price =", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotEqualTo(Long value) {
+        public Criteria andPriceNotEqualTo(BigDecimal value) {
             addCriterion("price <>", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThan(Long value) {
+        public Criteria andPriceGreaterThan(BigDecimal value) {
             addCriterion("price >", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThanOrEqualTo(Long value) {
+        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("price >=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThan(Long value) {
+        public Criteria andPriceLessThan(BigDecimal value) {
             addCriterion("price <", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThanOrEqualTo(Long value) {
+        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("price <=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceIn(List<Long> values) {
+        public Criteria andPriceIn(List<BigDecimal> values) {
             addCriterion("price in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotIn(List<Long> values) {
+        public Criteria andPriceNotIn(List<BigDecimal> values) {
             addCriterion("price not in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceBetween(Long value1, Long value2) {
+        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price between", value1, value2, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotBetween(Long value1, Long value2) {
+        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
@@ -792,52 +793,52 @@ public class MeetingApplyExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleEqualTo(Byte value) {
+        public Criteria andFlexibleEqualTo(Integer value) {
             addCriterion("flexible =", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleNotEqualTo(Byte value) {
+        public Criteria andFlexibleNotEqualTo(Integer value) {
             addCriterion("flexible <>", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleGreaterThan(Byte value) {
+        public Criteria andFlexibleGreaterThan(Integer value) {
             addCriterion("flexible >", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleGreaterThanOrEqualTo(Byte value) {
+        public Criteria andFlexibleGreaterThanOrEqualTo(Integer value) {
             addCriterion("flexible >=", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleLessThan(Byte value) {
+        public Criteria andFlexibleLessThan(Integer value) {
             addCriterion("flexible <", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleLessThanOrEqualTo(Byte value) {
+        public Criteria andFlexibleLessThanOrEqualTo(Integer value) {
             addCriterion("flexible <=", value, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleIn(List<Byte> values) {
+        public Criteria andFlexibleIn(List<Integer> values) {
             addCriterion("flexible in", values, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleNotIn(List<Byte> values) {
+        public Criteria andFlexibleNotIn(List<Integer> values) {
             addCriterion("flexible not in", values, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleBetween(Byte value1, Byte value2) {
+        public Criteria andFlexibleBetween(Integer value1, Integer value2) {
             addCriterion("flexible between", value1, value2, "flexible");
             return (Criteria) this;
         }
 
-        public Criteria andFlexibleNotBetween(Byte value1, Byte value2) {
+        public Criteria andFlexibleNotBetween(Integer value1, Integer value2) {
             addCriterion("flexible not between", value1, value2, "flexible");
             return (Criteria) this;
         }

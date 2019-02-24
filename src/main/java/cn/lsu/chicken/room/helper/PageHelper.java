@@ -67,7 +67,8 @@ public class PageHelper {
                 throw new GlobalException(ResultEnum.PARAMETER_ERROR);
             }
             for (char c : prefix.toCharArray()) {
-                Boolean judge = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+                Boolean judge = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+                        || (c == '_') || (c >= '0' && c <= '9');
                 if (judge == false) {
                     throw new GlobalException(ResultEnum.PARAMETER_ERROR);
                 }

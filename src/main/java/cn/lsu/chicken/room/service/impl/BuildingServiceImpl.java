@@ -6,8 +6,10 @@ import cn.lsu.chicken.room.domain.BuildingExample;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.building.BuildingQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.BuildingService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class BuildingServiceImpl implements BuildingService {
             //校验名称是否合法
             judgeExistByLocation(location);
         }
-        return buildingMapper.updateByPrimaryKey(entity);
+        return buildingMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
@@ -53,23 +55,20 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public PageDTO<Building> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<Building> listEntityByQueryForm(BuildingQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        BuildingExample buildingExample = (BuildingExample) QueryFormUtil.getExample(BuildingExample.class, page, size, order);
+        BuildingExample.Criteria criteria = buildingExample.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, BuildingQueryForm.QUERTFORMLIST);
+        List<Building> data = buildingMapper.selectByExample(buildingExample);
+        Integer total = buildingMapper.countByExample(buildingExample);
+        PageHelper pageHelper = buildingExample;
+        PageDTO<Building> tagPageDTO = new PageDTO<>(pageHelper, total, data);
+        return tagPageDTO;
     }
 
-//    @Override
-//    public List<Building> listEntity() {
-//        return buildingMapper.selectByExample(new BuildingExample());
-//    }
-//
-//    @Override
-//    public PageDTO<Building> listEntityByPage(PageHelper pageHelper) {
-//        BuildingExample buildingExample = new BuildingExample(pageHelper.getPage(), pageHelper.getSize());
-//        List<Building> data = buildingMapper.selectByExample(buildingExample);
-//        Integer total = buildingMapper.countByExample(new BuildingExample());
-//        PageDTO<Building> pageDTO = new PageDTO<>(pageHelper, total, data);
-//        return pageDTO;
-//    }
 
     private void judgeExistByLocation(String name) {
         BuildingExample buildingExample = new BuildingExample();

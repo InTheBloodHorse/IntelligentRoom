@@ -102,8 +102,8 @@ public class UserController {
         return ResultVOUtil.success(url);
     }
 
-    @PostMapping("/updateInfo")
-    public ResultVO<UserDTO> updateInfo(@Valid @RequestBody UpdateForm updateForm,
+    @PostMapping("/update")
+    public ResultVO<UserDTO> update(@Valid @RequestBody UpdateForm updateForm,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("修改信息,参数不正确,updateForm={}", updateForm);
@@ -114,8 +114,8 @@ public class UserController {
         return ResultVOUtil.success();
     }
 
-    @PostMapping("/getUser")
-    public ResultVO<UserDTO> getUser(HttpServletRequest httpServletRequest) {
+    @PostMapping("/get")
+    public ResultVO<UserDTO> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
         Integer id = params.get("id").getAsInt();
         if (id == null) {
@@ -125,8 +125,8 @@ public class UserController {
         return ResultVOUtil.success(userDTO);
     }
 
-    @PostMapping("/getUserByPhone")
-    public ResultVO<UserDTO> getUserByPhone(HttpServletRequest httpServletRequest) {
+    @PostMapping("/getEntityByPhone")
+    public ResultVO<UserDTO> getEntityByPhone(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
         String phone = params.get("phone").getAsString();
         if (phone == null) {
@@ -136,8 +136,8 @@ public class UserController {
         return ResultVOUtil.success(userDTO);
     }
 
-    @PostMapping("/listUser")
-    public ResultVO<PageDTO<UserDTO>> listUser(@Valid @RequestBody UserQueryForm userQueryForm,
+    @PostMapping("/listEntity")
+    public ResultVO<PageDTO<UserDTO>> listEntity(@Valid @RequestBody UserQueryForm userQueryForm,
                                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("修改信息,参数不正确,userQueryForm={}", userQueryForm);

@@ -16,8 +16,8 @@ public class CompanyExample extends PageHelper {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public CompanyExample(Integer page, Integer size) {
-        super(page, size);
+    public CompanyExample(Integer page, Integer size, String order) {
+        super(page, size, order);
         oredCriteria = new ArrayList<Criteria>();
     }
 

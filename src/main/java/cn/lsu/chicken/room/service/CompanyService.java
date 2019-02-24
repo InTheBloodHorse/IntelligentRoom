@@ -3,11 +3,12 @@ package cn.lsu.chicken.room.service;
 import cn.lsu.chicken.room.domain.Company;
 import cn.lsu.chicken.room.dto.CompanyDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.form.company.CompanyQueryForm;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface CompanyService extends BaseService<CompanyDTO, Company, Integer,Object> {
+public interface CompanyService extends BaseService<CompanyDTO, Company, Integer, CompanyQueryForm> {
 
     // 收费
     Integer increaseCost(Integer id, BigDecimal cost);

@@ -25,7 +25,7 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Integer updateEntity(cn.lsu.chicken.room.domain.Service entity) {
-        return serviceMapper.updateByPrimaryKey(entity);
+        return serviceMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override

@@ -7,6 +7,7 @@ import cn.lsu.chicken.room.utils.ResultVOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
     public ResultVO handlerNumberFormatException() {
         return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
     }
+
+//    @ResponseBody
+//    @ExceptionHandler(value = BadSqlGrammarException.class)
+//    public ResultVO handlerBadSqlGrammarException() {
+//        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
+//    }
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

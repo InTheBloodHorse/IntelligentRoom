@@ -1,4 +1,4 @@
-package cn.lsu.chicken.room.myAnnotations;
+package cn.lsu.chicken.room.myannotations;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

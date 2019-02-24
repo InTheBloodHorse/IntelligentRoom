@@ -1,7 +1,7 @@
 package cn.lsu.chicken.room.form;
 
 import cn.lsu.chicken.room.enums.UserRoleEnum;
-import cn.lsu.chicken.room.myAnnotations.Phone;
+import cn.lsu.chicken.room.myannotations.Phone;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -25,8 +25,6 @@ public class RegisterForm {
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 20, message = "密码长度在6到20之间")
     private String password;
-
-    private String avatar;
 
     private Integer role = UserRoleEnum.ORDINARY_USER.getCode();
 

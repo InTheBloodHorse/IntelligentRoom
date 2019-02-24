@@ -1,17 +1,15 @@
 package cn.lsu.chicken.room.form;
 
 
-import cn.lsu.chicken.room.enums.UserRoleEnum;
-import cn.lsu.chicken.room.myAnnotations.Phone;
+import cn.lsu.chicken.room.myannotations.Phone;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class UpdateForm  {
+public class UpdateForm {
     @NotNull(message = "编号不能为空")
     private Integer id;
 
@@ -27,10 +25,8 @@ public class UpdateForm  {
     @Size(min = 6, max = 20, message = "密码长度在6到20之间")
     private String password;
 
-    private String avatar;
-
     private Integer role;
 
-    private String companyCode;
+    private Integer companyId;
 
 }

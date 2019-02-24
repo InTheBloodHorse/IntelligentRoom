@@ -2,7 +2,7 @@ package cn.lsu.chicken.room.form.user;
 
 import cn.lsu.chicken.room.enums.QueryFormEnum;
 import cn.lsu.chicken.room.form.BaseQueryForm;
-import cn.lsu.chicken.room.myAnnotations.Phone;
+import cn.lsu.chicken.room.myannotations.Phone;
 import lombok.Data;
 
 import javax.validation.constraints.Email;

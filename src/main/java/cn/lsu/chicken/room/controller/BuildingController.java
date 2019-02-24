@@ -1,38 +1,41 @@
 package cn.lsu.chicken.room.controller;
 
 import cn.lsu.chicken.room.VO.ResultVO;
-import cn.lsu.chicken.room.domain.Tag;
+import cn.lsu.chicken.room.domain.Building;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
-import cn.lsu.chicken.room.form.tag.TagForm;
-import cn.lsu.chicken.room.form.tag.TagQueryForm;
-import cn.lsu.chicken.room.service.TagService;
+import cn.lsu.chicken.room.form.building.BuildingForm;
+import cn.lsu.chicken.room.form.building.BuildingQueryForm;
+import cn.lsu.chicken.room.service.BuildingService;
 import cn.lsu.chicken.room.utils.HttpRequestUtil;
 import cn.lsu.chicken.room.utils.ResultVOUtil;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("/building")
 @Slf4j
-public class TagController {
+public class BuildingController {
     @Autowired
-    private TagService tagService;
+    private BuildingService buildingService;
 
     @PostMapping("/add")
     public ResultVO<Integer> add(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        String name = params.get("name").getAsString();
-        Tag tag = new Tag();
-        tag.setName(name);
-        Integer id = tagService.saveEntity(tag);
+        String location = params.get("location").getAsString();
+        Building building = new Building();
+        building.setLocation(location);
+        Integer id = buildingService.saveEntity(building);
         return ResultVOUtil.success(id);
     }
 
@@ -43,38 +46,39 @@ public class TagController {
         if (id == null) {
             throw new GlobalException(ResultEnum.PARAMETER_ERROR);
         }
-        Integer column = tagService.deleteEntity(id);
+        Integer column = buildingService.deleteEntity(id);
         return ResultVOUtil.success(column);
     }
 
     @PostMapping("/update")
-    public ResultVO<Integer> update(@Valid @RequestBody TagForm tagForm,
+    public ResultVO<Integer> update(@Valid @RequestBody BuildingForm buildingForm,
                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.error("修改信息,参数不正确,tagForm={}", tagForm);
+            log.error("修改信息,参数不正确,buildingForm={}", buildingForm);
             throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
-        Tag tag = tagForm.convert();
-        Integer column = tagService.updateEntity(tag);
+        Building building = buildingForm.convert2Building();
+        Integer column = buildingService.updateEntity(building);
         return ResultVOUtil.success(column);
     }
 
 
     @PostMapping("/get")
-    public ResultVO<Tag> get(HttpServletRequest httpServletRequest) {
+    public ResultVO<Building> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
         Integer id = params.get("id").getAsInt();
         if (id == null) {
             throw new GlobalException(ResultEnum.PARAMETER_ERROR);
         }
-        Tag tag = tagService.getEntityById(id);
-        return ResultVOUtil.success(tag);
+        Building building = buildingService.getEntityById(id);
+        return ResultVOUtil.success(building);
     }
 
     @PostMapping("/listEntity")
-    public ResultVO<PageDTO<Tag>> listEntity(@Valid @RequestBody TagQueryForm tagQueryForm) {
+    public ResultVO<PageDTO<Building>> listEntity(@Valid @RequestBody BuildingQueryForm buildingQueryForm) {
 
-        PageDTO<Tag> data = tagService.listEntityByQueryForm(tagQueryForm);
+        PageDTO<Building> data = buildingService.listEntityByQueryForm(buildingQueryForm);
         return ResultVOUtil.success(data);
     }
+
 }

@@ -4,9 +4,13 @@ import cn.lsu.chicken.room.dao.MeetingApplyMapper;
 import cn.lsu.chicken.room.domain.MeetingApply;
 import cn.lsu.chicken.room.domain.MeetingApplyExample;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.enums.ResultEnum;
+import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.meetingapply.MeetingApplyQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.MeetingApplyService;
 import cn.lsu.chicken.room.utils.DateUtil;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +25,24 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
 
     @Override
     public Integer saveEntity(MeetingApply entity) {
+        judgeTime(entity);
+        entity.setApplyTime(new Date());
         return meetingApplyMapper.insertSelective(entity);
     }
 
     @Override
     public Integer updateEntity(MeetingApply entity) {
+        judgeTime(entity);
         entity.setApplyUpdateTime(new Date());
-        return meetingApplyMapper.updateByPrimaryKey(entity);
+        return meetingApplyMapper.updateByPrimaryKeySelective(entity);
+    }
+
+    private void judgeTime(MeetingApply entity) {
+        Date beginTime = entity.getBeginTime();
+        Date endTime = entity.getEndTime();
+        if (beginTime.after(endTime)) {
+            throw new GlobalException(ResultEnum.DATE_IS_INVALID);
+        }
     }
 
     @Override
@@ -41,10 +56,19 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
     }
 
     @Override
-    public PageDTO<MeetingApply> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<MeetingApply> listEntityByQueryForm(MeetingApplyQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        MeetingApplyExample example = (MeetingApplyExample) QueryFormUtil.getExample(MeetingApplyExample.class, page, size, order);
+        MeetingApplyExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, MeetingApplyQueryForm.QUERTFORMLIST);
+        List<MeetingApply> data = meetingApplyMapper.selectByExample(example);
+        Integer total = meetingApplyMapper.countByExample(example);
+        PageHelper pageHelper = example;
+        PageDTO<MeetingApply> tagPageDTO = new PageDTO<>(pageHelper, total, data);
+        return tagPageDTO;
     }
-
 
     @Override
     public Integer addAttenderWorker(Integer meetingApplyId, List<Integer> userId) {
@@ -61,43 +85,4 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
         return meetingApplyMapper.selectByAttendUserId(id);
     }
 
-    @Override
-    public List<MeetingApply> listMeetingApplyByConditions(MeetingApply meetingApply) {
-        MeetingApplyExample meetingApplyExample = new MeetingApplyExample();
-        return meetingApplyMapper.selectByExample(getMeetingApplyExampleByConditions(meetingApplyExample, meetingApply));
-    }
-
-    @Override
-    public PageDTO<MeetingApply> listMeetingApplyByConditionsByPage(PageHelper pageHelper, MeetingApply meetingApply) {
-        MeetingApplyExample meetingApplyExample = new MeetingApplyExample(pageHelper.getPage(), pageHelper.getSize());
-        meetingApplyExample = getMeetingApplyExampleByConditions(meetingApplyExample, meetingApply);
-        meetingApplyExample.setPage(null);
-        meetingApplyExample.setSize(null);
-        Integer total = meetingApplyMapper.countByExample(meetingApplyExample);
-        List<MeetingApply> data = meetingApplyMapper.selectByExample(meetingApplyExample);
-        PageDTO<MeetingApply> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
-
-    private MeetingApplyExample getMeetingApplyExampleByConditions(MeetingApplyExample meetingApplyExample, MeetingApply meetingApply) {
-        MeetingApplyExample.Criteria criteria = meetingApplyExample.createCriteria();
-        Integer workerId = meetingApply.getWorkerId();
-        if (workerId != null) {
-            criteria.andWorkerIdEqualTo(workerId);
-        }
-        Date beginTime = meetingApply.getBeginTime();
-        Date endTime = meetingApply.getEndTime();
-        if (beginTime != null || endTime != null) {
-            beginTime = DateUtil.max(beginTime);
-            endTime = DateUtil.min(endTime);
-            System.out.println(beginTime);
-            System.out.println(endTime);
-            criteria.andBeginTimeBetween(beginTime, endTime);
-        }
-        Integer status = meetingApply.getStatus();
-        if (status != null) {
-            criteria.andStatusEqualTo(status);
-        }
-        return meetingApplyExample;
-    }
 }

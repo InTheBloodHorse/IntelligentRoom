@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,8 @@ public class MeetingRoomExample extends PageHelper {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public MeetingRoomExample(Integer page, Integer size) {
-        super(page, size);
+    public MeetingRoomExample(Integer page, Integer size, String order) {
+        super(page, size, order);
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -381,52 +382,52 @@ public class MeetingRoomExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andVolumeEqualTo(Byte value) {
+        public Criteria andVolumeEqualTo(Integer value) {
             addCriterion("volume =", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeNotEqualTo(Byte value) {
+        public Criteria andVolumeNotEqualTo(Integer value) {
             addCriterion("volume <>", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeGreaterThan(Byte value) {
+        public Criteria andVolumeGreaterThan(Integer value) {
             addCriterion("volume >", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andVolumeGreaterThanOrEqualTo(Integer value) {
             addCriterion("volume >=", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeLessThan(Byte value) {
+        public Criteria andVolumeLessThan(Integer value) {
             addCriterion("volume <", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeLessThanOrEqualTo(Byte value) {
+        public Criteria andVolumeLessThanOrEqualTo(Integer value) {
             addCriterion("volume <=", value, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeIn(List<Byte> values) {
+        public Criteria andVolumeIn(List<Integer> values) {
             addCriterion("volume in", values, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeNotIn(List<Byte> values) {
+        public Criteria andVolumeNotIn(List<Integer> values) {
             addCriterion("volume not in", values, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeBetween(Byte value1, Byte value2) {
+        public Criteria andVolumeBetween(Integer value1, Integer value2) {
             addCriterion("volume between", value1, value2, "volume");
             return (Criteria) this;
         }
 
-        public Criteria andVolumeNotBetween(Byte value1, Byte value2) {
+        public Criteria andVolumeNotBetween(Integer value1, Integer value2) {
             addCriterion("volume not between", value1, value2, "volume");
             return (Criteria) this;
         }
@@ -441,52 +442,52 @@ public class MeetingRoomExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingEqualTo(Byte value) {
+        public Criteria andIsUsingEqualTo(Integer value) {
             addCriterion("is_using =", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingNotEqualTo(Byte value) {
+        public Criteria andIsUsingNotEqualTo(Integer value) {
             addCriterion("is_using <>", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingGreaterThan(Byte value) {
+        public Criteria andIsUsingGreaterThan(Integer value) {
             addCriterion("is_using >", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsUsingGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_using >=", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingLessThan(Byte value) {
+        public Criteria andIsUsingLessThan(Integer value) {
             addCriterion("is_using <", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingLessThanOrEqualTo(Byte value) {
+        public Criteria andIsUsingLessThanOrEqualTo(Integer value) {
             addCriterion("is_using <=", value, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingIn(List<Byte> values) {
+        public Criteria andIsUsingIn(List<Integer> values) {
             addCriterion("is_using in", values, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingNotIn(List<Byte> values) {
+        public Criteria andIsUsingNotIn(List<Integer> values) {
             addCriterion("is_using not in", values, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingBetween(Byte value1, Byte value2) {
+        public Criteria andIsUsingBetween(Integer value1, Integer value2) {
             addCriterion("is_using between", value1, value2, "isUsing");
             return (Criteria) this;
         }
 
-        public Criteria andIsUsingNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsUsingNotBetween(Integer value1, Integer value2) {
             addCriterion("is_using not between", value1, value2, "isUsing");
             return (Criteria) this;
         }
@@ -501,52 +502,52 @@ public class MeetingRoomExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andPriceEqualTo(Short value) {
+        public Criteria andPriceEqualTo(BigDecimal value) {
             addCriterion("price =", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotEqualTo(Short value) {
+        public Criteria andPriceNotEqualTo(BigDecimal value) {
             addCriterion("price <>", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThan(Short value) {
+        public Criteria andPriceGreaterThan(BigDecimal value) {
             addCriterion("price >", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThanOrEqualTo(Short value) {
+        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("price >=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThan(Short value) {
+        public Criteria andPriceLessThan(BigDecimal value) {
             addCriterion("price <", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThanOrEqualTo(Short value) {
+        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("price <=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceIn(List<Short> values) {
+        public Criteria andPriceIn(List<BigDecimal> values) {
             addCriterion("price in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotIn(List<Short> values) {
+        public Criteria andPriceNotIn(List<BigDecimal> values) {
             addCriterion("price not in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceBetween(Short value1, Short value2) {
+        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price between", value1, value2, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotBetween(Short value1, Short value2) {
+        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }

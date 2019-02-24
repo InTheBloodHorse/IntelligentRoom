@@ -19,6 +19,9 @@ public enum ResultEnum {
     TAG_HAS_ADDED(16, "请勿重复添加标签"),
     FILE_IS_EMPTY(17, "文件不能为空"),
     FILE_UPLOAD_ERROR(18, "文件上传失败，请重试"),
+    DATE_IS_WRONG(19, "日期格式错误—— 年-月-日 时:分"),
+    DATE_IS_INVALID(20, "日期不合法"),
+    ID_NEED(21,"编号不能为空"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

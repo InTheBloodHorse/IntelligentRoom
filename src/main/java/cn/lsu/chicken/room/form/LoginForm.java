@@ -1,10 +1,9 @@
 package cn.lsu.chicken.room.form;
 
-import cn.lsu.chicken.room.myAnnotations.Phone;
+import cn.lsu.chicken.room.myannotations.Phone;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginForm {
