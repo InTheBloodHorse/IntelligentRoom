@@ -51,10 +51,7 @@ public class MeetingRoomController {
     @PostMapping("/delete")
     public ResultVO<Integer> delete(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Integer column = meetingRoomService.deleteEntity(id);
         return ResultVOUtil.success(column);
     }
@@ -75,10 +72,7 @@ public class MeetingRoomController {
     @PostMapping("/getEntity")
     public ResultVO<MeetingRoomDTO> getEntity(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         MeetingRoomDTO meetingRoomDTO = meetingRoomService.getEntityById(id);
         return ResultVOUtil.success(meetingRoomDTO);
     }
@@ -93,11 +87,8 @@ public class MeetingRoomController {
     @PostMapping("/updateTag")
     public ResultVO<Integer> updateTag(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        String tag = params.get("tag").getAsString();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
+        String tag = HttpRequestUtil.getStringByName(params, "tag");
         List<String> list = new ArrayList<>();
         if (!StringUtils.isEmpty(tag)) {
             list = Arrays.asList(tag.split(","));

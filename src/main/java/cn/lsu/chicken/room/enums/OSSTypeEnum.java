@@ -1,7 +1,9 @@
 package cn.lsu.chicken.room.enums;
 
 public enum OSSTypeEnum {
-    HEAD("1", "HEAD");
+    SYSTEM("0", "系统资料"),
+    HEAD("1", "HEAD"),
+    RESOURCES("2", "会议资料");
     private String code;
     private String type;
 

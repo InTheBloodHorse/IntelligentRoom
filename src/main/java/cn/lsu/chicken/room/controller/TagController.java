@@ -29,7 +29,7 @@ public class TagController {
     @PostMapping("/add")
     public ResultVO<Integer> add(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        String name = params.get("name").getAsString();
+        String name = HttpRequestUtil.getStringByName(params, "name");
         Tag tag = new Tag();
         tag.setName(name);
         Integer id = tagService.saveEntity(tag);
@@ -39,10 +39,7 @@ public class TagController {
     @PostMapping("/delete")
     public ResultVO<Integer> delete(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Integer column = tagService.deleteEntity(id);
         return ResultVOUtil.success(column);
     }
@@ -63,10 +60,7 @@ public class TagController {
     @PostMapping("/get")
     public ResultVO<Tag> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Tag tag = tagService.getEntityById(id);
         return ResultVOUtil.success(tag);
     }

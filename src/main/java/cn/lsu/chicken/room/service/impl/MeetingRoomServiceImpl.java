@@ -99,4 +99,9 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public Integer updateTag(Integer meetingRoomId, List<Integer> tagList) {
         return meetingRoomMapper.updateTagByMeetingRoomId(meetingRoomId, tagList);
     }
+
+    @Override
+    public Integer uploadCover(MeetingRoom meetingRoom) {
+        return meetingRoomMapper.updateByPrimaryKeySelective(meetingRoom);
+    }
 }

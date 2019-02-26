@@ -6,6 +6,8 @@ import cn.lsu.chicken.room.domain.MeetingApplyExample;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.BaseQueryForm;
+import cn.lsu.chicken.room.form.meetingapply.AttenderQueryForm;
 import cn.lsu.chicken.room.form.meetingapply.MeetingApplyQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.MeetingApplyService;
@@ -66,8 +68,8 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
         List<MeetingApply> data = meetingApplyMapper.selectByExample(example);
         Integer total = meetingApplyMapper.countByExample(example);
         PageHelper pageHelper = example;
-        PageDTO<MeetingApply> tagPageDTO = new PageDTO<>(pageHelper, total, data);
-        return tagPageDTO;
+        PageDTO<MeetingApply> entityPageDTO = new PageDTO<>(pageHelper, total, data);
+        return entityPageDTO;
     }
 
     @Override
@@ -81,8 +83,17 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
     }
 
     @Override
-    public List<MeetingApply> listMeetingApplyByUserId(Integer id) {
-        return meetingApplyMapper.selectByAttendUserId(id);
+    public PageDTO<MeetingApply> listMeetingApplyByUserId(AttenderQueryForm attenderQueryForm) {
+        Integer page = attenderQueryForm.getPage();
+        Integer size = attenderQueryForm.getSize();
+        String order = attenderQueryForm.getOrder();
+        MeetingApplyExample example = (MeetingApplyExample) QueryFormUtil.getExample(MeetingApplyExample.class, page, size, order);
+        Integer id = attenderQueryForm.getUserId();
+        List<MeetingApply> data = meetingApplyMapper.selectByAttendUserIdExample(id, example);
+        Integer total = meetingApplyMapper.countByAttendUserIdExample(id);
+        PageHelper pageHelper = example;
+        PageDTO<MeetingApply> entityPageDTO = new PageDTO<>(pageHelper, total, data);
+        return entityPageDTO;
     }
 
 }

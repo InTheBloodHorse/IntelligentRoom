@@ -36,32 +36,8 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="building"
-               domainObjectName="Building">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="company"
-               domainObjectName="Company">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="meeting_apply"
-               domainObjectName="MeetingApply">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="meeting_room"
-               domainObjectName="MeetingRoom">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="service"
-               domainObjectName="Service">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="tag"
-               domainObjectName="Tag">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="user"
-               domainObjectName="User">
+        <table tableName="file"
+               domainObjectName="File">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
     </context>

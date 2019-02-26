@@ -32,4 +32,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    int countByApplyIdExample(@Param("applyId") Integer applyId);
+
+    List<User> selectByApplyIdExample(@Param("applyId") Integer applyId, @Param("example")UserExample example);
 }

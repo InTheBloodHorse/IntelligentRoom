@@ -32,7 +32,7 @@ public class BuildingController {
     @PostMapping("/add")
     public ResultVO<Integer> add(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        String location = params.get("location").getAsString();
+        String location = HttpRequestUtil.getStringByName(params, "location");
         Building building = new Building();
         building.setLocation(location);
         Integer id = buildingService.saveEntity(building);
@@ -42,10 +42,7 @@ public class BuildingController {
     @PostMapping("/delete")
     public ResultVO<Integer> delete(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Integer column = buildingService.deleteEntity(id);
         return ResultVOUtil.success(column);
     }
@@ -66,10 +63,7 @@ public class BuildingController {
     @PostMapping("/get")
     public ResultVO<Building> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Building building = buildingService.getEntityById(id);
         return ResultVOUtil.success(building);
     }

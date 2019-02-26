@@ -19,6 +19,8 @@ public class MeetingRoomDTO {
 
     private Integer volume;
 
+    private String cover;
+
     private Integer isUsing;
 
     private BigDecimal price;
@@ -26,4 +28,6 @@ public class MeetingRoomDTO {
     private String detail;
 
     private List<Tag> tag;
+
+    private List<String> autoList;
 }

@@ -19,16 +19,6 @@ public class PageHelper {
     public PageHelper() {
     }
 
-    // todo 开发完删掉
-    public PageHelper(Integer page, Integer size) {
-        this.page = page;
-        this.size = size;
-        Boolean condition = this.page <= 0 || this.size <= 0;
-        if (condition) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
-        this.offset = (this.page - 1) * this.size;
-    }
 
     public PageHelper(Integer page, Integer size, String order) {
         this.page = page;

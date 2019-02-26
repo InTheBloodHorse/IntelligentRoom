@@ -2,6 +2,8 @@ package cn.lsu.chicken.room.service;
 
 import cn.lsu.chicken.room.domain.MeetingApply;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.form.BaseQueryForm;
+import cn.lsu.chicken.room.form.meetingapply.AttenderQueryForm;
 import cn.lsu.chicken.room.form.meetingapply.MeetingApplyQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 
@@ -13,7 +15,7 @@ public interface MeetingApplyService extends BaseService<MeetingApply, MeetingAp
 
     Integer deleteAttenderWorker(Integer meetingApplyId, List<Integer> userId);
 
-    // 参与会议
-    List<MeetingApply> listMeetingApplyByUserId(Integer id);
+    // 查询用户
+    PageDTO<MeetingApply> listMeetingApplyByUserId(AttenderQueryForm attenderQueryForm);
 
 }

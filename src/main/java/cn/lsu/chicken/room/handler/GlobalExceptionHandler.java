@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +33,17 @@ public class GlobalExceptionHandler {
         return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
     }
 
-//    @ResponseBody
-//    @ExceptionHandler(value = BadSqlGrammarException.class)
-//    public ResultVO handlerBadSqlGrammarException() {
-//        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
-//    }
+    @ResponseBody
+    @ExceptionHandler(value = BadSqlGrammarException.class)
+    public ResultVO handlerBadSqlGrammarException() {
+        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public ResultVO handlerMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR.getCode(), e.getMessage());
+    }
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

@@ -39,5 +39,7 @@ public interface MeetingApplyMapper {
 
     int deleteAttenderWorker(@Param("applyId") Integer applyId, @Param("list") List<Integer> useId);
 
-    List<MeetingApply> selectByAttendUserId(@Param("userId") Integer userId);
+    int countByAttendUserIdExample(@Param("userId") Integer userId);
+
+    List<MeetingApply> selectByAttendUserIdExample(@Param("userId") Integer userId, @Param("example")MeetingApplyExample example);
 }

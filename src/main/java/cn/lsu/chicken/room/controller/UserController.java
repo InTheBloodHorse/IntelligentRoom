@@ -14,6 +14,7 @@ import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.LoginForm;
 import cn.lsu.chicken.room.form.RegisterForm;
 import cn.lsu.chicken.room.form.UpdateForm;
+import cn.lsu.chicken.room.form.user.UserQueryByIdForm;
 import cn.lsu.chicken.room.form.user.UserQueryForm;
 import cn.lsu.chicken.room.service.CompanyService;
 import cn.lsu.chicken.room.service.UserService;
@@ -88,23 +89,10 @@ public class UserController {
         return ResultVOUtil.success(user);
     }
 
-    @PostMapping("/uploadHeadImage")
-    public ResultVO<String> uploadHeadImage(@RequestParam("id") Integer id,
-                                            @RequestParam("file") MultipartFile file) {
-
-        Long time1 = System.currentTimeMillis();
-        String url = HttpUtil.uploadFile(file, OSSTypeEnum.HEAD.getCode());
-        System.out.println(System.currentTimeMillis() - time1);
-        User user = new User();
-        user.setId(id);
-        user.setAvatar(url);
-        userService.uploadBySelective(user);
-        return ResultVOUtil.success(url);
-    }
 
     @PostMapping("/update")
     public ResultVO<UserDTO> update(@Valid @RequestBody UpdateForm updateForm,
-                                        BindingResult bindingResult) {
+                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("修改信息,参数不正确,updateForm={}", updateForm);
             throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
@@ -117,10 +105,7 @@ public class UserController {
     @PostMapping("/get")
     public ResultVO<UserDTO> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         UserDTO userDTO = userService.getEntityById(id);
         return ResultVOUtil.success(userDTO);
     }
@@ -128,17 +113,14 @@ public class UserController {
     @PostMapping("/getEntityByPhone")
     public ResultVO<UserDTO> getEntityByPhone(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        String phone = params.get("phone").getAsString();
-        if (phone == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        String phone = HttpRequestUtil.getStringByName(params, "phone");
         UserDTO userDTO = userService.getUserByPhone(phone);
         return ResultVOUtil.success(userDTO);
     }
 
     @PostMapping("/listEntity")
     public ResultVO<PageDTO<UserDTO>> listEntity(@Valid @RequestBody UserQueryForm userQueryForm,
-                                               BindingResult bindingResult) {
+                                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("修改信息,参数不正确,userQueryForm={}", userQueryForm);
             throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
@@ -147,4 +129,14 @@ public class UserController {
         return ResultVOUtil.success(data);
     }
 
+    @PostMapping("/listEntityByApplyId")
+    public ResultVO<PageDTO<User>> listEntityByApplyId(@Valid @RequestBody UserQueryByIdForm userQueryByIdForm,
+                                                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("修改信息,参数不正确,userQueryByIdForm={}", userQueryByIdForm);
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
+        }
+        PageDTO<User> data = userService.listUserByApplyId(userQueryByIdForm);
+        return ResultVOUtil.success(data);
+    }
 }

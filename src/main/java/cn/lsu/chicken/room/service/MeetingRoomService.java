@@ -9,4 +9,6 @@ import java.util.List;
 public interface MeetingRoomService extends BaseService<MeetingRoomDTO, MeetingRoom, Integer, MeetingRoomQueryForm> {
 
     Integer updateTag(Integer meetingRoomId, List<Integer> tagList);
+
+    Integer uploadCover(MeetingRoom meetingRoom);
 }

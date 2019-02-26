@@ -7,6 +7,7 @@ import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.user.UserQueryByIdForm;
 import cn.lsu.chicken.room.form.user.UserQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.security.DecryptMD5;
@@ -101,18 +102,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> listUserByCompany(Integer companyId) {
-        UserExample userExample = new UserExample();
-        UserExample.Criteria criteria = userExample.createCriteria();
-        criteria.andCompanyIdEqualTo(companyId);
-        List<UserDTO> userList = userMapper.selectByExample(userExample);
-        return userList;
+    public PageDTO<User> listUserByApplyId(UserQueryByIdForm userQueryByIdForm) {
+        Integer page = userQueryByIdForm.getPage();
+        Integer size = userQueryByIdForm.getSize();
+        String order = userQueryByIdForm.getOrder();
+        UserExample userExample = (UserExample) QueryFormUtil.getExample(UserExample.class, page, size, order);
+        Integer applyId = userQueryByIdForm.getId();
+        List<User> data = userMapper.selectByApplyIdExample(applyId, userExample);
+        Integer total = userMapper.countByApplyIdExample(applyId);
+        PageHelper pageHelper = userExample;
+        PageDTO<User> userDTOPageDTO = new PageDTO<>(pageHelper, total, data);
+        return userDTOPageDTO;
     }
 
-    @Override
-    public List<UserDTO> findByApplyId(String applyId) {
-        return null;
-    }
 
     @Override
     public Integer uploadBySelective(User user) {

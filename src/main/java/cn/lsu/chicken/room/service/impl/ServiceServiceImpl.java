@@ -3,8 +3,10 @@ package cn.lsu.chicken.room.service.impl;
 import cn.lsu.chicken.room.dao.ServiceMapper;
 import cn.lsu.chicken.room.domain.ServiceExample;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.form.service.ServiceQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.ServiceService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +41,20 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public PageDTO<cn.lsu.chicken.room.domain.Service> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<cn.lsu.chicken.room.domain.Service> listEntityByQueryForm(ServiceQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        ServiceExample example = (ServiceExample) QueryFormUtil.getExample(ServiceExample.class, page, size, order);
+        ServiceExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, ServiceQueryForm.QUERTFORMLIST);
+        List<cn.lsu.chicken.room.domain.Service> data = serviceMapper.selectByExample(example);
+        Integer total = serviceMapper.countByExample(example);
+        PageHelper pageHelper = example;
+        PageDTO<cn.lsu.chicken.room.domain.Service> entityPageDTO = new PageDTO<>(pageHelper, total, data);
+        return entityPageDTO;
     }
+
 
     @Override
     public Integer serviceDone(Integer serviceId) {
@@ -51,25 +64,4 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceMapper.updateByPrimaryKeySelective(service);
     }
 
-    @Override
-    public List<cn.lsu.chicken.room.domain.Service> listServiceByUserId(Integer userId) {
-        ServiceExample serviceExample = new ServiceExample();
-        ServiceExample.Criteria criteria = serviceExample.createCriteria();
-        criteria.andWorkerIdEqualTo(userId);
-        return serviceMapper.selectByExample(serviceExample);
-    }
-
-    @Override
-    public PageDTO<cn.lsu.chicken.room.domain.Service> listServiceByUserIdByPage(PageHelper pageHelper, Integer userId) {
-        ServiceExample serviceExample = new ServiceExample(pageHelper.getPage(), pageHelper.getSize());
-        ServiceExample.Criteria criteria = serviceExample.createCriteria();
-        criteria.andWorkerIdEqualTo(userId);
-        List<cn.lsu.chicken.room.domain.Service> data = serviceMapper.selectByExample(serviceExample);
-
-        serviceExample.setPage(null);
-        serviceExample.setSize(null);
-        Integer total = serviceMapper.countByExample(serviceExample);
-        PageDTO<cn.lsu.chicken.room.domain.Service> pageDTO = new PageDTO<>(pageHelper, total, data);
-        return pageDTO;
-    }
 }

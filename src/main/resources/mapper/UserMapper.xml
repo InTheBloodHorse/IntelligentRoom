@@ -289,4 +289,39 @@
       company_id = #{companyId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="countByApplyIdExample" resultType="java.lang.Integer">
+        select count(u.id) from user
+        as u left join attend_worker_re as a on u.id = a.worker_id
+        where a.apply_id = #{applyId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByApplyIdExample" resultType="cn.lsu.chicken.room.domain.User">
+        select
+        <if test="example.distinct">
+            distinct
+        </if>
+        u.id as id,u.name as name,u.phone as phone,u.email as email,
+        u.password as password,u.avatar as avatar,u.role as role,
+        u.company_id as companyId
+        from (
+            select * from user
+            <if test="example.orderList != null">
+                order by
+                <foreach collection="example.orderList" item="item" index="index" separator=",">
+                    ${item}
+                </foreach>
+            </if>
+            <if test="example.page != null and example.size!= null">
+                limit #{offset},#{size}
+            </if>
+        ) as u left join attend_worker_re as a on u.id = a.worker_id
+        where a.apply_id = #{applyId,jdbcType=INTEGER}
+        <if test="example.orderList != null">
+            order by
+            <foreach collection="example.orderList" item="item" index="index" separator=",">
+                u.${item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

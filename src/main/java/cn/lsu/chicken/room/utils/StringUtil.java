@@ -4,6 +4,7 @@ import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,11 @@ public class StringUtil {
         return String.valueOf(chars);
     }
 
+
+    public static List<Integer> string2IntegerList(String string) {
+        List<String> stringList = Arrays.asList(string.split(","));
+        return stringList2IntegerList(stringList);
+    }
 
     public static List<Integer> stringList2IntegerList(List<String> strings) {
         List<Integer> result = null;

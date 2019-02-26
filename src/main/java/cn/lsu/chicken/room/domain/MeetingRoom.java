@@ -17,71 +17,24 @@ public class MeetingRoom {
 
     private Integer volume;
 
+    private String cover;
+
     private Integer isUsing;
 
     private BigDecimal price;
 
     private String detail;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(Integer buildingId) {
-        this.buildingId = buildingId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
     }
 
-    public Integer getVolume() {
-        return volume;
-    }
-
-    public void setVolume(Integer volume) {
-        this.volume = volume;
-    }
-
-    public Integer getIsUsing() {
-        return isUsing;
-    }
-
-    public void setIsUsing(Integer isUsing) {
-        this.isUsing = isUsing;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
 
     public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();

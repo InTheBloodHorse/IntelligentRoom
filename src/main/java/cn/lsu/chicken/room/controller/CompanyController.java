@@ -41,7 +41,7 @@ public class CompanyController {
     @PostMapping("/add")
     public ResultVO<Integer> add(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        String name = params.get("name").getAsString();
+        String name = HttpRequestUtil.getStringByName(params, "name");
         Company company = new Company();
         company.setName(name);
         Integer id = companyService.saveEntity(company);
@@ -51,10 +51,7 @@ public class CompanyController {
     @PostMapping("/delete")
     public ResultVO<Integer> delete(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         Integer column = companyService.deleteEntity(id);
         return ResultVOUtil.success(column);
     }
@@ -75,10 +72,7 @@ public class CompanyController {
     @PostMapping("/get")
     public ResultVO<CompanyDTO> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         CompanyDTO companyDTO = companyService.getEntityById(id);
         return ResultVOUtil.success(companyDTO);
     }
@@ -93,11 +87,8 @@ public class CompanyController {
     @PostMapping("/updateHr")
     public ResultVO<Integer> updateHr(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = params.get("id").getAsInt();
-        String hr = params.get("hr").getAsString();
-        if (id == null) {
-            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-        }
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
+        String hr = HttpRequestUtil.getStringByName(params, "hr");
         List<String> list = new ArrayList<>();
         if (!StringUtils.isEmpty(hr)) {
             list = Arrays.asList(hr.split(","));

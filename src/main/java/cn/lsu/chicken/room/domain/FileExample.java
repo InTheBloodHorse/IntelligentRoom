@@ -1,23 +1,22 @@
 package cn.lsu.chicken.room.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import cn.lsu.chicken.room.helper.PageHelper;
 
-public class ServiceExample extends PageHelper {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileExample extends PageHelper {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ServiceExample() {
+    public FileExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
-    public ServiceExample(Integer page, Integer size, String order) {
+    public FileExample(Integer page, Integer size, String order) {
         super(page, size, order);
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -172,253 +171,323 @@ public class ServiceExample extends PageHelper {
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdIsNull() {
-            addCriterion("apply_id is null");
+        public Criteria andFilenameIsNull() {
+            addCriterion("filename is null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdIsNotNull() {
-            addCriterion("apply_id is not null");
+        public Criteria andFilenameIsNotNull() {
+            addCriterion("filename is not null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdEqualTo(String value) {
-            addCriterion("apply_id =", value, "applyId");
+        public Criteria andFilenameEqualTo(String value) {
+            addCriterion("filename =", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotEqualTo(String value) {
-            addCriterion("apply_id <>", value, "applyId");
+        public Criteria andFilenameNotEqualTo(String value) {
+            addCriterion("filename <>", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdGreaterThan(String value) {
-            addCriterion("apply_id >", value, "applyId");
+        public Criteria andFilenameGreaterThan(String value) {
+            addCriterion("filename >", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdGreaterThanOrEqualTo(String value) {
-            addCriterion("apply_id >=", value, "applyId");
+        public Criteria andFilenameGreaterThanOrEqualTo(String value) {
+            addCriterion("filename >=", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLessThan(String value) {
-            addCriterion("apply_id <", value, "applyId");
+        public Criteria andFilenameLessThan(String value) {
+            addCriterion("filename <", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLessThanOrEqualTo(String value) {
-            addCriterion("apply_id <=", value, "applyId");
+        public Criteria andFilenameLessThanOrEqualTo(String value) {
+            addCriterion("filename <=", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdLike(String value) {
-            addCriterion("apply_id like", value, "applyId");
+        public Criteria andFilenameLike(String value) {
+            addCriterion("filename like", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotLike(String value) {
-            addCriterion("apply_id not like", value, "applyId");
+        public Criteria andFilenameNotLike(String value) {
+            addCriterion("filename not like", value, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdIn(List<String> values) {
-            addCriterion("apply_id in", values, "applyId");
+        public Criteria andFilenameIn(List<String> values) {
+            addCriterion("filename in", values, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotIn(List<String> values) {
-            addCriterion("apply_id not in", values, "applyId");
+        public Criteria andFilenameNotIn(List<String> values) {
+            addCriterion("filename not in", values, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdBetween(String value1, String value2) {
-            addCriterion("apply_id between", value1, value2, "applyId");
+        public Criteria andFilenameBetween(String value1, String value2) {
+            addCriterion("filename between", value1, value2, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andApplyIdNotBetween(String value1, String value2) {
-            addCriterion("apply_id not between", value1, value2, "applyId");
+        public Criteria andFilenameNotBetween(String value1, String value2) {
+            addCriterion("filename not between", value1, value2, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdIsNull() {
-            addCriterion("worker_id is null");
+        public Criteria andUrlIsNull() {
+            addCriterion("url is null");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdIsNotNull() {
-            addCriterion("worker_id is not null");
+        public Criteria andUrlIsNotNull() {
+            addCriterion("url is not null");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdEqualTo(Integer value) {
-            addCriterion("worker_id =", value, "workerId");
+        public Criteria andUrlEqualTo(String value) {
+            addCriterion("url =", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdNotEqualTo(Integer value) {
-            addCriterion("worker_id <>", value, "workerId");
+        public Criteria andUrlNotEqualTo(String value) {
+            addCriterion("url <>", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdGreaterThan(Integer value) {
-            addCriterion("worker_id >", value, "workerId");
+        public Criteria andUrlGreaterThan(String value) {
+            addCriterion("url >", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("worker_id >=", value, "workerId");
+        public Criteria andUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("url >=", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdLessThan(Integer value) {
-            addCriterion("worker_id <", value, "workerId");
+        public Criteria andUrlLessThan(String value) {
+            addCriterion("url <", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdLessThanOrEqualTo(Integer value) {
-            addCriterion("worker_id <=", value, "workerId");
+        public Criteria andUrlLessThanOrEqualTo(String value) {
+            addCriterion("url <=", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdIn(List<Integer> values) {
-            addCriterion("worker_id in", values, "workerId");
+        public Criteria andUrlLike(String value) {
+            addCriterion("url like", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdNotIn(List<Integer> values) {
-            addCriterion("worker_id not in", values, "workerId");
+        public Criteria andUrlNotLike(String value) {
+            addCriterion("url not like", value, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdBetween(Integer value1, Integer value2) {
-            addCriterion("worker_id between", value1, value2, "workerId");
+        public Criteria andUrlIn(List<String> values) {
+            addCriterion("url in", values, "url");
             return (Criteria) this;
         }
 
-        public Criteria andWorkerIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("worker_id not between", value1, value2, "workerId");
+        public Criteria andUrlNotIn(List<String> values) {
+            addCriterion("url not in", values, "url");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeIsNull() {
-            addCriterion("apply_time is null");
+        public Criteria andUrlBetween(String value1, String value2) {
+            addCriterion("url between", value1, value2, "url");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeIsNotNull() {
-            addCriterion("apply_time is not null");
+        public Criteria andUrlNotBetween(String value1, String value2) {
+            addCriterion("url not between", value1, value2, "url");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeEqualTo(Date value) {
-            addCriterion("apply_time =", value, "applyTime");
+        public Criteria andUploadUserIdIsNull() {
+            addCriterion("upload_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeNotEqualTo(Date value) {
-            addCriterion("apply_time <>", value, "applyTime");
+        public Criteria andUploadUserIdIsNotNull() {
+            addCriterion("upload_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeGreaterThan(Date value) {
-            addCriterion("apply_time >", value, "applyTime");
+        public Criteria andUploadUserIdEqualTo(Integer value) {
+            addCriterion("upload_user_id =", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("apply_time >=", value, "applyTime");
+        public Criteria andUploadUserIdNotEqualTo(Integer value) {
+            addCriterion("upload_user_id <>", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeLessThan(Date value) {
-            addCriterion("apply_time <", value, "applyTime");
+        public Criteria andUploadUserIdGreaterThan(Integer value) {
+            addCriterion("upload_user_id >", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeLessThanOrEqualTo(Date value) {
-            addCriterion("apply_time <=", value, "applyTime");
+        public Criteria andUploadUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("upload_user_id >=", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeIn(List<Date> values) {
-            addCriterion("apply_time in", values, "applyTime");
+        public Criteria andUploadUserIdLessThan(Integer value) {
+            addCriterion("upload_user_id <", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeNotIn(List<Date> values) {
-            addCriterion("apply_time not in", values, "applyTime");
+        public Criteria andUploadUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("upload_user_id <=", value, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeBetween(Date value1, Date value2) {
-            addCriterion("apply_time between", value1, value2, "applyTime");
+        public Criteria andUploadUserIdIn(List<Integer> values) {
+            addCriterion("upload_user_id in", values, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andApplyTimeNotBetween(Date value1, Date value2) {
-            addCriterion("apply_time not between", value1, value2, "applyTime");
+        public Criteria andUploadUserIdNotIn(List<Integer> values) {
+            addCriterion("upload_user_id not in", values, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeIsNull() {
-            addCriterion("service_time is null");
+        public Criteria andUploadUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("upload_user_id between", value1, value2, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeIsNotNull() {
-            addCriterion("service_time is not null");
+        public Criteria andUploadUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("upload_user_id not between", value1, value2, "uploadUserId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeEqualTo(Date value) {
-            addCriterion("service_time =", value, "serviceTime");
+        public Criteria andMeetingRoomIdIsNull() {
+            addCriterion("meeting_room_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeNotEqualTo(Date value) {
-            addCriterion("service_time <>", value, "serviceTime");
+        public Criteria andMeetingRoomIdIsNotNull() {
+            addCriterion("meeting_room_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeGreaterThan(Date value) {
-            addCriterion("service_time >", value, "serviceTime");
+        public Criteria andMeetingRoomIdEqualTo(Integer value) {
+            addCriterion("meeting_room_id =", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("service_time >=", value, "serviceTime");
+        public Criteria andMeetingRoomIdNotEqualTo(Integer value) {
+            addCriterion("meeting_room_id <>", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeLessThan(Date value) {
-            addCriterion("service_time <", value, "serviceTime");
+        public Criteria andMeetingRoomIdGreaterThan(Integer value) {
+            addCriterion("meeting_room_id >", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeLessThanOrEqualTo(Date value) {
-            addCriterion("service_time <=", value, "serviceTime");
+        public Criteria andMeetingRoomIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("meeting_room_id >=", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeIn(List<Date> values) {
-            addCriterion("service_time in", values, "serviceTime");
+        public Criteria andMeetingRoomIdLessThan(Integer value) {
+            addCriterion("meeting_room_id <", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeNotIn(List<Date> values) {
-            addCriterion("service_time not in", values, "serviceTime");
+        public Criteria andMeetingRoomIdLessThanOrEqualTo(Integer value) {
+            addCriterion("meeting_room_id <=", value, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeBetween(Date value1, Date value2) {
-            addCriterion("service_time between", value1, value2, "serviceTime");
+        public Criteria andMeetingRoomIdIn(List<Integer> values) {
+            addCriterion("meeting_room_id in", values, "meetingRoomId");
             return (Criteria) this;
         }
 
-        public Criteria andServiceTimeNotBetween(Date value1, Date value2) {
-            addCriterion("service_time not between", value1, value2, "serviceTime");
+        public Criteria andMeetingRoomIdNotIn(List<Integer> values) {
+            addCriterion("meeting_room_id not in", values, "meetingRoomId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingRoomIdBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_room_id between", value1, value2, "meetingRoomId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingRoomIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_room_id not between", value1, value2, "meetingRoomId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdIsNull() {
+            addCriterion("meeting_apply_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdIsNotNull() {
+            addCriterion("meeting_apply_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdEqualTo(Integer value) {
+            addCriterion("meeting_apply_id =", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdNotEqualTo(Integer value) {
+            addCriterion("meeting_apply_id <>", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdGreaterThan(Integer value) {
+            addCriterion("meeting_apply_id >", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("meeting_apply_id >=", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdLessThan(Integer value) {
+            addCriterion("meeting_apply_id <", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("meeting_apply_id <=", value, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdIn(List<Integer> values) {
+            addCriterion("meeting_apply_id in", values, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdNotIn(List<Integer> values) {
+            addCriterion("meeting_apply_id not in", values, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_apply_id between", value1, value2, "meetingApplyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_apply_id not between", value1, value2, "meetingApplyId");
             return (Criteria) this;
         }
     }

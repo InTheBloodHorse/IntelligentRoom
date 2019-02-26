@@ -21,7 +21,8 @@ public enum ResultEnum {
     FILE_UPLOAD_ERROR(18, "文件上传失败，请重试"),
     DATE_IS_WRONG(19, "日期格式错误—— 年-月-日 时:分"),
     DATE_IS_INVALID(20, "日期不合法"),
-    ID_NEED(21,"编号不能为空"),
+    ID_NEED(21, "编号不能为空"),
+    STR_CAN_NOT_NULL(22, "内容不能为空"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

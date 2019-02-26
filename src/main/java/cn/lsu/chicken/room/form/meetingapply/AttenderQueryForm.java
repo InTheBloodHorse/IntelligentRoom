@@ -1,21 +1,20 @@
-package cn.lsu.chicken.room.form.building;
+package cn.lsu.chicken.room.form.meetingapply;
 
 import cn.lsu.chicken.room.enums.QueryFormEnum;
 import cn.lsu.chicken.room.form.BaseQueryForm;
-import cn.lsu.chicken.room.helper.PageHelper;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
 @Data
-public class BuildingQueryForm extends BaseQueryForm {
-    private Integer id;
-    private String location;
+public class AttenderQueryForm extends BaseQueryForm {
+
+    @NotNull(message = "用户编号不能为空")
+    private Integer userId;
 
     public static List<QueryFormEnum> QUERTFORMLIST = Arrays.asList(
-            QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL
     );
-
 }

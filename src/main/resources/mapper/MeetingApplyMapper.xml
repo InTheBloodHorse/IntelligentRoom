@@ -369,13 +369,40 @@
         )
     </delete>
 
-    <select id="selectByAttendUserId" resultMap="BaseResultMap">
-        select m.id as id,m.worker_id as worker_id,m.topic as topic,m.intro as intro,
+    <select id="countByAttendUserIdExample" resultType="java.lang.Integer">
+        select count(m.id) from meeting_apply
+        as m left join attend_worker_re as a on m.id = a.apply_id
+        where a.worker_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByAttendUserIdExample" resultMap="BaseResultMap">
+        select
+        <if test="example.distinct">
+            distinct
+        </if>
+        m.id as id,m.worker_id as worker_id,m.topic as topic,m.intro as intro,
         m.document_list as document_list,m.room_id as room_id,m.attendance as attendance,
         m.begin_time as begin_time ,m.end_time as end_time,m.status as status,
         m.apply_time as apply_time,m.apply_update_time as apply_update_time,
         m.price as price,m.flexible as flexible
-        from meeting_apply as m left join attend_worker_re as a on m.id = a.apply_id
+        from (
+        select * from meeting_apply
+        <if test="example.orderList != null">
+            order by
+            <foreach collection="example.orderList" item="item" index="index" separator=",">
+                ${item}
+            </foreach>
+        </if>
+        <if test="example.page != null and example.size!= null">
+            limit #{offset},#{size}
+        </if>
+        ) as m left join attend_worker_re as a on m.id = a.apply_id
         where a.worker_id = #{userId,jdbcType=INTEGER}
+        <if test="example.orderList != null">
+            order by
+            <foreach collection="example.orderList" item="item" index="index" separator=",">
+                m.${item}
+            </foreach>
+        </if>
     </select>
 </mapper>

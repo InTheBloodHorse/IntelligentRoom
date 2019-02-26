@@ -93,7 +93,7 @@ public class QueryFormUtil {
                 } else {
                     methodName = methodName + queryFormEnum.getOperator();
                 }
-                Class[] classes = null;
+                Class[] classes;
                 if (QueryFormEnum.BETWEEN_INTEGER.getCode().equals(code)) {
                     //参数为 Integer
                     List<Integer> realParams = StringUtil.stringList2IntegerList(params);
@@ -127,7 +127,7 @@ public class QueryFormUtil {
                     if (param0 || param1) {
                         classes = new Class[]{Date.class};
                     } else {
-                        Boolean judge = realParams.get(0).before(realParams.get(1));
+                        Boolean judge = realParams.get(0).after(realParams.get(1));
                         if (judge) {
                             throw new GlobalException(ResultEnum.PARAMETER_ERROR);
                         }
