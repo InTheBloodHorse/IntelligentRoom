@@ -65,6 +65,16 @@ public class QueryFormUtil {
             }
             String fieldName = field.getName();
             String methodName = "and" + StringUtil.FirstUpper(fieldName);
+            if("null".equals(value.toString().trim())){
+                methodName = methodName + "IsNull";
+                addFilter2Criteria(criteria, methodName, new Class[]{});
+                continue;
+            }
+            if("not null".equals(value.toString().trim())){
+                methodName = methodName + "IsNotNull";
+                addFilter2Criteria(criteria, methodName, new Class[]{});
+                continue;
+            }
             Integer code = queryFormEnum.getCode();
             Boolean judgeIsBetween = QueryFormEnum.BETWEEN_INTEGER.getCode().equals(code)
                     || QueryFormEnum.BETWEEN_BIGDECIMAL.getCode().equals(code)

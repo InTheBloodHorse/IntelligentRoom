@@ -41,7 +41,7 @@ public class HttpUtil {
         return makeRequest(ossUrl + "delete", params);
     }
 
-    private static File multipartFile2File(MultipartFile multipartFile) {
+    public static File multipartFile2File(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         String prefix = fileName.substring(fileName.lastIndexOf("."));
         File file = null;
