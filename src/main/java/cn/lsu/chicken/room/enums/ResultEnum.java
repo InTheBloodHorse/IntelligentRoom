@@ -23,6 +23,7 @@ public enum ResultEnum {
     DATE_IS_INVALID(20, "日期不合法"),
     ID_NEED(21, "编号不能为空"),
     STR_CAN_NOT_NULL(22, "内容不能为空"),
+    DEPARTMENT_IS_EXIST(23,"部门已存在"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

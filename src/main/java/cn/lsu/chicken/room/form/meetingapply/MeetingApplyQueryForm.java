@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class MeetingApplyQueryForm extends BaseQueryForm {
 
+    private Integer id;
     // 申请员工
     private Integer workerId;
 
@@ -23,6 +24,7 @@ public class MeetingApplyQueryForm extends BaseQueryForm {
     private Integer status;
 
     public static List<QueryFormEnum> QUERTFORMLIST = Arrays.asList(
+            QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL,
             QueryFormEnum.BETWEEN_INTEGER,

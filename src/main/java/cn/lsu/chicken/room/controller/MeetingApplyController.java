@@ -61,8 +61,8 @@ public class MeetingApplyController {
     }
 
 
-    @PostMapping("/getEntity")
-    public ResultVO<MeetingApply> getEntity(HttpServletRequest httpServletRequest) {
+    @PostMapping("/get")
+    public ResultVO<MeetingApply> get(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
         Integer id = HttpRequestUtil.getIntegerByName(params, "id");
         MeetingApply meetingRoomDTO = meetingApplyService.getEntityById(id);
