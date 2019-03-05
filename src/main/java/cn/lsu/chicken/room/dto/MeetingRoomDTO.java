@@ -1,6 +1,7 @@
 package cn.lsu.chicken.room.dto;
 
 import cn.lsu.chicken.room.domain.Building;
+import cn.lsu.chicken.room.domain.Equipment;
 import cn.lsu.chicken.room.domain.Tag;
 import lombok.Data;
 
@@ -27,7 +28,11 @@ public class MeetingRoomDTO {
 
     private String detail;
 
+    private Integer hot;
+
     private List<Tag> tag;
+
+    private List<Equipment> equipment;
 
     private List<String> autoList;
 }

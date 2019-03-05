@@ -22,5 +22,10 @@ public class User {
 
     private Integer companyId;
 
+    private Integer departmentId;
+
+    @JsonIgnore
+    private String face;
+
 
 }

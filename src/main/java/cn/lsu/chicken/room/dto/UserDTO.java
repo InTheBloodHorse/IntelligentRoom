@@ -1,5 +1,6 @@
 package cn.lsu.chicken.room.dto;
 
+import cn.lsu.chicken.room.domain.Department;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -21,5 +22,7 @@ public class UserDTO {
     private Integer role;
 
     private CompanyDTO company;
+
+    private Department department;
 
 }

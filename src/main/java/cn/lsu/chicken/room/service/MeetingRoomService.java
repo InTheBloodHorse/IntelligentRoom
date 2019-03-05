@@ -10,5 +10,7 @@ public interface MeetingRoomService extends BaseService<MeetingRoomDTO, MeetingR
 
     Integer updateTag(Integer meetingRoomId, List<Integer> tagList);
 
+    Integer updateEquipment(Integer meetingRoomId, List<Integer> equipmentList);
+
     Integer uploadCover(MeetingRoom meetingRoom);
 }

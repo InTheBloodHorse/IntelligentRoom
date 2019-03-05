@@ -24,8 +24,11 @@ public class UserQueryForm extends BaseQueryForm {
 
     private Integer companyId;
 
+    private Integer departmentId;
+
     public static List<QueryFormEnum> QUERTFORMLIST = Arrays.asList(
             QueryFormEnum.LIKE,
+            QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL,
             QueryFormEnum.EQUAL,

@@ -8,9 +8,6 @@ spring:
     password: qqq1201
     url: jdbc:mysql://localhost:3306/meeting?characterEncoding=utf-8&useSSL=false&useAffectedRows=true&allowMultiQueries=true
   jpa:
-    #    正向工程
-    #    hibernate:
-    #      ddl-auto: update
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 show_error: true
@@ -25,3 +22,4 @@ server:
 
 appId: EzU1ASsWJZVnAtwVGENdUfhgozqm32is8AtaW6rUoPyH
 sdkKey: Ehg4vSRg2cmohEEN4sPCZjCH8T4nmNsJirsudDnb5rjL
+threshold: 0.8

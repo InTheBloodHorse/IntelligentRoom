@@ -117,7 +117,7 @@ public class HttpUtil {
         return buffer.toString();
     }
 
-    private static void deleteFile(File... files) {
+    public static void deleteFile(File... files) {
         for (File file : files) {
             if (file.exists()) {
                 file.delete();

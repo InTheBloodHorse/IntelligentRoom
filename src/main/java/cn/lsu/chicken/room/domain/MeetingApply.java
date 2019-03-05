@@ -16,7 +16,8 @@ public class MeetingApply {
 
     private String intro;
 
-    private String documentList;
+    private String remark;
+
 
     private Integer roomId;
 

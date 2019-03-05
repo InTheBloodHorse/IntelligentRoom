@@ -101,6 +101,11 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     }
 
     @Override
+    public Integer updateEquipment(Integer meetingRoomId, List<Integer> equipmentList) {
+        return meetingRoomMapper.updateEquipmentByMeetingRoomId(meetingRoomId, equipmentList);
+    }
+
+    @Override
     public Integer uploadCover(MeetingRoom meetingRoom) {
         return meetingRoomMapper.updateByPrimaryKeySelective(meetingRoom);
     }

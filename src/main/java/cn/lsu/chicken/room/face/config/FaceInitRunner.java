@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class FaceInitRunner implements ApplicationRunner {
     @Autowired
     private Environment environment;
+
     public static FaceEngine faceEngine;
 
     @Override

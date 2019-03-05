@@ -15,7 +15,7 @@
         <result column="price" property="price" jdbcType="DECIMAL"/>
         <result column="flexible" property="flexible" jdbcType="TINYINT"/>
         <result column="intro" property="intro" jdbcType="LONGVARCHAR"/>
-        <result column="document_list" property="documentList" jdbcType="LONGVARCHAR"/>
+        <result column="remark" property="remark" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -79,7 +79,7 @@
     </sql>
     <sql id="Base_Column_List">
     id, worker_id, topic, room_id, attendance, begin_time, end_time, status, apply_time, 
-    apply_update_time, price, flexible,intro, document_list
+    apply_update_time, price, flexible,intro,remark
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap"
             parameterType="cn.lsu.chicken.room.domain.MeetingApplyExample">
@@ -123,13 +123,12 @@
     insert into meeting_apply (worker_id, topic, room_id, 
       attendance, begin_time, end_time, 
       status, apply_time, apply_update_time, 
-      price, flexible, intro, 
-      document_list)
+      price, flexible, intro,remark)
     values (#{workerId,jdbcType=INTEGER}, #{topic,jdbcType=VARCHAR}, #{roomId,jdbcType=INTEGER}, 
       #{attendance,jdbcType=INTEGER}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=TINYINT}, #{applyTime,jdbcType=TIMESTAMP}, #{applyUpdateTime,jdbcType=TIMESTAMP}, 
-      #{price,jdbcType=DECIMAL}, #{flexible,jdbcType=TINYINT}, #{intro,jdbcType=LONGVARCHAR}, 
-      #{documentList,jdbcType=LONGVARCHAR})
+      #{price,jdbcType=DECIMAL}, #{flexible,jdbcType=TINYINT}, #{intro,jdbcType=LONGVARCHAR},
+      #{remark,jdbcType=LONGVARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.MeetingApply"
             useGeneratedKeys="true" keyProperty="id">
@@ -171,8 +170,8 @@
             <if test="intro != null">
                 intro,
             </if>
-            <if test="documentList != null">
-                document_list,
+            <if test="remark != null">
+                remark,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -212,8 +211,8 @@
             <if test="intro != null">
                 #{intro,jdbcType=LONGVARCHAR},
             </if>
-            <if test="documentList != null">
-                #{documentList,jdbcType=LONGVARCHAR},
+            <if test="remark != null">
+                #{remark,jdbcType=LONGVARCHAR},
             </if>
         </trim>
     </insert>
@@ -266,8 +265,8 @@
             <if test="record.intro != null">
                 intro = #{record.intro,jdbcType=LONGVARCHAR},
             </if>
-            <if test="record.documentList != null">
-                document_list = #{record.documentList,jdbcType=LONGVARCHAR},
+            <if test="record.remark != null">
+                remark = #{record.remark,jdbcType=LONGVARCHAR},
             </if>
         </set>
         <if test="_parameter != null">
@@ -287,7 +286,9 @@
         apply_time = #{record.applyTime,jdbcType=TIMESTAMP},
         apply_update_time = #{record.applyUpdateTime,jdbcType=TIMESTAMP},
         price = #{record.price,jdbcType=DECIMAL},
-        flexible = #{record.flexible,jdbcType=TINYINT}
+        flexible = #{record.flexible,jdbcType=TINYINT},
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
+        intro =  #{record.intro,jdbcType=LONGVARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -331,8 +332,8 @@
             <if test="intro != null">
                 intro = #{intro,jdbcType=LONGVARCHAR},
             </if>
-            <if test="documentList != null">
-                document_list = #{documentList,jdbcType=LONGVARCHAR},
+            <if test="remark != null">
+                intro = #{remark,jdbcType=LONGVARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -349,7 +350,9 @@
       apply_time = #{applyTime,jdbcType=TIMESTAMP},
       apply_update_time = #{applyUpdateTime,jdbcType=TIMESTAMP},
       price = #{price,jdbcType=DECIMAL},
-      flexible = #{flexible,jdbcType=TINYINT}
+      flexible = #{flexible,jdbcType=TINYINT},
+      intro = #{intro,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -381,10 +384,10 @@
             distinct
         </if>
         m.id as id,m.worker_id as worker_id,m.topic as topic,m.intro as intro,
-        m.document_list as document_list,m.room_id as room_id,m.attendance as attendance,
+        m.room_id as room_id,m.attendance as attendance,
         m.begin_time as begin_time ,m.end_time as end_time,m.status as status,
         m.apply_time as apply_time,m.apply_update_time as apply_update_time,
-        m.price as price,m.flexible as flexible
+        m.price as price,m.flexible as flexible,m.remark as m.remark
         from (
         select * from meeting_apply
         <if test="example.orderList != null">

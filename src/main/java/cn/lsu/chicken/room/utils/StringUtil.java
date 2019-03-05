@@ -62,4 +62,12 @@ public class StringUtil {
         }
         return result;
     }
+
+    public static byte[] strArray2byetArray(String[] face){
+        byte[] byteArray = new byte[face.length];
+        for(int i=0;i<face.length;i++){
+            byteArray[i] = Byte.valueOf(face[i].trim());
+        }
+        return byteArray;
+    }
 }

@@ -41,4 +41,6 @@ public interface MeetingRoomMapper {
     int updateByPrimaryKey(MeetingRoom record);
 
     int updateTagByMeetingRoomId(@Param("meetingRoomId") Integer meetingRoomId, @Param("list") List<Integer> tagList);
+
+    int updateEquipmentByMeetingRoomId(@Param("meetingRoomId") Integer meetingRoomId, @Param("list") List<Integer> equipmentList);
 }

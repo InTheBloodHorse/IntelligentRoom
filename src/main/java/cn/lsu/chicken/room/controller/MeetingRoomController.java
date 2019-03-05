@@ -87,7 +87,7 @@ public class MeetingRoomController {
     @PostMapping("/updateTag")
     public ResultVO<Integer> updateTag(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
-        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
+        Integer id = HttpRequestUtil.getIntegerByName(params, "roomId");
         String tag = HttpRequestUtil.getStringByName(params, "tag");
         List<String> list = new ArrayList<>();
         if (!StringUtils.isEmpty(tag)) {
@@ -95,6 +95,20 @@ public class MeetingRoomController {
         }
         List<Integer> tagId = StringUtil.stringList2IntegerList(list);
         Integer column = meetingRoomService.updateTag(id, tagId);
+        return ResultVOUtil.success(column);
+    }
+
+    @PostMapping("/updateEquipment")
+    public ResultVO<Integer> updateEquipment(HttpServletRequest httpServletRequest) {
+        JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
+        Integer id = HttpRequestUtil.getIntegerByName(params, "roomId");
+        String equipment = HttpRequestUtil.getStringByName(params, "equipment");
+        List<String> list = new ArrayList<>();
+        if (!StringUtils.isEmpty(equipment)) {
+            list = Arrays.asList(equipment.split(","));
+        }
+        List<Integer> equipmentId = StringUtil.stringList2IntegerList(list);
+        Integer column = meetingRoomService.updateEquipment(id, equipmentId);
         return ResultVOUtil.success(column);
     }
 }

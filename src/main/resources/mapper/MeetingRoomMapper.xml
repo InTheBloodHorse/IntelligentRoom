@@ -9,6 +9,7 @@
         <result column="room_using" property="isUsing" jdbcType="TINYINT"/>
         <result column="room_cover" property="cover" jdbcType="VARCHAR"/>
         <result column="room_price" property="price" jdbcType="DECIMAL"/>
+        <result column="room_hot" property="hot" jdbcType="INTEGER"/>
         <association property="building" javaType="cn.lsu.chicken.room.domain.Building">
             <id column="building_id" property="id"></id>
             <result column="building_location" property="location"></result>
@@ -16,6 +17,10 @@
         <collection property="tag" ofType="cn.lsu.chicken.room.domain.Tag" javaType="ArrayList">
             <id column="tag_id" property="id"></id>
             <result column="tag_name" property="name"></result>
+        </collection>
+        <collection property="equipment" ofType="cn.lsu.chicken.room.domain.Equipment" javaType="ArrayList">
+            <id column="equipment_id" property="id"></id>
+            <result column="equipment_name" property="name"></result>
         </collection>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="cn.lsu.chicken.room.dto.MeetingRoomDTO" extends="BaseResultMap">
@@ -83,8 +88,10 @@
     </sql>
     <sql id="Base_Column_List">
     r.id as room_id,r.name as room_name ,b.id as building_id,b.location as building_location,r.address as
-        room_address,r.volume as room_volume ,r.cover as room_cover,r.is_using as room_using,r.price as room_price,r.detail as
-        room_detail,g.id as tag_id,g.name as tag_name
+        room_address,r.volume as room_volume ,r.cover as room_cover,r.is_using as room_using,
+        r.price as room_price,r.detail as room_detail,r.hot as room_hot,
+        g.id as tag_id,g.name as tag_name,
+        eq.id as equipment_id , eq.name as equipment_name
   </sql>
     <sql id="Blob_Column_List">
     detail
@@ -113,12 +120,11 @@
         </if>
         )
         as r
-        left join building as b
-        on b.id = r.building_id
-        left join tag_re as t
-        on t.meeting_room_id = r.id
-        left join tag as g
-        on g.id = t.tag_id
+        left join building as b on b.id = r.building_id
+        left join tag_re as t on t.meeting_room_id = r.id
+        left join tag as g on g.id = t.tag_id
+        left join equipment_re as e on e.meeting_room_id = r.id
+        left join equipment as eq on eq.id = e.equipment_id
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -150,12 +156,11 @@
         </if>
         )
         as r
-        left join building as b
-        on b.id = r.building_id
-        left join tag_re as t
-        on t.meeting_room_id = r.id
-        left join tag as g
-        on g.id = t.tag_id
+        left join building as b on b.id = r.building_id
+        left join tag_re as t on t.meeting_room_id = r.id
+        left join tag as g on g.id = t.tag_id
+        left join equipment_re as e on e.meeting_room_id = r.id
+        left join equipment as eq on eq.id = e.equipment_id
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -173,12 +178,11 @@
         where id = #{id,jdbcType=INTEGER}
         )
         as r
-        left join building as b
-        on b.id = r.building_id
-        left join tag_re as t
-        on t.meeting_room_id = r.id
-        left join tag as g
-        on g.id = t.tag_id
+        left join building as b on b.id = r.building_id
+        left join tag_re as t on t.meeting_room_id = r.id
+        left join tag as g on g.id = t.tag_id
+        left join equipment_re as e on e.meeting_room_id = r.id
+        left join equipment as eq on eq.id = e.equipment_id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from meeting_room
@@ -226,6 +230,9 @@
             <if test="detail != null">
                 detail,
             </if>
+            <if test="hot != null">
+                hot,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -251,6 +258,9 @@
             </if>
             <if test="detail != null">
                 #{detail,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="hot != null">
+                #{hot,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -280,7 +290,7 @@
                 volume = #{record.volume,jdbcType=TINYINT},
             </if>
             <if test="record.cover != null">
-                volume = #{record.cover,jdbcType=VARCHAR},
+                cover = #{record.cover,jdbcType=VARCHAR},
             </if>
             <if test="record.isUsing != null">
                 is_using = #{record.isUsing,jdbcType=TINYINT},
@@ -290,6 +300,9 @@
             </if>
             <if test="record.detail != null">
                 detail = #{record.detail,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.hot != null">
+                detail = #{record.hot,jdbcType=INTEGER},
             </if>
         </set>
         <if test="_parameter != null">
@@ -306,7 +319,8 @@
         cover = #{record.cover,jdbcType=VARCHAR},
         is_using = #{record.isUsing,jdbcType=TINYINT},
         price = #{record.price,jdbcType=DECIMAL},
-        detail = #{record.detail,jdbcType=LONGVARCHAR}
+        detail = #{record.detail,jdbcType=LONGVARCHAR},
+        hot = #{record.hot,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -320,7 +334,8 @@
         volume = #{record.volume,jdbcType=TINYINT},
         cover = #{record.cover,jdbcType=VARCHAR},
         is_using = #{record.isUsing,jdbcType=TINYINT},
-        price = #{record.price,jdbcType=DECIMAL}
+        price = #{record.price,jdbcType=DECIMAL},
+        hot = #{record.hot,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -352,6 +367,9 @@
             <if test="detail != null">
                 detail = #{detail,jdbcType=LONGVARCHAR},
             </if>
+            <if test="hot != null">
+                hot = #{hot,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -364,7 +382,8 @@
       cover = #{cover,jdbcType=VARCHAR},
       is_using = #{isUsing,jdbcType=TINYINT},
       price = #{price,jdbcType=DECIMAL},
-      detail = #{detail,jdbcType=LONGVARCHAR}
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      hot = #{hot,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="updateByPrimaryKey" parameterType="cn.lsu.chicken.room.domain.MeetingRoom">
@@ -375,7 +394,8 @@
       volume = #{volume,jdbcType=TINYINT},
       cover = #{cover,jdbcType=VARCHAR},
       is_using = #{isUsing,jdbcType=TINYINT},
-      price = #{price,jdbcType=DECIMAL}
+      price = #{price,jdbcType=DECIMAL},
+      hot = #{hot,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -395,6 +415,27 @@
             </when>
             <when test="list.size() == 0">
                 delete from tag_re where meeting_room_id = #{meetingRoomId}
+            </when>
+        </choose>
+    </update>
+
+
+    <update id="updateEquipmentByMeetingRoomId">
+        <choose>
+            <when test="list.size() != 0">
+                delete from equipment_re where meeting_room_id = #{meetingRoomId} and equipment_id not in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+                );
+
+                replace into equipment_re(equipment_id,meeting_room_id) values
+                <foreach collection="list" item="item" index="index" separator=",">
+                    (#{item,jdbcType=INTEGER},#{meetingRoomId,jdbcType=INTEGER})
+                </foreach>
+            </when>
+            <when test="list.size() == 0">
+                delete from equipment_re where meeting_room_id = #{meetingRoomId}
             </when>
         </choose>
     </update>

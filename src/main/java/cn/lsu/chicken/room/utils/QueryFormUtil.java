@@ -65,12 +65,12 @@ public class QueryFormUtil {
             }
             String fieldName = field.getName();
             String methodName = "and" + StringUtil.FirstUpper(fieldName);
-            if("null".equals(value.toString().trim())){
+            if ("null".equals(value.toString().trim())) {
                 methodName = methodName + "IsNull";
                 addFilter2Criteria(criteria, methodName, new Class[]{});
                 continue;
             }
-            if("not null".equals(value.toString().trim())){
+            if ("not null".equals(value.toString().trim())) {
                 methodName = methodName + "IsNotNull";
                 addFilter2Criteria(criteria, methodName, new Class[]{});
                 continue;
@@ -80,71 +80,7 @@ public class QueryFormUtil {
                     || QueryFormEnum.BETWEEN_BIGDECIMAL.getCode().equals(code)
                     || QueryFormEnum.BETWEEN_DATE.getCode().equals(code);
             if (judgeIsBetween) {
-                // 针对 split(因为 ("1,")split 会得到[1] )
-                value = " " + value.toString() + " ";
-                List<String> params;
-                params = new ArrayList<>(Arrays.asList(value.toString().split(",")));
-                if (params.size() != 2) {
-                    throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-                }
-                // 假如 两个参数都为 没限制，说明不用添加约束
-                Boolean param0 = params.get(0).trim().equals("");
-                Boolean param1 = params.get(1).trim().equals("");
-                if (param0 && param1) {
-                    continue;
-                }
-                // 假如第一个参数没有限制，条件为 <= ,并移除
-                if (param0) {
-                    methodName = methodName + "LessThanOrEqualTo";
-                    params.remove(params.get(0));
-                } else if (param1) {
-                    methodName = methodName + "GreaterThanOrEqualTo";
-                    params.remove(params.get(1));
-                } else {
-                    methodName = methodName + queryFormEnum.getOperator();
-                }
-                Class[] classes;
-                if (QueryFormEnum.BETWEEN_INTEGER.getCode().equals(code)) {
-                    //参数为 Integer
-                    List<Integer> realParams = StringUtil.stringList2IntegerList(params);
-                    // 单参数 >= or <=
-                    if (param0 || param1) {
-                        classes = new Class[]{Integer.class};
-                    } else {
-                        Boolean judge = realParams.get(0).compareTo(realParams.get(1)) == 1;
-                        if (judge) {
-                            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-                        }
-                        classes = new Class[]{Integer.class, Integer.class};
-                    }
-                    addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
-                } else if (QueryFormEnum.BETWEEN_BIGDECIMAL.getCode().equals(code)) {
-                    //参数为 BigDecimal
-                    List<BigDecimal> realParams = StringUtil.stringList2BigDecimalList(params);
-                    if (param0 || param1) {
-                        classes = new Class[]{BigDecimal.class};
-                    } else {
-                        Boolean judge = realParams.get(0).compareTo(realParams.get(1)) == 1;
-                        if (judge) {
-                            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-                        }
-                        classes = new Class[]{BigDecimal.class, BigDecimal.class};
-                    }
-                    addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
-                } else if (QueryFormEnum.BETWEEN_DATE.getCode().equals(code)) {
-                    //参数为 Date
-                    List<Date> realParams = StringUtil.stringList2DatelList(params);
-                    if (param0 || param1) {
-                        classes = new Class[]{Date.class};
-                    } else {
-                        Boolean judge = realParams.get(0).after(realParams.get(1));
-                        if (judge) {
-                            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
-                        }
-                        classes = new Class[]{Date.class, Date.class};
-                    }
-                    addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
-                }
+                addBetweenFilter(criteria, value, methodName, queryFormEnum, code);
             } else {
                 methodName = methodName + queryFormEnum.getOperator();
                 if (code == QueryFormEnum.LIKE.getCode()) {
@@ -155,6 +91,76 @@ public class QueryFormUtil {
             }
         }
 
+    }
+
+
+    private static void addBetweenFilter(Object criteria, Object value, String methodName, QueryFormEnum queryFormEnum, Integer code) {
+        // 针对 split(因为 ("1,")split 会得到[1] )
+        value = " " + value.toString() + " ";
+        List<String> params;
+        params = new ArrayList<>(Arrays.asList(value.toString().split(",")));
+        if (params.size() != 2) {
+            throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+        }
+        // 假如 两个参数都为 没限制，说明不用添加约束
+        Boolean param0 = params.get(0).trim().equals("");
+        Boolean param1 = params.get(1).trim().equals("");
+        if (param0 && param1) {
+            return;
+        }
+        // 假如第一个参数没有限制，条件为 <= ,并移除
+        if (param0) {
+            methodName = methodName + "LessThanOrEqualTo";
+            params.remove(params.get(0));
+        } else if (param1) {
+            methodName = methodName + "GreaterThanOrEqualTo";
+            params.remove(params.get(1));
+        } else {
+            methodName = methodName + queryFormEnum.getOperator();
+        }
+        Class[] classes;
+        if (QueryFormEnum.BETWEEN_INTEGER.getCode().equals(code)) {
+            //参数为 Integer
+            List<Integer> realParams = StringUtil.stringList2IntegerList(params);
+            // 单参数 >= or <=
+            if (param0 || param1) {
+                classes = new Class[]{Integer.class};
+            } else {
+                Boolean judge = realParams.get(0).compareTo(realParams.get(1)) == 1;
+                if (judge) {
+                    throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+                }
+                classes = new Class[]{Integer.class, Integer.class};
+            }
+            addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
+        } else if (QueryFormEnum.BETWEEN_BIGDECIMAL.getCode().equals(code)) {
+            //参数为 BigDecimal
+            List<BigDecimal> realParams = StringUtil.stringList2BigDecimalList(params);
+            if (param0 || param1) {
+                classes = new Class[]{BigDecimal.class};
+            } else {
+                Boolean judge = realParams.get(0).compareTo(realParams.get(1)) == 1;
+                if (judge) {
+                    throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+                }
+                classes = new Class[]{BigDecimal.class, BigDecimal.class};
+            }
+            addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
+        } else if (QueryFormEnum.BETWEEN_DATE.getCode().equals(code)) {
+            //参数为 Date
+            List<Date> realParams = StringUtil.stringList2DatelList(params);
+            if (param0 || param1) {
+                classes = new Class[]{Date.class};
+            } else {
+                Boolean judge = realParams.get(0).after(realParams.get(1));
+                if (judge) {
+                    throw new GlobalException(ResultEnum.PARAMETER_ERROR);
+                }
+                classes = new Class[]{Date.class, Date.class};
+            }
+            addFilter2Criteria(criteria, methodName, classes, realParams.toArray());
+
+        }
     }
 
     private static void addFilter2Criteria(Object criteria, String methodName, Class[] paramsType, Object... value) {

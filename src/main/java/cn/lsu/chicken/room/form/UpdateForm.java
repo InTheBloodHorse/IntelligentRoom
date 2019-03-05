@@ -29,4 +29,6 @@ public class UpdateForm {
 
     private Integer companyId;
 
+    private Integer departmentId;
+
 }

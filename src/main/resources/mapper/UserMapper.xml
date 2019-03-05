@@ -23,6 +23,11 @@
                 <result column="hr_role" property="role"></result>
             </collection>
         </association>
+        <association property="department" javaType="cn.lsu.chicken.room.domain.Department">
+            <id column="department_id" property="id"></id>
+            <result column="department_name" property="name"></result>
+            <result column="department_company_id" property="companyId"></result>
+        </association>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -89,7 +94,8 @@
           user_password,u.avatar as user_avatar,u.role as user_role,
         c.id as company_id,c.name as company_name,c.code as company_code,c.cost as company_cost,
         uh.id as hr_id,uh.name as hr_name,uh.phone as hr_phone,uh.email as hr_email,
-        uh.avatar as hr_avatar,uh.role as hr_role
+        uh.avatar as hr_avatar,uh.role as hr_role,
+        d.id as department_id,d.name as department_name,d.company_id as department_company_id
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.lsu.chicken.room.domain.UserExample">
         select
@@ -98,40 +104,42 @@
         </if>
         <include refid="Base_Column_List"/>
         from (
-          select * from user
-            <if test="_parameter != null">
-                <include refid="Example_Where_Clause"/>
-            </if>
-            <if test="orderList != null">
-                order by
-                <foreach collection="orderList" item="item" index="index" separator=",">
-                    ${item}
-                </foreach>
-            </if>
-            <if test="page != null and size!= null">
-                limit #{offset},#{size}
-            </if>
+        select * from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderList != null">
+            order by
+            <foreach collection="orderList" item="item" index="index" separator=",">
+                ${item}
+            </foreach>
+        </if>
+        <if test="page != null and size!= null">
+            limit #{offset},#{size}
+        </if>
         ) as u
         left join company as c on c.id = u.company_id
         left join hr_re as h on h.company_id = c.id
         left join user as uh on uh.id = h.user_id
+        left join department as d on u.department_id = d.id
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
                 u.${item}
-        </foreach>
+            </foreach>
         </if>
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from (
-          select * from user
-          where id = #{id,jdbcType=INTEGER}
+        select * from user
+        where id = #{id,jdbcType=INTEGER}
         ) as u
         left join company as c on c.id = u.company_id
         left join hr_re as h on h.company_id = c.id
         left join user as uh on uh.id = h.user_id
+        left join department as d on u.department_id = d.id
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
@@ -145,7 +153,7 @@
     </delete>
     <insert id="insert" parameterType="cn.lsu.chicken.room.domain.User" useGeneratedKeys="true" keyProperty="id">
     insert into user (name, phone, email, 
-      password, avatar, role,company_id)
+      password, avatar, role,company_id,department_id)
     values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{role,jdbcType=TINYINT})
   </insert>
@@ -174,6 +182,9 @@
             <if test="companyId != null">
                 company_id,
             </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -196,6 +207,9 @@
             </if>
             <if test="companyId != null">
                 #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -232,6 +246,9 @@
             <if test="record.companyId != null">
                 company_id = #{record.companyId,jdbcType=INTEGER},
             </if>
+            <if test="record.departmentId != null">
+                department_id = #{record.departmentId,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -247,6 +264,7 @@
         avatar = #{record.avatar,jdbcType=VARCHAR},
         role = #{record.role,jdbcType=TINYINT},
         company_id = #{companyId,jdbcType=INTEGER},
+        department_id = #{departmentId,jdbcType=INTEGER},
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -275,6 +293,9 @@
             <if test="companyId != null">
                 company_id = #{companyId,jdbcType=INTEGER},
             </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -286,7 +307,8 @@
       password = #{password,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       role = #{role,jdbcType=TINYINT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      department_id = #{departmentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -303,18 +325,18 @@
         </if>
         u.id as id,u.name as name,u.phone as phone,u.email as email,
         u.password as password,u.avatar as avatar,u.role as role,
-        u.company_id as companyId
+        u.company_id as companyId,u.department_id as departmentId
         from (
-            select * from user
-            <if test="example.orderList != null">
-                order by
-                <foreach collection="example.orderList" item="item" index="index" separator=",">
-                    ${item}
-                </foreach>
-            </if>
-            <if test="example.page != null and example.size!= null">
-                limit #{offset},#{size}
-            </if>
+        select * from user
+        <if test="example.orderList != null">
+            order by
+            <foreach collection="example.orderList" item="item" index="index" separator=",">
+                ${item}
+            </foreach>
+        </if>
+        <if test="example.page != null and example.size!= null">
+            limit #{offset},#{size}
+        </if>
         ) as u left join attend_worker_re as a on u.id = a.worker_id
         where a.apply_id = #{applyId,jdbcType=INTEGER}
         <if test="example.orderList != null">
@@ -323,5 +345,21 @@
                 u.${item}
             </foreach>
         </if>
+    </select>
+
+    <update id="updateFaceByList">
+        <foreach collection="user" item="user" index="index" open="" close="" separator=";">
+            UPDATE user
+            <set>
+                face=#{user.face}
+            </set>
+            <where>
+                id = #{user.id}
+            </where>
+        </foreach>
+    </update>
+
+    <select id="listUserFace" resultType="cn.lsu.chicken.room.domain.User">
+        select id,name,face from user where face is not null;
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package cn.lsu.chicken.room.dao;
 
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
+
 import java.util.List;
 
 import cn.lsu.chicken.room.dto.UserDTO;
@@ -35,5 +36,9 @@ public interface UserMapper {
 
     int countByApplyIdExample(@Param("applyId") Integer applyId);
 
-    List<User> selectByApplyIdExample(@Param("applyId") Integer applyId, @Param("example")UserExample example);
+    List<User> selectByApplyIdExample(@Param("applyId") Integer applyId, @Param("example") UserExample example);
+
+    Integer updateFaceByList(@Param("user") List<User> user);
+
+    List<User> listUserFace();
 }

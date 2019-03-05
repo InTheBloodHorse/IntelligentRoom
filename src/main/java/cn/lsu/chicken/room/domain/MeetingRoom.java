@@ -25,6 +25,8 @@ public class MeetingRoom {
 
     private String detail;
 
+    private Integer hot;
+
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();

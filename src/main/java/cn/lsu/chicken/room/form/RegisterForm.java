@@ -29,4 +29,6 @@ public class RegisterForm {
     private Integer role = UserRoleEnum.ORDINARY_USER.getCode();
 
     private String companyCode;
+
+    private Integer departmentId;
 }

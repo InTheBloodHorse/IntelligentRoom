@@ -611,6 +611,127 @@ public class MeetingRoomExample extends PageHelper {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
+
+        public Criteria andDetailIsNull() {
+            addCriterion("detail is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailIsNotNull() {
+            addCriterion("detail is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailEqualTo(String value) {
+            addCriterion("detail =", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailNotEqualTo(String value) {
+            addCriterion("detail <>", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailGreaterThan(String value) {
+            addCriterion("detail >", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailGreaterThanOrEqualTo(String value) {
+            addCriterion("detail >=", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailLessThan(String value) {
+            addCriterion("detail <", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailLessThanOrEqualTo(String value) {
+            addCriterion("detail <=", value, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailIn(List<String> values) {
+            addCriterion("detail in", values, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailNotIn(List<String> values) {
+            addCriterion("detail not in", values, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailBetween(String value1, String value2) {
+            addCriterion("detail between", value1, value2, "Detail");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailNotBetween(String value1, String value2) {
+            addCriterion("detail not between", value1, value2, "Detail");
+            return (Criteria) this;
+        }
+
+
+        public Criteria andHotIsNull() {
+            addCriterion("hot is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotIsNotNull() {
+            addCriterion("hot is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotEqualTo(Integer value) {
+            addCriterion("hot =", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotNotEqualTo(Integer value) {
+            addCriterion("hot <>", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotGreaterThan(Integer value) {
+            addCriterion("hot >", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hot >=", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotLessThan(Integer value) {
+            addCriterion("hot <", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotLessThanOrEqualTo(Integer value) {
+            addCriterion("hot <=", value, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotIn(List<Integer> values) {
+            addCriterion("hot in", values, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotNotIn(List<Integer> values) {
+            addCriterion("hot not in", values, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotBetween(Integer value1, Integer value2) {
+            addCriterion("hot between", value1, value2, "Hot");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotNotBetween(Integer value1, Integer value2) {
+            addCriterion("hot not between", value1, value2, "Hot");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -7,9 +7,14 @@ import cn.lsu.chicken.room.dto.DepartmentDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
+import cn.lsu.chicken.room.form.department.DepartmentQueryForm;
+import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.DepartmentService;
+import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -48,9 +53,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public PageDTO<DepartmentDTO> listEntityByQueryForm(Object entityQueryForm) {
-        return null;
+    public PageDTO<DepartmentDTO> listEntityByQueryForm(DepartmentQueryForm entityQueryForm) {
+        Integer page = entityQueryForm.getPage();
+        Integer size = entityQueryForm.getSize();
+        String order = entityQueryForm.getOrder();
+        DepartmentExample example = (DepartmentExample) QueryFormUtil.getExample(DepartmentExample.class, page, size, order);
+        DepartmentExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, entityQueryForm, DepartmentQueryForm.QUERTFORMLIST);
+        List<DepartmentDTO> data = departmentMapper.selectByExample(example);
+        Integer total = departmentMapper.countByExample(example);
+        PageHelper pageHelper = example;
+        PageDTO<DepartmentDTO> entityPageDTO = new PageDTO<>(pageHelper, total, data);
+        return entityPageDTO;
     }
+
 
     private void judgeExistByNameAndCompanyId(String name, Integer companyId) {
         DepartmentExample departmentExample = getExample(name, companyId);

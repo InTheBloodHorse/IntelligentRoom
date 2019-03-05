@@ -7,6 +7,7 @@ import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.department.DepartmentAddForm;
+import cn.lsu.chicken.room.form.department.DepartmentQueryForm;
 import cn.lsu.chicken.room.form.department.DepartmentUpdateForm;
 import cn.lsu.chicken.room.service.DepartmentService;
 import cn.lsu.chicken.room.utils.HttpRequestUtil;
@@ -70,10 +71,10 @@ public class DepartmentController {
         return ResultVOUtil.success(departmentDTO);
     }
 
-//    @PostMapping("/listEntity")
-//    public ResultVO<PageDTO<DepartmentDTO>> listEntity(@Valid @RequestBody CompanyQueryForm companyQueryForm) {
-//
-//        PageDTO<CompanyDTO> data = companyService.listEntityByQueryForm(companyQueryForm);
-//        return ResultVOUtil.success(data);
-//    }
+    @PostMapping("/listEntity")
+    public ResultVO<PageDTO<DepartmentDTO>> listEntity(@Valid @RequestBody DepartmentQueryForm departmentQueryForm) {
+
+        PageDTO<DepartmentDTO> data = departmentService.listEntityByQueryForm(departmentQueryForm);
+        return ResultVOUtil.success(data);
+    }
 }
