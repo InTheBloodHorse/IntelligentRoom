@@ -17,10 +17,12 @@ mybatis:
   type-aliases-package: cn.lsu.chicken.room.domain
 
 entity_path: cn.lsu.chicken.room.domain
+
 server:
   port: 8080
+
 
 appId: EzU1ASsWJZVnAtwVGENdUfhgozqm32is8AtaW6rUoPyH
 sdkKey: Ehg4vSRg2cmohEEN4sPCZjCHGZdxhHBVSCfS3E86jKmd
 
-threshold: 0.8
+threshold: 0.7

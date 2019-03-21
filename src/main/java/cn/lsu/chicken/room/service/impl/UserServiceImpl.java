@@ -5,6 +5,7 @@ import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.domain.UserExample;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
+import cn.lsu.chicken.room.dto.UserFaceDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.user.UserQueryByIdForm;

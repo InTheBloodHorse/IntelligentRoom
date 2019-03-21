@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Data
 public class MeetingRoomUpdateForm extends BaseMeetingRoomForm {
@@ -28,5 +29,7 @@ public class MeetingRoomUpdateForm extends BaseMeetingRoomForm {
     private Integer volume;
 
     private String detail;
+
+    private BigDecimal price;
 
 }

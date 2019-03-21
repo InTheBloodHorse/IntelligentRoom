@@ -1,6 +1,7 @@
 package cn.lsu.chicken.room.face.utils;
 
 import cn.lsu.chicken.room.dto.ImageInfo;
+import cn.lsu.chicken.room.enums.OSSTypeEnum;
 import cn.lsu.chicken.room.face.Arcsoft;
 import cn.lsu.chicken.room.face.config.FaceInitRunner;
 import cn.lsu.chicken.room.utils.FileUtil;
@@ -49,7 +50,7 @@ public class FaceUtil {
     }
 
     public static Map getFeatureByZipFile(MultipartFile multipartFile) {
-        Map<String, String> data = new HashMap<>();
+        Map<String, Map<String, String>> data = new HashMap<>();
         FaceEngine faceEngine = FaceInitRunner.faceEngine;
         Map<String, File> fileList = new HashMap<>();
         fileList = FileUtil.readZipFile(multipartFile);
@@ -59,8 +60,13 @@ public class FaceUtil {
             ImageInfo imageInfo = Arcsoft.getRGBData(current);
             List<FaceInfo> faceInfoList = getFaceList(faceEngine, imageInfo);
             FaceFeature feature = getFaceFeature(faceEngine, imageInfo, faceInfoList.get(0));
-            data.put(key.split("\\.")[0], getFaceFeatureData(feature));
             files.add(current);
+            String url = HttpUtil.uploadFile(current, OSSTypeEnum.FACE.getCode());
+            data.put(key.split("\\.")[0], new HashMap() {
+                {
+                    put(getFaceFeatureData(feature), url);
+                }
+            });
         }
         File[] f = new File[files.size()];
         HttpUtil.deleteFile(files.toArray(f));

@@ -23,10 +23,13 @@ public enum ResultEnum {
     DATE_IS_INVALID(20, "日期不合法"),
     ID_NEED(21, "编号不能为空"),
     STR_CAN_NOT_NULL(22, "内容不能为空"),
-    DEPARTMENT_IS_EXIST(23,"部门已存在"),
-    EQUIPMENT_IS_EXIST(24,"设备已存在"),
-    ONLY_ZIP_FILE(25,"需要传入ZIP格式文件"),
-    FACE_NOT_MATCH(26,"人脸不匹配"),
+    DEPARTMENT_IS_EXIST(23, "部门已存在"),
+    EQUIPMENT_IS_EXIST(24, "设备已存在"),
+    ONLY_ZIP_FILE(25, "需要传入ZIP格式文件"),
+    FACE_NOT_MATCH(26, "人脸不匹配"),
+    APPLY_ERROR(27, "预约失败，请选择合适的时间"),
+    APPLY_SUCCESS(28, "预约成功"),
+    BE_DEAL(29, "预约成功，请等待预约结果"),
     SOMETHING_ERROR(500, "系统错误，请重试");
 
     private Integer code;

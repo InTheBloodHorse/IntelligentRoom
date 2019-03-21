@@ -27,5 +27,7 @@ public class User {
     @JsonIgnore
     private String face;
 
+    private String faceUrl;
+
 
 }

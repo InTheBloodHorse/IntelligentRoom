@@ -25,4 +25,6 @@ public class UserDTO {
 
     private Department department;
 
+    private String faceUrl;
+
 }

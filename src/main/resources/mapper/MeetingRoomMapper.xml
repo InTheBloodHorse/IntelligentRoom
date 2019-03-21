@@ -22,6 +22,11 @@
             <id column="equipment_id" property="id"></id>
             <result column="equipment_name" property="name"></result>
         </collection>
+        <collection property="autoList" ofType="java.lang.String" javaType="ArrayList">
+            <constructor>
+                <arg column="file_url"/>
+            </constructor>
+        </collection>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="cn.lsu.chicken.room.dto.MeetingRoomDTO" extends="BaseResultMap">
         <result column="room_detail" property="detail" jdbcType="LONGVARCHAR"/>
@@ -91,7 +96,8 @@
         room_address,r.volume as room_volume ,r.cover as room_cover,r.is_using as room_using,
         r.price as room_price,r.detail as room_detail,r.hot as room_hot,
         g.id as tag_id,g.name as tag_name,
-        eq.id as equipment_id , eq.name as equipment_name
+        eq.id as equipment_id , eq.name as equipment_name,
+        f.url as file_url
   </sql>
     <sql id="Blob_Column_List">
     detail
@@ -125,6 +131,8 @@
         left join tag as g on g.id = t.tag_id
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
+        left join file as f on f.meeting_room_id = r.id
+          and f.meeting_apply_id is null
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -161,6 +169,8 @@
         left join tag as g on g.id = t.tag_id
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
+        left join file as f on f.meeting_room_id = r.id
+          and f.meeting_apply_id is null
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -183,6 +193,8 @@
         left join tag as g on g.id = t.tag_id
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
+        left join file as f on f.meeting_room_id = #{id,jdbcType=INTEGER}
+          and f.meeting_apply_id is null
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from meeting_room

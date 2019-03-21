@@ -3,24 +3,33 @@ package cn.lsu.chicken.room.service.impl;
 import cn.lsu.chicken.room.dao.MeetingApplyMapper;
 import cn.lsu.chicken.room.domain.MeetingApply;
 import cn.lsu.chicken.room.domain.MeetingApplyExample;
+import cn.lsu.chicken.room.domain.MeetingRoom;
+import cn.lsu.chicken.room.dto.MeetingRoomDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.enums.ApplyEnum;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.BaseQueryForm;
 import cn.lsu.chicken.room.form.meetingapply.AttenderQueryForm;
 import cn.lsu.chicken.room.form.meetingapply.MeetingApplyQueryForm;
+import cn.lsu.chicken.room.form.meetingroom.MeetingRoomQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.MeetingApplyService;
+import cn.lsu.chicken.room.service.MeetingRoomService;
+import cn.lsu.chicken.room.service.WeightService;
 import cn.lsu.chicken.room.utils.DateUtil;
 import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MeetingApplyServiceImpl implements MeetingApplyService {
+
+    @Autowired
+    private WeightService weightService;
+
 
     @Autowired
     private MeetingApplyMapper meetingApplyMapper;
@@ -28,8 +37,15 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
     @Override
     public Integer saveEntity(MeetingApply entity) {
         judgeTime(entity);
-        entity.setApplyTime(new Date());
-        return meetingApplyMapper.insertSelective(entity);
+        Date currentDay = new Date();
+        entity.setApplyTime(currentDay);
+        Date applyBeginDay = entity.getBeginTime();
+        if (DateUtil.judgeInTwoDay(currentDay, applyBeginDay)) {
+            return weightService.applyInTwoDay(entity, currentDay);
+        }
+        meetingApplyMapper.insertSelective(entity);
+        meetingApplyMapper.addAttenderWorker(entity.getId(), Arrays.asList(entity.getWorkerId()));
+        return ApplyEnum.BE_APPLY.getCode();
     }
 
     @Override
@@ -74,7 +90,11 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
 
     @Override
     public Integer addAttenderWorker(Integer meetingApplyId, List<Integer> userId) {
-        return meetingApplyMapper.addAttenderWorker(meetingApplyId, userId);
+        Integer worker_id = meetingApplyMapper.selectByPrimaryKey(meetingApplyId).getWorkerId();
+        userId.add(worker_id);
+        Set<Integer> tempSet = new HashSet<>(userId);
+
+        return meetingApplyMapper.addAttenderWorker(meetingApplyId, new ArrayList<>(tempSet));
     }
 
     @Override
@@ -88,6 +108,8 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
         Integer size = attenderQueryForm.getSize();
         String order = attenderQueryForm.getOrder();
         MeetingApplyExample example = (MeetingApplyExample) QueryFormUtil.getExample(MeetingApplyExample.class, page, size, order);
+        MeetingApplyExample.Criteria criteria = example.createCriteria();
+        QueryFormUtil.addFilter(criteria, attenderQueryForm, AttenderQueryForm.QUERTFORMLIST);
         Integer id = attenderQueryForm.getUserId();
         List<MeetingApply> data = meetingApplyMapper.selectByAttendUserIdExample(id, example);
         Integer total = meetingApplyMapper.countByAttendUserIdExample(id);
@@ -95,5 +117,6 @@ public class MeetingApplyServiceImpl implements MeetingApplyService {
         PageDTO<MeetingApply> entityPageDTO = new PageDTO<>(pageHelper, total, data);
         return entityPageDTO;
     }
+
 
 }

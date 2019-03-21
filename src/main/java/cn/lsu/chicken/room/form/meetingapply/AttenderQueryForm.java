@@ -14,7 +14,10 @@ public class AttenderQueryForm extends BaseQueryForm {
     @NotNull(message = "用户编号不能为空")
     private Integer userId;
 
+    private Integer status;
+
     public static List<QueryFormEnum> QUERTFORMLIST = Arrays.asList(
+            QueryFormEnum.IGNORE,
             QueryFormEnum.EQUAL
     );
 }

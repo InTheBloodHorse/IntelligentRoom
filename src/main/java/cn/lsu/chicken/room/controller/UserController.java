@@ -110,6 +110,14 @@ public class UserController {
         return ResultVOUtil.success(userDTO);
     }
 
+    @PostMapping("/delete")
+    public ResultVO<Integer> delete(HttpServletRequest httpServletRequest) {
+        JsonObject params = HttpRequestUtil.getJson(httpServletRequest);
+        Integer id = HttpRequestUtil.getIntegerByName(params, "id");
+        Integer column = userService.deleteEntity(id);
+        return ResultVOUtil.success(column);
+    }
+
     @PostMapping("/getEntityByPhone")
     public ResultVO<UserDTO> getEntityByPhone(HttpServletRequest httpServletRequest) {
         JsonObject params = HttpRequestUtil.getJson(httpServletRequest);

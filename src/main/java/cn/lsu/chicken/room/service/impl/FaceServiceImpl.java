@@ -2,6 +2,7 @@ package cn.lsu.chicken.room.service.impl;
 
 import cn.lsu.chicken.room.dao.UserMapper;
 import cn.lsu.chicken.room.domain.User;
+import cn.lsu.chicken.room.dto.UserFaceDTO;
 import cn.lsu.chicken.room.service.FaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,21 +15,24 @@ public class FaceServiceImpl implements FaceService {
     private UserMapper userMapper;
 
     @Override
-    public Integer updateFace(Map<String, String> data) {
+    public Integer updateFace(Map<String, Map<String, String>> data) {
         List<User> users = new ArrayList<>();
-        for(String key:data.keySet()){
-            String value = data.get(key);
-            User user = new User();
-            user.setId(Integer.valueOf(key));
-            user.setFace(value);
-            users.add(user);
+        for (String key : data.keySet()) {
+            Map<String, String> value = data.get(key);
+            for (String face : value.keySet()) {
+                User user = new User();
+                user.setId(Integer.valueOf(key));
+                user.setFace(face);
+                user.setFaceUrl(value.get(face));
+                users.add(user);
+            }
         }
         return userMapper.updateFaceByList(users);
     }
 
     @Override
-    public List<User> listUserFace() {
-        List<User> users = userMapper.listUserFace();
+    public List<UserFaceDTO> listUserFace() {
+        List<UserFaceDTO> users = userMapper.listUserFace();
         return users;
     }
 }

@@ -357,10 +357,25 @@
   </update>
 
     <insert id="addAttenderWorker">
-        replace into attend_worker_re(apply_id,worker_id) values
-        <foreach collection="list" item="item" index="index" separator=",">
-            (#{applyId,jdbcType=INTEGER},#{item,jdbcType=INTEGER})
-        </foreach>
+
+        <choose>
+            <when test="list.size() != 0">
+                delete from attend_worker_re where apply_id = #{applyId} and worker_id not in(
+                <foreach collection="list" item="item" index="index" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+                );
+
+                replace into attend_worker_re(apply_id,worker_id) values
+                <foreach collection="list" item="item" index="index" separator=",">
+                    (#{applyId,jdbcType=INTEGER},#{item,jdbcType=INTEGER})
+                </foreach>
+            </when>
+            <when test="list.size() == 0">
+                delete from attend_worker_re where apply_id = #{applyId}
+            </when>
+        </choose>
+
     </insert>
 
     <delete id="deleteAttenderWorker">
@@ -378,7 +393,8 @@
         where a.worker_id = #{userId,jdbcType=INTEGER}
     </select>
 
-    <select id="selectByAttendUserIdExample" resultMap="BaseResultMap">
+    <select id="selectByAttendUserIdExample"
+            resultMap="BaseResultMap">
         select
         <if test="example.distinct">
             distinct
@@ -387,9 +403,12 @@
         m.room_id as room_id,m.attendance as attendance,
         m.begin_time as begin_time ,m.end_time as end_time,m.status as status,
         m.apply_time as apply_time,m.apply_update_time as apply_update_time,
-        m.price as price,m.flexible as flexible,m.remark as m.remark
+        m.price as price,m.flexible as flexible,m.remark as remark
         from (
         select * from meeting_apply
+        <if test="example != null">
+            <include refid="Attender_Example_Where_Clause"/>
+        </if>
         <if test="example.orderList != null">
             order by
             <foreach collection="example.orderList" item="item" index="index" separator=",">
@@ -408,4 +427,37 @@
             </foreach>
         </if>
     </select>
+
+    <sql id="Attender_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+
 </mapper>

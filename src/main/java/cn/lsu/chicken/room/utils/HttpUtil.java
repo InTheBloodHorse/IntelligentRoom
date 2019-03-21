@@ -35,6 +35,18 @@ public class HttpUtil {
         return response;
     }
 
+    public static String uploadFile(File file, String type) {
+        if (file == null) {
+            throw new GlobalException(ResultEnum.FILE_UPLOAD_ERROR);
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("file", file);
+        params.put("type", type);
+        String response = makeRequest(ossUrl + "upload", params);
+        deleteFile(file);
+        return response;
+    }
+
     public static String deleteFile(String url) {
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);

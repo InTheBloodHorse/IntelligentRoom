@@ -3,6 +3,7 @@ package cn.lsu.chicken.room.controller;
 import cn.lsu.chicken.room.VO.ResultVO;
 import cn.lsu.chicken.room.domain.MeetingApply;
 import cn.lsu.chicken.room.dto.PageDTO;
+import cn.lsu.chicken.room.enums.ApplyEnum;
 import cn.lsu.chicken.room.enums.ResultEnum;
 import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.BaseQueryForm;
@@ -37,7 +38,12 @@ public class MeetingApplyController {
         }
         MeetingApply meetingApply = meetingApplyForm.convert();
         Integer id = meetingApplyService.saveEntity(meetingApply);
-        return ResultVOUtil.success(id);
+        if (id == ApplyEnum.WRONG.getCode()) {
+            return ResultVOUtil.error(ResultEnum.APPLY_ERROR);
+        } else if (id == ApplyEnum.BE_APPLY.getCode()) {
+            return ResultVOUtil.success(ResultEnum.BE_DEAL);
+        }
+        return ResultVOUtil.success(ResultEnum.APPLY_SUCCESS);
     }
 
     @PostMapping("/delete")
@@ -90,6 +96,7 @@ public class MeetingApplyController {
     }
 
     @PostMapping("/deleteAttenderWorker")
+    @Deprecated
     public ResultVO<Integer> deleteAttenderWorker(@Valid @RequestBody Worker2ApplyForm worker2ApplyForm,
                                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

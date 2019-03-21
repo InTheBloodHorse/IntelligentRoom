@@ -3,6 +3,7 @@ package cn.lsu.chicken.room.service.impl;
 import cn.lsu.chicken.room.dao.CompanyMapper;
 import cn.lsu.chicken.room.domain.Company;
 import cn.lsu.chicken.room.domain.CompanyExample;
+import cn.lsu.chicken.room.domain.Weight;
 import cn.lsu.chicken.room.dto.CompanyDTO;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.enums.ResultEnum;
@@ -10,6 +11,7 @@ import cn.lsu.chicken.room.exception.GlobalException;
 import cn.lsu.chicken.room.form.company.CompanyQueryForm;
 import cn.lsu.chicken.room.helper.PageHelper;
 import cn.lsu.chicken.room.service.CompanyService;
+import cn.lsu.chicken.room.service.WeightService;
 import cn.lsu.chicken.room.utils.KeyUtil;
 import cn.lsu.chicken.room.utils.QueryFormUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,19 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyMapper companyMapper;
 
+    @Autowired
+    private WeightService weightService;
+
     @Override
     public Integer saveEntity(Company entity) {
         String name = entity.getName();
         judgeExistByName(name);
         genCompanyCode(entity);
         companyMapper.insertSelective(entity);
+        // 在weight（信用表）插入公司数据
+        Weight weight = new Weight();
+        weight.setCompanyId(entity.getId());
+        weightService.saveEntity(weight);
         return entity.getId();
     }
 

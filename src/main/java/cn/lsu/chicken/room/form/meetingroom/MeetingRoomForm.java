@@ -4,6 +4,7 @@ package cn.lsu.chicken.room.form.meetingroom;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Data
 public class MeetingRoomForm extends BaseMeetingRoomForm {
@@ -24,5 +25,7 @@ public class MeetingRoomForm extends BaseMeetingRoomForm {
     private Integer volume;
 
     private String detail;
+
+    private BigDecimal price;
 
 }

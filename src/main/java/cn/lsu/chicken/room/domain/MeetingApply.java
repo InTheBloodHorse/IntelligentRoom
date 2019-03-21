@@ -18,7 +18,6 @@ public class MeetingApply {
 
     private String remark;
 
-
     private Integer roomId;
 
     private Integer attendance;

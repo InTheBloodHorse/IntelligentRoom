@@ -6,6 +6,7 @@ import cn.lsu.chicken.room.domain.UserExample;
 import java.util.List;
 
 import cn.lsu.chicken.room.dto.UserDTO;
+import cn.lsu.chicken.room.dto.UserFaceDTO;
 import org.apache.ibatis.annotations.Param;
 
 import org.springframework.stereotype.Component;
@@ -40,5 +41,6 @@ public interface UserMapper {
 
     Integer updateFaceByList(@Param("user") List<User> user);
 
-    List<User> listUserFace();
+    List<UserFaceDTO> listUserFace();
+
 }

@@ -33,11 +33,11 @@ public class GlobalExceptionHandler {
         return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
     }
 
-    @ResponseBody
-    @ExceptionHandler(value = BadSqlGrammarException.class)
-    public ResultVO handlerBadSqlGrammarException() {
-        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
-    }
+//    @ResponseBody
+//    @ExceptionHandler(value = BadSqlGrammarException.class)
+//    public ResultVO handlerBadSqlGrammarException() {
+//        return ResultVOUtil.error(ResultEnum.PARAMETER_ERROR);
+//    }
 
     @ResponseBody
     @ExceptionHandler(value = MissingServletRequestParameterException.class)

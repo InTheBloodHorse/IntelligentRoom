@@ -3,6 +3,7 @@ package cn.lsu.chicken.room.service;
 import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.dto.PageDTO;
 import cn.lsu.chicken.room.dto.UserDTO;
+import cn.lsu.chicken.room.dto.UserFaceDTO;
 import cn.lsu.chicken.room.form.user.UserQueryByIdForm;
 import cn.lsu.chicken.room.form.user.UserQueryForm;
 
@@ -25,5 +26,8 @@ public interface UserService extends BaseService<UserDTO, User, Integer, UserQue
     PageDTO<User> listUserByApplyId(UserQueryByIdForm userQueryByIdForm);
 
     Integer uploadBySelective(User user);
+
+//    //得到人脸特征值
+//    UserFaceDTO getUserFace();
 
 }

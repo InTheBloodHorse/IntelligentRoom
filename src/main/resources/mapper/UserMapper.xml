@@ -9,6 +9,7 @@
         <result column="user_password" property="password" jdbcType="VARCHAR"/>
         <result column="user_avatar" property="avatar" jdbcType="VARCHAR"/>
         <result column="user_role" property="role" jdbcType="TINYINT"/>
+        <result column="user_face_url" property="faceUrl" jdbcType="TINYINT"/>
         <association property="company" javaType="cn.lsu.chicken.room.dto.CompanyDTO">
             <id column="company_id" property="id"></id>
             <result column="company_name" property="name"></result>
@@ -91,7 +92,7 @@
     </sql>
     <sql id="Base_Column_List">
         u.id as user_id,u.name as user_name,u.phone as user_phone,u.email as user_email,u.password as
-          user_password,u.avatar as user_avatar,u.role as user_role,
+          user_password,u.avatar as user_avatar,u.role as user_role,u.face_url as user_face_url,
         c.id as company_id,c.name as company_name,c.code as company_code,c.cost as company_cost,
         uh.id as hr_id,uh.name as hr_name,uh.phone as hr_phone,uh.email as hr_email,
         uh.avatar as hr_avatar,uh.role as hr_role,
@@ -155,7 +156,7 @@
     insert into user (name, phone, email, 
       password, avatar, role,company_id,department_id)
     values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{role,jdbcType=TINYINT})
+      #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="cn.lsu.chicken.room.domain.User" useGeneratedKeys="true"
             keyProperty="id">
@@ -351,7 +352,8 @@
         <foreach collection="user" item="user" index="index" open="" close="" separator=";">
             UPDATE user
             <set>
-                face=#{user.face}
+                face=#{user.face},
+                face_url = #{user.faceUrl}
             </set>
             <where>
                 id = #{user.id}
@@ -359,7 +361,7 @@
         </foreach>
     </update>
 
-    <select id="listUserFace" resultType="cn.lsu.chicken.room.domain.User">
-        select id,name,face from user where face is not null;
+    <select id="listUserFace" resultType="cn.lsu.chicken.room.dto.UserFaceDTO">
+        select id,name,phone,face from user where face is not null;
     </select>
 </mapper>
