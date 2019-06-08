@@ -2,7 +2,6 @@ package cn.lsu.chicken.room.controller;
 
 import cn.lsu.chicken.room.VO.ResultVO;
 import cn.lsu.chicken.room.domain.Camera;
-import cn.lsu.chicken.room.domain.User;
 import cn.lsu.chicken.room.dto.ImageInfo;
 import cn.lsu.chicken.room.dto.UserFaceDTO;
 import cn.lsu.chicken.room.enums.OSSTypeEnum;
@@ -13,13 +12,15 @@ import cn.lsu.chicken.room.face.utils.FaceUtil;
 import cn.lsu.chicken.room.service.CameraService;
 import cn.lsu.chicken.room.service.FaceService;
 import cn.lsu.chicken.room.service.SignService;
-import cn.lsu.chicken.room.service.UserService;
-import cn.lsu.chicken.room.utils.*;
+import cn.lsu.chicken.room.utils.HttpUtil;
+import cn.lsu.chicken.room.utils.ResultVOUtil;
+import cn.lsu.chicken.room.utils.StringUtil;
 import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.FaceFeature;
 import com.arcsoft.face.FaceInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,6 +46,9 @@ public class FaceController {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @PostMapping("/addFaceFeature")
     public ResultVO<Integer> addFaceFeature(@RequestParam("file") MultipartFile file) {
         Map<String, Map<String, String>> data = getFeatureByZipFile(file);
@@ -64,6 +68,7 @@ public class FaceController {
         //提取人脸特征
         FaceFeature faceFeature = FaceUtil.getFaceFeature(faceEngine, imageInfo, faceInfoList.get(0));
         List<UserFaceDTO> users = faceService.listUserFace();
+//        List<UserFaceDTO> users = (ArrayList) redisTemplate.opsForValue().get("face");
         for (UserFaceDTO user : users) {
             FaceFeature faceFeature1 = new FaceFeature();
             String featureStr = user.getFace();

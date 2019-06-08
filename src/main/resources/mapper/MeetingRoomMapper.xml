@@ -132,7 +132,7 @@
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
         left join file as f on f.meeting_room_id = r.id
-          and f.meeting_apply_id is null
+        and f.meeting_apply_id is null
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -170,7 +170,7 @@
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
         left join file as f on f.meeting_room_id = r.id
-          and f.meeting_apply_id is null
+        and f.meeting_apply_id is null
         <if test="orderList != null">
             order by
             <foreach collection="orderList" item="item" index="index" separator=",">
@@ -194,7 +194,7 @@
         left join equipment_re as e on e.meeting_room_id = r.id
         left join equipment as eq on eq.id = e.equipment_id
         left join file as f on f.meeting_room_id = #{id,jdbcType=INTEGER}
-          and f.meeting_apply_id is null
+        and f.meeting_apply_id is null
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from meeting_room

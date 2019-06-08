@@ -201,14 +201,24 @@ public class WeightServiceImpl implements WeightService {
         List<MeetingApply> needApply = weekData;
         List<MeetingApply> applyed = new ArrayList<>();
         while (needApply.size() != 0) {
-            for (MeetingApply apply : needApply) {
+            for (int i = 0; i < needApply.size(); i++) {
+                MeetingApply apply = needApply.get(i);
                 if (apply.getRoomId() == null) {
                     // 可以预约任意的
                     for (MeetingRoomDTO room : meetingRoomDTOList) {
-
+                        return;
                     }
                 } else {
-
+                    // 只能预约选定的会议室
+                    List<MeetingApply> applyConflict = conflict.get(apply);
+                    if (applyConflict.size() == 0) {
+                        // 无冲突 直接预订
+                        applyed.add(apply);
+                        needApply.remove(needApply);
+                        i--;
+                    } else {
+                        return;
+                    }
                 }
             }
 
